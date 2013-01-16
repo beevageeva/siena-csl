@@ -1,0 +1,20 @@
+  <p>
+	<%= t(:filename) %>:<br/>
+	<%=  "<a href= ' /#{CompetenceGroup::UPLOAD_DIR_REL}/#{@competence_group.filename}' >  #{@competence_group.filename} </a>" %>
+  </p>
+
+  <p>
+	<%= t('points') %> :<br/>
+	<%= @competence_group.points %>
+  </p>
+<%  for  u in @competence_group.alu_group.users %>
+
+	<%= t(:user_tests , :username => u.username) %> <br/>
+	<table>
+	<% for n in @competence_group.competence.nodes %>
+	<tr>
+    <td><%= link_to  n.content , :controller => 'tests' , :action => 'listByWork' , :work_id  =>  getWork(n.id , u.useraccount_id).id  %></td>
+	</tr>
+	<% end %>
+</table>
+<% end %>

@@ -1,0 +1,29 @@
+<h1><%=  t :login %></h1>
+
+
+
+
+<%= form_tag(:action => 'verifyLogin') do %>
+
+<p>
+  <%=  t :username %>:
+  <%= text_field_tag :login, params[:login] %>
+</p>
+
+<p>
+  <%=  t :password %>:
+  <%= password_field_tag :password, params[:password] %>
+</p>
+
+  <%= submit_tag t("enter") %>
+<% end %>
+
+<br><br>
+
+</p>
+<p>
+<%= link_to t('register') , register_path %>
+</p>
+<p>
+<%= link_to t('generate_new_password'), lost_password_path %>
+

@@ -1,0 +1,18 @@
+alter table questions add column keywords varchar(255);
+alter table students add column lastcheck timestamp;
+alter table alu_groups add column course_id integer;
+delete from alu_groups;
+alter table works add column assignedto_type varchar(255);
+alter table works add column assignedto_id integer;
+update works set assignedto_id = student_id, assignedto_type = 'Student';
+alter table works drop column student_id;
+drop table user_alu_groups;
+alter table questions add column teacher_id integer;
+update questions set teacher_id = (select t.id from teachers t INNER JOIN users u ON u.useraccount_id = t.id  where u.useraccount_type = 'Teacher' and u.id = user_id );
+alter table nodes add column teacher_id integer;
+update nodes set teacher_id = (select t.id from teachers t INNER JOIN users u ON u.useraccount_id = t.id  where u.useraccount_type = 'Teacher' and u.id = user_id );
+alter table questions drop column user_id;
+alter table nodes drop column user_id;
+alter table answers add column student_id integer;
+update answers set student_id=(select s.id from students s INNER JOIN works w ON w.assignedto_id =s .id  INNER JOIN tests t ON t.work_id = w.id  WHERE t.id = answers.test_id AND w.assignedto_type = 'Student' );
+delete from schema_migrations where version ='20091126122524';

@@ -1,0 +1,652 @@
+/* Formato general de texto y tablas */
+
+body, td, th, p {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 16px;
+}
+
+th {
+	font-weight: bold;
+	background-color: #EBEBEB;
+}
+
+
+a {
+	font-size: 12px;
+	color: #006699;
+	text-decoration: none;
+}
+
+a:hover {
+	color:#0099CC;
+	}
+
+a:visited {
+	color: #6633CC;
+}
+
+img.botones {
+	border-width: 0px;
+}
+
+h1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	line-height: 20px;
+	color: #660066;
+	background-image: url(../images/titulo.gif);
+	background-repeat: no-repeat;
+	text-indent: 12px;
+	background-position: 0px;
+	}
+
+h2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 20px;
+	color: #666;
+	background-image: url(../images/bgh2.gif);
+	background-repeat: no-repeat;
+	text-indent: 14px;
+	background-position: 0px;
+	
+	}
+
+/*
+h3 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	line-height: 18px;
+	font-weight: bold;
+	background-image: url(../images/bgh3.gif);
+	background-repeat: no-repeat;
+	text-indent: 12px;
+	background-position: 0px;
+	}
+
+h4, h5, h6, h7 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color:#666666;
+	line-height: 18px;
+	font-weight: bold;
+	}
+
+*/
+h3 {
+	font-family: Arial, Helvetica, 
+	sans-serif; font-size: 13px; 
+	line-height: 18px; 
+	font-weight: bold; 
+	color: #666666; 
+}
+
+h4, h5, h6, h7 { 
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 12px; 
+	color:#999999; 
+	line-height: 18px; 
+	font-weight: bold; 
+}
+
+ul {
+	list-style-type: square;
+	list-style-position: outside;
+}
+
+ol {
+	list-style-type: decimal;
+	list-style-position: outside;
+}
+
+
+
+/* Menús de quinto y sexto nivel (y sucesivos) para la parte central de la página */
+
+a.menu5 {
+	font-size: 13px;
+	font-weight: bold;
+	text-decoration: none;
+	text-indent: 15px;
+	background-image: url(../images/bgmenu5.gif);
+	background-repeat: no-repeat;
+	background-position: 0;
+}
+a.menu5:visited{
+	color: #006699;
+	}
+
+a.menu6 {
+	font-size:12px;
+	text-decoration: none;
+	color: #333;
+	line-height: 15px;
+	margin-left: 20px;
+	}
+	
+a.menu6:hover {
+	background-color: #DCEAEF;
+}
+
+
+/* Elementos de formulario */
+
+form {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color:#333333;
+/*	border: 1px solid red;*/
+}
+	
+form p  {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color:#333333;
+}
+
+input {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+textarea {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	
+}
+
+select {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+
+.tabla1 {
+	background-color: #993399;
+
+}
+
+.celdaHead {
+	background-color: #336699;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: center;
+	text-transform: uppercase;
+	padding: 2px;
+}
+
+.celdaSubHead {
+	background-color: #993399;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: center;
+	padding: 3px;
+}
+
+
+.celdaHeadMinusc {
+
+	background-color: #336699;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: center;
+	text-transform: none;
+	padding: 2px;
+}
+.menu1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #993399;
+	font-weight: bold;
+	text-decoration: none;
+
+}
+.menu1sin {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #666666;
+	font-weight: bold;
+	text-decoration: none;
+	line-height: 24px;
+
+}
+.menu2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #336699;
+	text-decoration: none;
+	list-style-type: square;
+	list-style-position: outside;
+
+
+}
+a.menu2 {
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #336699;
+}
+a.menu2:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #336699;
+	text-decoration: underline;
+
+}
+a.menu1:hover {
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #993399;
+	font-weight: bold;
+	text-decoration: underline;
+}
+a {
+	color: #336699;
+}
+
+#news_section
+{
+	float: left;
+	background: url(../images/novedades.png) no-repeat;
+	min-height: 300px;
+	width: 470px;
+}
+
+#news_section_der
+{
+	width: 225px;
+	margin-left: 490px;
+}
+
+#news_section_news 
+{
+	padding-top: 15px;
+	padding-right: 25px;
+	min-height: 275px;
+}
+#news_section_footer
+{
+	width: 463px;
+}
+
+#news_section_footer table tr td.pages
+{
+	width: 195px;
+}
+
+#news_section_footer table tr td
+{
+	width: 258px;
+}
+
+iframe {
+	background-color: #FFFFFF;
+	border: 1px solid #FFFFFF;
+}
+
+#banner a, #banner a:visited, #banner a:link, #banner a:hover
+{
+	display:block;
+	text-decoration:none;
+	margin:0px;
+}
+#banner img
+{
+	border:none;
+	margin:0px;
+	width:154px;
+	margin-left:-1px;
+	
+	/* IExplorer */
+}
+#banner table
+{
+	border-collapse:collapse;
+}
+
+#actions3 img
+{
+	border:none;
+	width:19px;
+
+}
+
+address
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px; 
+	font-style: normal; 
+	line-height: 12px; 
+	color: #333333;
+}
+
+li.especial
+{
+	list-style: none;
+	padding-right: 5px;
+	float: left;
+}
+
+p.preguntatest  {
+	font-weight:bold;
+	color:#449937;
+}
+
+p.respuestatest0 {
+	color:#006699;
+}
+
+p.respuestatest1 {
+	font-weight:bold;
+	color:#006699;
+}
+
+a.respuestatest0 {
+	color:#aaaaff;
+}
+
+a.respuestatest1 {
+	font-weight:bold;
+	color:#000000;
+}
+
+.contratacion {
+	width: 100%;
+	margin-top: 20px;
+/*	float: left;*/
+}
+.contradoc1 { 
+	background-color: #e8f1f7;
+	padding-left: 10px;
+}
+.contradoc2 { 
+	background-color: #e8f1f7;
+	text-align: center;
+}
+
+
+div.companysearch {
+	width:40%;
+	text-align: left;
+}
+
+div.documentsearch {
+	width:100%;
+	text-align:right;
+	margin-top: 0px;
+}
+
+#selectioncat {
+	height: 20px;
+	float: left;
+}
+
+#buscadordoc {
+/*	margin-left: 220px;*/
+	height: 20px;
+	float: left;
+}
+
+div.seleccion {
+	width:100%;
+	text-align:right;
+	margin-top: 10px;
+}
+
+
+#menusupcontrata ul, #menusupconcursos ul {
+/*	background-color: #336699;*/
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: left;
+	text-transform: uppercase;
+	padding: 2px;
+	border: 1px solid #ffffff;
+	list-style: none;
+	list-style-type: none;
+}
+
+#menusupcontrata ul a, #menusupconcursos ul a {
+	color: white;
+	text-decoration: none;
+}
+
+#menusupcontrata li, #menusupconcursos li {
+/*	float: left;*/
+	
+	background-color: #336699;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: left;
+	padding: 2px;
+	border: 1px solid #ffffff;
+	float:left;list-style-type: none;
+}
+
+#menusupcontrata ul a:hover, #menusupconcursos ul a:hover {
+/*	color: red;*/
+}
+
+#contratseleccion {
+	float: left;
+}
+
+#contratnewdoc {
+	width: 160px; 
+	margin-left: 496px;
+}
+#docList {
+}
+
+#tablecontratacion {
+}
+
+#subtitle {
+	margin-top: 280px;
+}
+#refreshAll {
+}
+
+#refreshList {
+}
+
+#acciones {
+	width: 100%;
+	float: right;
+	text-align: right;
+}
+
+#acciones1 {
+	margin-left: 400px;
+	font-weight: normal;
+	text-align: right;
+}
+#acciones2 {
+	float: left;
+	margin-left: 410px;
+	font-weight: normal;
+	text-align: right;
+}
+#acciones3 {
+	margin-left: 475px;
+	margin-left: 305px;
+	font-weight: normal;
+	text-align: right;
+}
+
+#acciones1 a {
+	border: 1px solid #999;
+	background-color: #e8f1f7;
+	padding: 2px;
+	text-decoration: none;
+}
+#acciones2 a {
+	border: 1px solid #999;
+	background-color: #e8f1f7;
+	padding: 2px;
+	text-decoration: none;
+}
+#acciones3 a {
+	border: 1px solid #999;
+	background-color: #e8f1f7;
+	padding: 2px;
+	text-decoration: none;
+}
+
+
+div.acciones a {
+	font-size: 12px;
+	color: #006699;
+	text-decoration: none;
+	float: right;
+	font-weight: normal;
+}
+
+#acciones a {
+	font-size: 12px;
+	color: #006699;
+	text-decoration: none;
+}
+
+#documentsList, #refreshAll, #companiesList{
+	border: 1px solid #ccc;
+	margin-top: 25px;
+	padding: 10px;
+}
+
+#edition {
+	border: 1px solid #ccc;
+	padding: 10px;
+}
+
+#act a {
+	background-color: #e8f1f7;
+	border: 1px solid #999;
+	font-weight: normal;
+}
+
+#actdocentia a {
+	background-color: #e8f1f7;
+	border: 1px solid #999;
+	font-weight: normal;
+	margin-left: -600px;
+}
+
+#act2 a {
+	background-color: #e8f1f7;
+	border: 1px solid #999;
+	font-weight: normal;
+	margin-left: -398px;
+}
+
+
+#parrafo {
+	color: #666;
+}
+
+th.paginationdes {
+	text-align:center; 
+	width:20%; 
+	background-color:transparent; 
+	font-weight: normal;
+}
+
+table.gap {
+	width: 650px;
+	border: 1px solid #ccc;
+}
+
+#gap {
+	width: 100%;
+}
+
+table.gap td {
+	border: 1px solid #ccc;
+	width: 200px;
+}
+
+select#property_NombrePrograma option {
+	width: 250px;
+	border: 1px solid #dfdfdf;
+}
+select#property_Depart option {
+	width: 200px;
+	width: 250px;
+}
+table.gap select {
+	width: 100%;
+}
+
+table.gap option {
+	border: 1px solid #dfdfdf;
+	background-color: #f7f7f7;
+}
+
+#titlepropgap, #selectall {
+	text-align: center;
+	color: #336699;
+}
+
+#selectall {
+	text-align: center;
+	color: #666;
+}
+
+.celda1 {
+	background-color: #F7E8F7;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	text-align: center;
+	padding: 3px;
+}
+
+.celda1 p {
+	background-color: #F7E8F7;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	padding: 10px;
+}
+
+.divSendFrontpage {
+	margin: 10px;
+	width: 300px;
+	background: #ccc;
+}
+
+table.Puntuacion
+{
+   border: 1px solid #ccc;
+	width: 100%;
+}
+
+td.puntuacion
+{
+   background-color: #f7e8f7;
+}
+
+td.resultado
+{
+   background-color: #e8f1f7;
+	text-align: center;
+}
+
+table.listinstances 
+{
+
+}

@@ -1,0 +1,11 @@
+<h2><%= t('assoc_nodes') %></h2>
+<% for node in @nodes %>
+<p>
+	<b><%= node.content %></b>:
+	<%= text_field_tag "rel[#{node.id}]"   %>
+  <% Work::WORK_TYPES.each do |q| %>
+    <%= radio_button_tag "type[#{node.id}]" , q, (@worktype == q) %><%= t("workType#{q}") %>
+  <% end %>
+</p>
+<% end %>
+

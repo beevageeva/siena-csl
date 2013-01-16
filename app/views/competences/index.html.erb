@@ -1,0 +1,20 @@
+<h1><%= t 'competence_list' %></h1>
+
+<table>
+  <tr>
+    <th><%= t :name %></th>
+  </tr>
+
+<% @competences.each do |competence| %>
+  <tr>
+    <td><%=h competence.name %></td>
+    <td><%= link_to t('view'), competence %></td>
+    <td><%= link_to t('edit'), edit_competence_path(competence) %></td>
+    <td><%= link_to t('delete'), competence, :confirm => t(:deletion_confirmation), :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to t('new_competence'), new_competence_path %>

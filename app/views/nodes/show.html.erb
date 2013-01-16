@@ -1,0 +1,99 @@
+
+<p>
+  <b><%= t('course') %>:</b>
+  <%=h @node.course.name  %>
+</p>
+
+<p>
+  <b><%= t('content') %>:</b>
+  <%=h @node.content %>
+</p>
+
+<p>
+  <b><%= t('minPassPoints') %>:</b>
+  <%=h @node.minPassPoints %>
+</p>
+
+<p>
+  <b><%= t('created_by') %>:</b>
+  <%=h @node.teacher.user.name %>
+</p>
+
+<b><%= t('assoc_questions') %></b>
+<%= grid(@questions, :show_filters => :always) do |st|
+    st.column :name => t('course') do |s|
+            s.course.name
+    end
+    st.column :name => t('name') do |s|
+            s.content
+    end
+    st.column :name => t('dependency') do |s|
+           s.node_question_relations[0].dep
+    end
+    st.column :name => t('view') do |s|
+			link_to t("view") , s
+    end
+
+
+end %>
+<b><%= t('node_succ_list') %></b>
+<table>
+
+<tr>
+	<th><%= t('content') %></th>
+	<th><%= t('dependency') %></th>
+</tr>
+<% @node.edges_as_source.each do |e| %>
+<% n = e.dest %>
+
+  <tr>
+    <td><%=h n.content %></td>
+    <td><%=h e.dep %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<b><%= t('node_pred_list') %></b>
+<table>
+
+<tr>
+	<th><%= t('content') %></th>
+	<th><%= t('dependency') %></th>
+</tr>
+<% @node.edges_as_dest.each do |e| %>
+<% n = e.src %>
+
+  <tr>
+    <td><%=h n.content %></td>
+    <td><%=h e.dep %></td>
+  </tr>
+<% end %>
+</table>
+<br />
+
+<b><%= t('node_related_content_list') %></b>
+<table>
+
+<tr>
+	<th><%= t('filename') %></th>
+	<th><%= t('description') %></th>
+	<th><%= t('view') %></th>
+	<th><%= t('edit') %></th>
+</tr>
+<% @node.related_contents.each do |n| %>
+
+  <tr>
+    <td><%=h n.filename %></td>
+    <td><%=h n.description %></td>
+    <td><%= link_to t('view'), n %></td>
+    <td><%= link_to t('edit'), edit_related_content_path(n) %></td>
+  </tr>
+<% end %>
+</table>
+<%= link_to t('node_new_related_content'), :controller => "related_contents" , :action => "new" , :node_id => @node.id %>
+
+<br/>
+
+<%= link_to t('back'), :controller => "nodes" , :action => "listByCourse" , :course_id => @node.course_id %>

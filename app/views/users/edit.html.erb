@@ -1,0 +1,36 @@
+<h1><%=t :edit_user %></h1>
+
+<%= form_for(@user) do |f| %>
+  	  <% if @user.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_update, :count => @user.errors.count %></h2>	
+	      <ul>
+	      <% @user.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+  <p>
+    <%=t :username %><br />
+    <%= f.text_field :username %>
+  </p>
+  <p>
+    <%=t :email %><br />
+    <%= f.text_field :email %>
+  </p>
+  <p>
+    <%=t :name %><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.submit t("update") %>
+  </p>
+<% end %>
+<p><b><%=t :change_password_text %> <%= link_to t('here'), :action=>'chPw' , :userid => @user.id %>  </b></p>
+
+
+
+<%= link_to t('view'), @user %> 

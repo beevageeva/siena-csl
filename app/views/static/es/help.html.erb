@@ -1,0 +1,98 @@
+<h1>Guía de usuario:</h1>
+<p>
+<a href="MANUALDEFSIENA_DURIA.pdf" style="text-decoration:none">Descargar <img src="images/pdf.jpeg" border="0" height="30"/></a></td>
+</p>
+<h1>Manual de SIENA:</h1>
+<p>
+En la parte de abajo izquierda de las páginas aparecen dos ventanas greenWeb y greenUll que
+corresponden a dos enlaces a interfases visuales diferentes, la
+primera genérica y la segunda que incluye la imagen corporativa de la
+Universidad de La Laguna, tanto en versión española (es) como inglesa
+(en)
+</p>
+<b>Introducir un usuario:</b> Se crea un nuevo usuario (alumno, profesor)  al entrar pero el administrador, tiene que activarlo posteriormente. El nombre que aparece en primer lugar no debe incluir blancos, mientras que el último nombre puede incluir el nombre y los apellidos del usuario separados por blancos.</p>
+
+<p>Existe la opción de solicitar una nueva contraseña en:<br/>
+<a href="http://siena.ull.es/lost_password">http://siena.ull.es/lost_password</a>
+
+
+<h2>El administrador</h2>
+Al administrador le corresponde introducir una nueva asignatura, pulsando en la lista de asignaturas. Una vez creada, aparecen las siguientes posibilidades: los alumnos matriculados para matricular/desmatricular a los alumnos y profesores entre los ya existentes, editar la asignatura introducida para incluir cambios, exportar/importar una asignatura en formato xml y  listar las asignaturas
+Le corresponde al administrador, pulsando en la lista de usuarios, activar a los usuarios (profesores y alumnos) que se han registrado, así como ver, editar y borrar 
+ver, editar  y borrar las preguntas grabadas y los nodos, correspondientes a todos los mapas grabados, desde la lista de preguntas y la lista de nodos respectivamente.
+ <h2>El profesor</h2>
+Pulsando en la lista de asignaturas se pueden ver los alumnos matriculados, los nodos asociados, las preguntas asociadas, la imagen del mapa, asignar un trabajo a todos los alumnos matriculados y la lista de asignaturas
+Pulsando en la lista de alumnos aparecen los alumnos matriculados y la lista de trabajos que les han sido asignados pudiéndose ver, editar, borrar así como ver los tests realizados
+Definir una nueva asignatura: una vez aparece en la lista de asignaturas, editándola aparecerán  los alumnos matriculados, los nodos asociados, preguntas asociadas, la imagen del mapa (previamente a visualizarlo deberá generarse la imagen) y finalmente asignar un trabajo a todos los alumnos matriculados
+<p> <b>Los trabajos</b><br/>Asignar un trabajo para todos los alumnos matriculados: <br/>Un nuevo trabajo se define por el nodo objetivo que se pretende alcanzar en una autoevaluación, siendo el nodo previo o inicial el último nodo evaluado de un mapa dado,  y el conocimiento previo que se estima inicialmente que el alumno conoce de ese nodo objetivo; a continuación se indica si para ese trabajo definido es únicamente creado para realizar autoevaluaciones o para autoaprendizaje (incluyendo autoevaluación). El conocimiento previo que se define para el nodo objetivo, se copia en cada uno de los nodos intermedios que dependen de ese nodo objetivo. 
+Asignar un nuevo trabajo a un alumno, en esta situación alternativa a la anterior, pero individualizada a cada alumno,  el sistema permite ir asignando un conocimiento previo en todos y cada uno de los nodos intermedios que dependen del nodo objetivo.  </p>
+<p><b>Nodos asociados:</b> <br/>Importar un mapa: <br/>Dentro de nodos asociados  aparece importar un mapa desde Compendium, el cual habrá sido exportado desde allí en xml. El mapa se habrá creado partiendo del/ los  nodo objetivo (nodos predecesores) y apuntando hacia los nodos sucesores,   hasta llegar a los nodos iniciales
+Añadir nodo : una vez listados los nodos de un mapa podemos editarlos: en la edición aparece el nodo, el número de puntos mínimo para superar el nodo en la evaluación, el cual se inicializa a 0.5 y puede cambiarse;  a continuación aparece la lista de los nodos predecesores y los nodos sucesores tal como han sido declarados en el mapa, pero pueden cambiarse, si se quisiera modificar el mapa, lo cual es una opción muy cómoda para actualizar un mapa  sin tener que recurrir de nuevo a Compendium. Además de ha añadido la opción de generar  gráficamente  el mapa conceptual modificado. </p>
+<br/> Al editar un nodo puedes cambiar las dependencias de las preguntas asociadas, borrarlas, así como  editar las preguntas que han sido realizadas por ese profesor.
+
+
+
+ <p><b>Preguntas Asociadas:</b> <br/>Añadir pregunta:<br/> En primer lugar se añadirá el contenido de la misma, el tiempo de respuesta en segundos, el número de la respuesta correcta, la dificultad de la misma  y su adivinanza. Las fórmulas  en las preguntas y en las posibles respuestas se incluirán utilizando la opción firemath del buscador Firefox , generando con esta facilidad la fórmula y haciendo uso de la opción copiar y pegar se insertará  la fórmula en el texto de la pregunta o de la respuesta. Además se debe indicar la asignatura y el nodo al que dicha pregunta se asignará (eso permite asignar una pregunta a nodos de diferentes asignaturas).
+<br/>
+Introducir el contenido de un nodo: <br/>
+Hay que indicar si es un contenido para recuperación o no y una descripción, en la que se puede escribir lo que quieres que aparezca junto al fichero de contenidos (para los alumnos). Después se pueden subir ficheros(indicando si es el principal o no).
+ <h2>El alumno</h2>
+Una vez registrado, activado por el administrador y matriculado en la asignatura, también por el administrador, el profesor de la asignatura le asigna un trabajo a realizar
+Entrando a SIENA como estudiante y accediendo a la asignatura y al trabajo dentro de la asignatura, puede realizar un test, si el trabajo ha sido definido para ello exclusivamnte o puede acceder a los contenidos de los nodos del trabajo y realizar posteriormente un test.
+
+
+<h2>Caracteristicas del test adaptativo </h2>
+<p>En un nodo dado:<br/>
+Para una pregunta seleccionada, se estima el conocimiento a posteriori del alumno mediante la regla de Bayes:
+	probabilidad a posteriori= 
+
+
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+  <mi>dificuldad</mi>
+  <mo>&times;</mo>
+  <mi>probabilidad a priori</mi>
+  <mo>/</mo>
+  <mi>[dificuldad</mi>
+  <mo>&times;</mo>
+  <mi>probabilidad a priori</mi>
+  <mo>+</mo>
+    <mrow>
+      <mn>(1</mn>
+      <mo>-</mo>
+      <mi>probabilidad a priori)</mi>
+    </mrow>
+  <mo>&times;</mo>
+  <mi>adivinanza]</mi>
+</mrow>
+</math>
+
+
+
+
+
+
+
+
+</p>
+
+
+
+  <p>Elección de la siguiente pregunta:<br/>
+Se escoge la siguiente  pregunta,  de entre todas las preguntas asociadas al nodo que quedan, como aquella que maximiza la función f,<br/>
+A = [ M &times; (dificultad - dificultad de la última pregunta) &times; puntos ] / [ dificultad &times; puntos + (1 - puntos) &times; adivinanza ]
+    con M=1 en el caso que la respuesta  a la última pregunta fuese  correcta  y -1 en caso contrario
+
+
+
+
+<br/>
+A=1-A, si A&gt;0<br/>
+f=0.5&times; A+0.5&times;relación con el nodo</p>
+	 <p> La parada en el test<br/>
+El test finaliza  si en las últimas 5 preguntas no hay diferencia entre los puntos conseguidos después de preguntas sucesiva s en más de 0.1 o si  no hay más preguntas a realizar.</p>
+
+<h2>  Siena colaborativo </h2></p>
+<p>
+Hemos incorporado recientemente la opción de realización de los tests de forma colaborativa on-line entre los miembros de un grupo de alumnos, favoreciendo el trabajo en grupo y al mismo tiempo objetivando el grado de conocimiento y de implicación de cada miembro del grupo. Para ello, el sistema SIENA, además de estimar el grado de conocimiento del grupo, nos suministra el número de mensajes y el contenido de los mismos para cada miembro del grupo de alumnos.
+</p>

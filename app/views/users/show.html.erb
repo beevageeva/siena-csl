@@ -1,0 +1,27 @@
+<p>
+  <b><%=t :username %>:</b>
+  <%=h @user.username %>
+</p>
+
+<p>
+  <b><%=t :type %>:</b>
+  <%=h t("userType#{@user.useraccount_type}") %>
+</p>
+
+<p>
+  <b><%=t :active %>:</b>
+  <%=h @user.active %>
+</p>
+
+<p>
+  <b><%=t :email %>:</b>
+  <%=h @user.email %>
+</p>
+
+<p>
+  <b><%=t :name %>:</b>
+  <%=h @user.name %>
+</p>
+
+
+<%= link_to t('edit'), edit_user_path(@user) %> 

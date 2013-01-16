@@ -1,0 +1,51 @@
+rename /local/ruby/rrg/trunk/public/relatedContents/28818/FundamentosDiseño.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28818/FundamentosDiseNNo.pdf
+update related_contents set filename = 'FundamentosDiseNNo.pdf'  where id = 28818;  
+no rc for 28822
+rename /local/ruby/rrg/trunk/public/relatedContents/28826/ProcesadoresVectoriales.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28826/ProcesadoresVectoriales.pdf
+update related_contents set filename = 'ProcesadoresVectoriales.pdf'  where id = 28826;  
+rename /local/ruby/rrg/trunk/public/relatedContents/28808/Hennessy and Patterson - Cap 3.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28808/Hennessy_and_Patterson___Cap_3.pdf
+update related_contents set filename = 'Hennessy_and_Patterson___Cap_3.pdf'  where id = 28808;  
+rename /local/ruby/rrg/trunk/public/relatedContents/28831/Máquinas superescalares.ppt  to /local/ruby/rrg/trunk/public/relatedContents/28831/MNequinas_superescalares.ppt
+update related_contents set filename = 'MNequinas_superescalares.ppt'  where id = 28831;  
+rename /local/ruby/rrg/trunk/public/relatedContents/28807/Enlaces Maquinas.txt  to /local/ruby/rrg/trunk/public/relatedContents/28807/Enlaces_Maquinas.txt
+update related_contents set filename = 'Enlaces_Maquinas.txt'  where id = 28807;  
+rename /local/ruby/rrg/trunk/public/relatedContents/28809/Manual SIMDE.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28809/Manual_SIMDE.pdf
+update related_contents set filename = 'Manual_SIMDE.pdf'  where id = 28809;  
+rename /local/ruby/rrg/trunk/public/relatedContents/28843/JerarquiaDeMemoria.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28843/JerarquiaDeMemoria.pdf
+update related_contents set filename = 'JerarquiaDeMemoria.pdf'  where id = 28843;  
+no rc for 28812
+rename /local/ruby/rrg/trunk/public/relatedContents/28814/SMTCMP.ppt  to /local/ruby/rrg/trunk/public/relatedContents/28814/SMTCMP.ppt
+update related_contents set filename = 'SMTCMP.ppt'  where id = 28814;  
+rename /local/ruby/rrg/trunk/public/relatedContents/28816/MontecitohyperThre.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28816/MontecitohyperThre.pdf
+update related_contents set filename = 'MontecitohyperThre.pdf'  where id = 28816;  
+rename /local/ruby/rrg/trunk/public/relatedContents/28811/smt.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28811/smt.pdf
+update related_contents set filename = 'smt.pdf'  where id = 28811;  
+rename /local/ruby/rrg/trunk/public/relatedContents/28813/SMT_MemoriaCache.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28813/SMT_MemoriaCache.pdf
+update related_contents set filename = 'SMT_MemoriaCache.pdf'  where id = 28813;  
+rename /local/ruby/rrg/trunk/public/relatedContents/28815/MontecitoIEEE.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28815/MontecitoIEEE.pdf
+update related_contents set filename = 'MontecitoIEEE.pdf'  where id = 28815;  
+rename /local/ruby/rrg/trunk/public/relatedContents/28817/ieeemicro_niagara.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28817/ieeemicro_niagara.pdf
+update related_contents set filename = 'ieeemicro_niagara.pdf'  where id = 28817;  
+no rc for 28832
+no rc for 28833
+no rc for 28834
+no rc for 28835
+no rc for 28836
+no rc for 28837
+no rc for 28838
+no rc for 28839
+no rc for 28840
+no rc for 28841
+rename /local/ruby/rrg/trunk/public/relatedContents/28827/Segmentacion.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28827/Segmentacion.pdf
+update related_contents set filename = 'Segmentacion.pdf'  where id = 28827;  
+no rc for 28828
+rename /local/ruby/rrg/trunk/public/relatedContents/28820/Repertorio de Instrucciones 2007-2008.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28820/Repertorio_de_Instrucciones_2007_2008.pdf
+update related_contents set filename = 'Repertorio_de_Instrucciones_2007_2008.pdf'  where id = 28820;  
+rename /local/ruby/rrg/trunk/public/relatedContents/28819/Repertorio de Instrucciones 2005-2006.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28819/Repertorio_de_Instrucciones_2005_2006.pdf
+update related_contents set filename = 'Repertorio_de_Instrucciones_2005_2006.pdf'  where id = 28819;  
+no rc for 28821
+no rc for 28823
+rename /local/ruby/rrg/trunk/public/relatedContents/28824/Trabajo_Final.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28824/Trabajo_Final.pdf
+update related_contents set filename = 'Trabajo_Final.pdf'  where id = 28824;  
+rename /local/ruby/rrg/trunk/public/relatedContents/28825/preguntas_arquitectura.pdf  to /local/ruby/rrg/trunk/public/relatedContents/28825/preguntas_arquitectura.pdf
+update related_contents set filename = 'preguntas_arquitectura.pdf'  where id = 28825;  

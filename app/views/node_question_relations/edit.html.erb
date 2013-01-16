@@ -1,0 +1,23 @@
+<h1><%= t('edit_node_question_relation') %></h1>
+
+<%= form_for(@node_question_relation) do |f| %>
+  	  <% if @node_question_relation.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_save, :count => @node_question_relation.errors.count %></h2>	
+	      <ul>
+	      <% @node_question_relation.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+  <b><%= t('dependency') %>:</b>
+    <%= f.text_field :dep %>
+  </p>
+
+  <p>
+    <%= f.submit t('update') %>
+  </p>
+<% end %>
+

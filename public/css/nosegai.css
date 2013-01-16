@@ -1,0 +1,41 @@
+<style>
+#contSEGAI{
+	top:170px;
+	left:7px;
+	padding: 0px;
+	margin: 0px;
+	visibility: visible;
+	font-size: 12px;
+}
+
+.Estilo1 {color: #666666}
+.Estilo2 {color: #660099;font-weight: bold;}
+.Estilo6 {color: #FFFFFF; font-weight: bold; font-size: 12px; }
+.Estilo7 {font-size: 12px}
+#basepdf{
+	width:100%;
+
+	top:10px;
+	left:0px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #333333;
+	text-decoration: none;
+	text-align: left;
+}
+
+#titulopdf {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #666666;
+	height: 0px;
+	width: 620px;
+	border-bottom-width: 0px;
+	border-bottom-style: solid;
+	border-bottom-color: #982996;
+	
+	left: 15px;
+	top: 65px;
+	line-height: 0px;
+	font-weight: bold;
+	text-decoration: none;}</style>

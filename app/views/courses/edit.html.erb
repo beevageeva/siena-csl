@@ -1,0 +1,26 @@
+<h1><%= t 'edit_course' %></h1>
+
+<%= form_for(@course) do |f| %>
+  	  <% if @course.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_update, :count => @course.errors.count %></h2>	
+	      <ul>
+	      <% @course.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+
+  <p>
+    <%= t :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.submit t(:update) %>
+  </p>
+<% end %>
+
+<%= link_to t(:update), @course %> |
+<%= link_to t(:back), courses_path %>

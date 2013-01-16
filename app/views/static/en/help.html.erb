@@ -1,0 +1,110 @@
+<h1>Siena User Guide:</h1>
+<p>
+<a href="User_Guide_with_Graphics_in_English.pdf" style="text-decoration:none">Download <img src="images/pdf.jpeg" border="0" height="30"/></a></td>
+</p>
+<h1>SIENA overview:</h1>
+
+On the home page there are two windows - greenWeb and greenUll – each of which correspond to two visually different interface links, the first link will take you to a generic version whereas the second includes the University of La Laguna logo for both in the Spanish version (es) and the English version (en).
+
+<h2>Adding a new user:</h2>
+
+You create a new user (student or teacher) when you log on, but the Administrator will then have to activate it afterwards.
+
+The username appearing in the first space should not include any spaces, while the second can include the user’s name and surname separated by a space.
+
+You can request a new password by clicking: <a href="http://siena.ull.es/lost_password">http://siena.ull.es/lost_password</a>
+
+ 
+<h2>The Administrator:</h2>
+
+It is the Administrator’s responsibility to add new subjects. To do this, the Administrator will need to click on the list of subjects and select ‘create a new subject’. Once a new subject has been created the following will appear:
+
+-         Registered students; add/delete students or teachers from existing lists; edit a subject to include fields; import/export a subject in XML format; list subjects.
+
+The Administrator must activate users (students and teachers) who have registered by clicking on the list of users. The Administrator must also view, edit and delete saved questions and nodes, for all the saved maps, from the list of questions and the list of nodes respectively.
+
+<h2>The teacher:</h2>
+
+<p>By clicking on the subjects list it is possible to view a list of registered students, associated nodes, associated questions, and the visual display of a concept map or assign a task/exercise to registered students and view the complete subject list. By clicking on the student list, it is possible to view the students who have registered and the list of tasks/exercises that they have been set, allowing the teacher to view, edit, or delete any tests that have been taken.
+</p>
+<p>
+<b>Structuring a new subject: </b><br/>
+
+Once a new subject appears in the list, the teacher will be able to edit it, creating a list of enrolled students, associated nodes, associated questions, the visual display of the concept map (the image will need to be generated before visualising it), and finally assign a task/exercise to each of the registered students.
+</p>
+ 
+
+<h3>The tasks:</h3>
+ 
+<p>
+<b>Assigning a new task to ALL registered students:</b><br/>
+A new task consists of the creation of an objective node which students must pass, and establishing students’ existing knowledge. The initial node of a task is always the previous task’s objective node and as such is used to establish student’s existing knowledge. The task description will then detail if the task is designed for use in self-evaluation only, or for self-study + self-evaluation. The definition of previous knowledge which is set for the objective node is copied to each of the intermediate nodes which relate to this objective node.
+</p>
+<p>
+<b>Assigning a new task to a INDIVIDUAL student:</b><br/>
+
+The system allows the teacher to assign tasks to individual students which are adapted to their individual profile. The system also lets the teacher assign previous knowledge to each and every one of the intermediate nodes which relate to the objective node.
+
+ </p>
+
+<h3>Associated nodes:</h3>
+ 
+<p>
+<b>Importing a map:</b><br/>
+Within the associated nodes there is the option of importing a map from Compendium that has already been exported in XML format. The map will have been created by the teacher starting with objective nodes, working backwards through the successive nodes until eventually arriving at the initial nodes. Once they have all been listed, these nodes that appear in the concept map can then be edited.
+</p>
+ 
+<p>
+<b>Editing a node:</b><br/>
+
+The node will appear in the edit option. The number of minimum points needed to pass the node in the evaluation is set at 0.5, although this can be changed. Next, a list of previous nodes and successive nodes will appear exactly as they were set out in the map, although they can be edited at this stage if you want to change the map - this is a very easy way of updating a map without having to go back to Compendium. Additionally, there is the added option of generating a modified image of the concept map.
+
+When editing the node you can change the relevance of the associated questions, delete them, and also edit the questions that have been created by the teacher.
+</p>
+
+<h3>Related questions:</h3>
+
+<p>
+<b>Adding questions:</b><br/>
+The first step is to add the content of the question, the time in seconds allowed for answering each question, the level of difficulty and guessing. The formula in the questions and the possible answers are added using Firefox’s firemath application which easily generates the required formula. Use the options ‘copy’ and ‘paste’ to insert the formula in the body of the question or of the answer. The teacher must also indicate the subject and the node that the questions will be assigned to (this allows you to assign the same question to nodes from different subjects).
+ </p>
+
+<p>
+<b>Adding content to a node:</b></br>
+You will have to indicate if the content is for re-takes or not, and include a description of the content. Any additional information that the teacher wants to appear along with the list of contents (for students) can be written in the description. Once complete, the files can be uploaded, but ensure that you have indicated if it is a core content or not.
+</p>
+ 
+<h2>The student:</h2>
+
+Once a student has signed up and then been activated and registered for a subject by the Administrator, the subject’s teacher will assign a task for the student to complete. The student can take a test that has been set only for them by logging into SIENA, accessing the subject and the task for that subject. The student can also access the content of the task nodes first and then take the test.
+ 
+<h2>Characteristics of the computerised adaptive test (CAT):</h2>
+
+ 
+
+<h3>Nodes:</h3>
+For any given question, the posterior knowledge of the student is estimated using the Bayes rule:
+
+Posterior expected value = difficulty × marginal probability / [difficulty × marginal probability + (1 - marginal probability) × estimator]
+
+<h3>Choice of next question:</h3>
+The next question that is chosen, from among all the remaining questions associated with that node, is the one that which maximises the function F:<br/>
+
+A = [M × (difficulty - difficulty of previous question) × points] / [difficulty × points + (1 - point) × guessing] with M=1 in the case that the answer to the last question was correct, and -1 if this is not the case<br/>
+A = 1-A, if A&gt;0<br/>
+F = 0.5× A + 0.5 × relation to node<br/>
+
+<h3>Finalizing the test:</h3>
+The test ends if there is no marked difference in the score obtained over the last five questions (by no marked difference we a referring to a difference of  0.1 points), or if there are no more questions to ask.
+
+<h2>Evaluating self-study:</h2>
+
+A teacher can evaluate students’ progress and knowledge in each subject by using SIENA to test the students’ newly acquired understanding of the concept map nodes; however this test will need to be carried out under the supervision of the teacher. There is also the possibility of using SIENA to assess competence - if a competence is understood to be the successful completion of various subjects, defined by their concept maps. A competence is achieved if the tests of the objective nodes are is passes in these subjects. Finally, we have taken into account that the students will also work in groups, therefore they are provided with the option of uploading their projects as PDF documents. The group tasks set by the teacher look at the application of theory in the real world and students are expected to apply the theoretical concepts outlined to a real problem. For this reason, the final grade will be based on the average of the online tests and the final grade of the project.
+</p>
+
+
+If you are interested in obtain further information on how to use SIENA, please refer to the SIENA User Guide.<br/>
+
+[1] Integrated Teaching and Learning System
+
+ 

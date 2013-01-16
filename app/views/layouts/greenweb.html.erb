@@ -1,0 +1,86 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "mathml.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Siena</title>
+<link href="/green_web/style.css" rel="stylesheet" type="text/css" />
+<%= render :partial => 'layouts/header' %>
+
+</head>
+
+<body>
+
+
+	<!-- top navigation start -->
+	<div id="topNav">	
+		<ul>
+			<li><%= link_to t('home'), :controller => "users" , :action => "getUserHome" %></li>
+			<li><%= link_to t('help'), :controller => "users" , :action => "help"  %></li>
+			<% if session[:userid]  %>
+			<li><%= link_to t('profile'), :controller => "users" , :action => "edit" ,  :id => session[:userid] %></li>
+			<li><%= link_to t('logout') + "(" +  User.find(session[:userid]).username + ")", logout_path, :onclick => "iJab.logout();" %></li>
+			<% if User.find(session[:userid]).useraccount_type == User::ADMIN  %>
+				<li><%= link_to t('user_list'), users_path  %></li>
+				<li><%= link_to t('course_list'), courses_path  %></li>
+				<li><%= link_to t('question_list'), questions_path  %></li>
+				<li><%= link_to t('node_list'), nodes_path  %></li>
+				<li><%= link_to t('content_list'), related_contents_path  %></li>
+				<li><%= link_to t('competence_list'), competences_path  %></li>
+			<% end %>
+			<% if User.find(session[:userid]).useraccount_type == User::PROF  %>
+				<li><%= link_to t('course_list'), courses_path  %></li>
+				<li><%= link_to t('competence_list'), competences_path  %></li>
+			<% end %>
+			<% if User.find(session[:userid]).useraccount_type == User::ALU  %>
+				<li><%= link_to t('course_list'), courses_path  %></li>
+				<li><%= link_to t('competence_list'), :controller => 'competences' , :action => 'listByGroups'  %></li>
+			<% end %>
+			<% else %>
+			<li><%= link_to t('login'), login_path %></li>
+			<% end %>
+
+
+		</ul>
+	</div>
+	<!-- top navigation start -->
+	<!-- body start -->
+	<div id="body">
+		<div class="bodyText">
+	
+		<br class="spacer" />
+
+			<p style="color: green"><%= flash[:notice] %></p>
+			<%= render :partial => 'layouts/messenger' %>	
+			<%= yield  %>
+		
+	</div>
+
+</div>	
+	<!-- body end -->	
+	<!-- footer start -->
+	<div id="footer">
+		<div class="footer">
+
+</div>
+	</div>
+	<!-- footer end -->		
+			<table><tr>
+			<% ApplicationHelper::GREEN_THEMES.each do |t| %>
+			<td><%= link_to t, :controller => "users" ,:action => "changeTheme",  :theme => t %></td>
+
+			<% end %>
+			</tr></table>
+			<table><tr>
+			<% I18n.available_locales.each do |t| %>
+			<td><%= link_to t, :controller => "users" ,:action => "set_locale",  :locale => t %></td>
+
+			<% end %>
+			</tr></table>
+
+
+
+
+</body>
+</html>

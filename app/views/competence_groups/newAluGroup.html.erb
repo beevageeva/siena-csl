@@ -1,0 +1,30 @@
+<h1><%= t :new_competence_group %></h1>
+
+<%= form_for(@competence_group) do |f| %>
+  	  <% if @competence_group.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_save, :count => @competence_group.errors.count %></h2>	
+	      <ul>
+	      <% @competence_group.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+
+		<%= f.hidden_field :competence_id %>
+
+<p>
+  <b><%= t :competence_group %>:</b>
+		<%= select('competence_group' , "alu_group_id"  ,  AluGroup.find(:all).collect {|p| [ p.name, p.id ] }  )  %>
+<p>
+
+  <p>
+  <b><%= t :initialpoints %>:</b>
+    <%= text_field_tag :initialpoints %>
+  </p>
+  <p>
+    <%= f.submit t( :create ) %>
+  </p>
+<% end %>

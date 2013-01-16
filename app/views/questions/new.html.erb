@@ -1,0 +1,54 @@
+<h1>  <%= t('new_question') %> </h1>
+
+<%= form_for(@question , :html => {:multipart => true }  ) do |f| %>
+  	  <% if @question.errors.any? %>
+	    <div id="error_explanation">
+	      <h2><%= t :error_save, :count => @question.errors.count %></h2>
+	      <ul>
+	      <% @question.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+    <%= f.hidden_field :course_id %>
+
+  <p>
+     <%= t(:content) %> <br />
+    <%= f.text_area :content %>
+  </p>
+  <p>
+     <%= t('answerTime') %> <br />
+    <%= f.text_field :answerTime %>
+  </p>
+  <p>
+    <%= t('correct_answer') %> <br />
+    <%= f.text_field :correctAnswer %>
+  </p>
+  <p>
+    <%= t('difficulty') %><br />
+    <%= f.text_field :difficulty %>
+  </p>
+  <p>
+     <%= t('luck') %><br />
+    <%= f.text_field :luck %>
+  </p>
+
+  <p>
+     <%= t('image') %> <br />
+    <%= f.file_field  :imgFile %></p>
+  </p>
+
+  <p>
+     <%= t('keywords') %> <br />
+    <%= f.text_field  :keywords %></p>
+  </p>
+
+  <p>
+    <%= f.submit   t(:create) %>
+  </p>
+<% end %>
+
+
+<%= link_to t(:back), @question.course %>

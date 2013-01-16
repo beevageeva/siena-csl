@@ -1,0 +1,33 @@
+<h1><%=  params[:assignedtoType] == Work::ASSIGNEDTOSTUDENT ?  t('new_work_all_students') : t('new_work_all_groups') %></h1>
+<%= t('dependency_not_verified') %>
+
+<%= form_tag({:action => 'createAll'} , {:method => :post}) do |f| %>
+
+    <%= hidden_field_tag :course_id , params[:course_id]%>
+    <%= hidden_field_tag :assignedtoType , params[:assignedtoType]%>
+
+
+  <p>
+  <b><%= t('node') %>:</b>
+    <%= select_tag "node_id" , options_for_select( Node.find(:all , :conditions => ["course_id = #{params[:course_id]}"] ).collect {|u| [u.content , u.id]})  %>
+  </p>
+
+  <p>
+  <b><%= t('initialpoints') %>:</b>
+    <%= text_field_tag :initialpoints %>
+  </p>
+
+
+  <p>
+  <b><%= t('type') %>:</b>
+  <% Work::WORK_TYPES.each do |q| %>
+    <%= radio_button_tag :worktype , q %><%= t("workType#{q}") %>
+  <% end %>
+  </p>
+
+
+  <p>
+    <%= submit_tag t("create") %>
+  </p>
+
+<% end %>

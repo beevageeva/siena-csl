@@ -1,0 +1,24 @@
+User:ntimes displays how many times the user has seen the question 
+<table>
+  <tr>
+    <th>qnumber</th>
+    <th>user:ntimes</th>
+  </tr>
+<% cqn = -1 %>
+<% @test.viewed_test_questions.order("qnumber").each do |vtq| %>
+<% if cqn != vtq.qnumber %>
+	<% if cqn != -1 %>
+		</tr>
+	<%end %>
+	<tr>
+	<td><%= vtq.qnumber %></td>
+	<% cqn = vtq.qnumber %>
+<%end %>
+
+<td><%= vtq.student.user.username %> : <%=  vtq.ntimes %></td>
+
+
+
+
+<% end %>
+</table>

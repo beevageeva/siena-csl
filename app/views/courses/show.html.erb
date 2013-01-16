@@ -1,0 +1,39 @@
+<p>
+  <b><%= t(:name) %>:</b>
+  <%=h @course.name %>
+</p>
+
+<% if User.find(session[:userid]).useraccount_type == User::ADMIN %>
+	<%= link_to t('alu_group_list', :coursename => @course.name), :controller => "alu_groups" , :action => "listByCourse" , :course_id => @course.id %> <br/>
+	<%= link_to t('student_assign_list', :coursename => @course.name), :controller => "student_assigns" , :action => "listByCourse" , :course_id => @course.id %> <br/>
+	<%= link_to t('teacher_assign_list', :coursename => @course.name), :controller => "teacher_assigns" , :action => "listByCourse" , :course_id => @course.id %> <br/>
+	<%= link_to t('course_node_list'), :controller => "nodes" , :action => "listByCourse" , :course_id => @course.id %> <br/>
+	<%= link_to t('course_question_list'), :controller => "questions" , :action => "listByCourse" , :course_id => @course.id %> <br/>
+	<%= link_to t('export_xml'), :action => "export" , :course_id => @course.id %> <br/>
+	<% if @hasPng %>
+		<a href="<%= "/mapImages/#{@course.id}.png" %>"><%= t('course_image') %></a> |
+	<% end %>
+	<%= link_to t('generate_image') , :action => "createPng" , :id => @course.id %> <br/>
+	<%= link_to t('edit'), edit_course_path(@course) %> <br/>
+<% end %>
+
+<% if User.find(session[:userid]).useraccount_type == User::PROF %>
+	<%= link_to t('alu_group_list', :coursename => @course.name), :controller => "alu_groups" , :action => "listByCourse" , :course_id => @course.id %> <br/>
+	<%= link_to t('student_assign_list', :coursename => @course.name), :controller => "student_assigns" , :action => "listByCourse" , :course_id => @course.id %> <br/>
+	<%= link_to t('course_node_list'), :controller => "nodes" , :action => "listByCourse" , :course_id => @course.id %> <br/>
+	<%= link_to t('course_question_list'), :controller => "questions" , :action => "listByCourse" , :course_id => @course.id %> <br/>
+	<% if @hasPng %>
+		<a href="<%= "/mapImages/#{@course.id}.png" %>"><%= t('course_image') %></a> |
+	<% end %>
+	<%= link_to t('generate_image') , :action => "createPng" , :id => @course.id %> <br/>
+
+
+<% end %>
+
+<% if User.find(session[:userid]).useraccount_type == User::ALU %>
+	<%= link_to t('work_list'), :controller => "works" , :action => "listByAssignedtoAndCourse" , :assignedto_id =>session[:useraccount_id] ,:course_id => @course.id, :assignedto_type => 'Student' %> <br/>
+	<%= link_to t('alu_group_list'), :controller => "alu_groups" , :action => "listByStudentAndCourse" , :student_id => session[:useraccount_id] ,:course_id => @course.id %> <br/>
+<% end %>
+
+
+<%= link_to t('course_list'), courses_path %>

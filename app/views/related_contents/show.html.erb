@@ -1,0 +1,34 @@
+<p>
+  <b><%=  t('filename') %>:</b>
+  <%=h @related_content.filename %>
+	<br/>
+	<a href=<%= "/#{RelatedContent::UPLOAD_DIR_REL}/#{@related_content.id}/#{@related_content.filename}" %>><%=h @related_content.filename %></a>
+
+</p>
+
+<p>
+  <b><%=  t('recuperation') %>:</b>
+  <%=h @related_content.recover %>
+</p>
+
+<p>
+  <b><%=  t(:description) %>:</b>
+  <%=h @related_content.description %>
+</p>
+
+<b><%=  t('uploaded_files') %></b>
+<table>
+
+<% @related_content.uploadedFiles.each do |n| %>
+  <tr>
+    <td><%=h n %></td>
+  </tr>
+
+<% end %>
+</table>
+
+<%= link_to t(:edit), edit_related_content_path(@related_content) %> |
+<%= link_to t('view_assoc_node'), :controller => "nodes" , :action => "show", :id => @related_content.node_id %> 
+<% if @related_content.node.teacher_id == session[:useraccount_id] %>
+|<%= link_to t('edit_assoc_node'), :controller => "nodes" , :action => "edit", :id => @related_content.node_id %>
+<% end %>

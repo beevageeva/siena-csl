@@ -1,0 +1,116 @@
+<% if session[:userid]  && User.find(session[:userid]).useraccount_type == User::ALU%>
+
+
+
+    <script>
+    $(function() {
+        $( "#messengerlist" ).dialog( {
+			position:{
+                		at: "right top" 
+			}
+		 });
+	    $('.sendmailtoteacherslink').click(function() {
+		var courseid = $(this).attr("courseid");
+        	$('#sendmailtoteachersform' ).dialog({
+			modal: true,
+			buttons: {
+                		"Send": function() {
+					$('#sendmailformid input[name="courseid"] ').val(courseid);		
+					$.post("/chats/sendmailtoteachers", $('#sendmailformid').serialize()  );
+					$( this ).dialog( "close" );
+				},
+                		Cancel: function() {
+                    			$( this ).dialog( "close" );
+                		}
+			     },
+			close: function() {
+				$('#sendmailformid textarea[name="body"] ').val( "" );	
+			}
+			});	
+
+
+    		});
+
+	    $('.invitelink').click(function() {
+		var testid = $(this).attr("testid");
+		$.post("/chats/invite", {test_id: testid} );	
+    		});
+
+
+	
+    });
+    </script>
+
+
+<link rel="stylesheet" href="/css/jquery-ui.css" />
+
+
+<div id="messengerlist" title="CHAT">
+<h3>Groups</h3>	
+<% 
+	student_id = session[:useraccount_id]
+	sas = StudentAssign.where(:student_id => student_id)
+	sas.each do |sa|
+		c = sa.course
+%>
+		<%= c.name %> &#160; &#160; <a href="#" class="sendmailtoteacherslink" courseid="<%= c.id %>" > MAIL </a>
+		<br/>
+		<ul>
+			
+<% 
+		ags = AluGroup.where("course_id = ? and students.id = ?",c.id, student_id).includes(:students)
+		ags.each do |ag|
+%>
+			<li><a href="javascript:void(0)" onclick="javascript:chatWith('<%= ag.name %>', <%= ag.id%> )"> <%= ag.name %></a>
+
+			(<b>online students:</b><%= ag.onlinestudents.map{|s| s.user.name}.join(",") %> )
+			</li>
+
+
+<% 
+		end
+%>
+		</ul>
+<% 
+	end 
+%>
+
+<h3>Current group tests</h3>
+	<ul>
+<% 
+	User.find(session[:userid]).useraccount.registered_tests.each do |test|
+%>
+		<li><%= test.work.node.content %> &#160; &#160; 
+		<b>created by:</b><%= test.work.assignedto.name %> &#160; &#160;
+		<b>at:</b><%= test.created_at %> &#160; &#160;
+		<b>registered students:</b><%= test.registered_students.map{|s| s.user.name}.join(",") %> &#160; &#160;
+		<%= link_to "Goto" , :controller => "questions" , :action => "test" , :test_id => test.id %>&#160; &#160;
+		<%= link_to "Leave" , :controller => "tests" , :action => "leave_test" , :test_id => test.id %>&#160; &#160;
+		<a href="#" class="invitelink" testid="<%= test.id%>">Invite</a>
+		</li>
+
+<% 
+	end 
+%>
+	
+	</ul>
+</div>
+
+
+	<div id="sendmailtoteachersform" title="send mail to teachers" style="display:none;"  >
+	<form id="sendmailformid"  >
+		<input type="hidden" name="courseid"/>
+		<textarea name="body"></textarea>
+	</form>
+
+</div>
+
+
+
+<div id="dialog-confirm-start-test" title="Start test?" style="display:none;"></div>
+<div id="dialog-confirm-answer" title="Answer question" style="display:none;"></div>
+
+
+
+<% end %>
+

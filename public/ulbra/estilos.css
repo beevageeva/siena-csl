@@ -1,0 +1,267 @@
+.index
+{
+   display: inline;
+   font-size: 9px;
+   text-decoration: none;
+   color: blue;
+}
+
+.adminUsersCombos {
+    width: 130px;
+}
+
+.smalltext
+{
+  font-size: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+}
+
+.tabla1 {
+	background-color: #993399;
+
+}
+
+.celdaHead {
+	background-color: #336699;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: center;
+	text-transform: uppercase;
+	padding: 2px;
+}
+
+.celdaSubHead {
+	background-color: #993399;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: center;
+	padding: 3px;
+}
+
+.celda1 {
+	background-color: #F7E8F7;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	text-align: center;
+	padding: 3px;
+}
+
+.celda1 p {
+	background-color: #F7E8F7;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	padding: 10px;
+}
+
+.celda2 {
+	background-color: #E8F1F7;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	text-align: center;
+	padding: 3px;
+}
+.celda2 p {
+	background-color: #E8F1F7;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	text-align: center;
+}
+
+.celdacalidad {
+	background-color: #E8F1F7;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	text-align: left;
+	padding: 3px;
+}
+.celdacalidad p {
+	background-color: #E8F1F7;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	text-align: center;
+}
+
+.celdacalidad input {
+	width: 12px;
+}
+.celdaHeadMinusc {
+
+	background-color: #336699;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: center;
+	text-transform: none;
+	padding: 2px;
+}
+.celdaHeadMinusc a {
+
+	background-color: #336699;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: center;
+	text-transform: none;
+	padding: 2px;
+}
+
+
+.texto {
+	text-align: justify;
+}
+.menu1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #993399;
+	font-weight: bold;
+	text-decoration: none;
+
+}
+.menu1sin {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #666666;
+	font-weight: bold;
+	text-decoration: none;
+	line-height: 24px;
+
+}
+.menu2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #336699;
+	text-decoration: none;
+	list-style-type: square;
+	list-style-position: outside;
+
+
+}
+a.menu2 {
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #336699;
+}
+a.menu2:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #336699;
+	text-decoration: underline;
+
+}
+a.menu1:hover {
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #993399;
+	font-weight: bold;
+	text-decoration: underline;
+}
+a {
+	color: #336699;
+	color: #006699;
+}
+
+li.novedad {
+	color: #006699;
+	padding-top: 8px;
+}
+
+#celdaespecial1 {
+	width: 190px;
+	background-color: #993399;
+}
+#celdaespecial2 {
+	width: 190px;
+}
+
+.pdescription {
+	font-size: 11px;
+	text-align: center;
+	background-color: #ececec;
+	width: 250px;
+}
+
+.celdaHeadMinusc2 {
+	background-color: #e8f1f7;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #336699;
+	text-align: center;
+	text-transform: none;
+	padding: 2px;
+}
+.celdaHeadMinusc3 {
+	background-color: #f7e8f7;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #336699;
+	color: #666;
+	text-align: center;
+	text-transform: none;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+.celdaHeadMinusc4 {
+	background-color: #e8f1f7;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #336699;
+	text-transform: none;
+	padding: 2px;
+	padding-left: 15px;
+	text-align: left;
+}
+
+.question {
+	font-family: Arial, Helvetica, sans-serif;
+	background-color:#f7e8f7;
+	border: 1px solid #ccc;
+	padding: 5px;
+	font-weight: bold;
+	color: #333333;
+	text-align: left;
+}
+
+.question a {
+	text-decoration: none;
+}
+
+.answer {
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #e8f1f7;
+	border: 1px solid #ccc;
+	padding: 5px;
+	font-weight: normal;
+	text-align: left;
+	height: auto;
+}
+
+.preguntatest {
+	background-color:#f7e8f7;
+	border: 1px solid #ccc;
+}
+
+.respuestatest {
+	background-color:#fff;
+	color: #666;
+	margin-left: 10px;
+}
+

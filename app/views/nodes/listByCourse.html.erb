@@ -1,0 +1,23 @@
+
+<h1><%=  t('node_list_course' , :name =>Course.find(params[:course_id]).name) %> </h1>
+<%= grid(@nodes, :show_filters => :always) do |node|
+    node.column :name => t(:name) , :attribute => 'content' do |n|
+			n.content
+		end
+    node.column :name => t('view') do |n|
+    	link_to t('view'), n
+		end
+    node.column :name => t('edit') do |n|
+    	link_to t('edit'), edit_node_path(n) if adminNode(n)
+		end
+    node.column :name => t('delete') do |n|
+    	link_to t('delete'), n, :confirm => 'Are you sure?', :method => :delete, :class => :destroy if adminNode(n)
+		end
+
+
+end %>
+    <%= link_to t('course_new_node'), :controller => "nodes", :action => "new" , :course_id => params[:course_id] %>
+		<br/>
+    <%= link_to t('back'), :controller => "courses" , :action => "show" , :id => params[:course_id]%>
+		<br/>
+    <%= link_to t('import_compendium_map') , :controller => "nodes" , :action => "importFromCompendium" , :course_id => params[:course_id]%>

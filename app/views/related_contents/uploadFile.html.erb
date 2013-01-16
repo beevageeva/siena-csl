@@ -1,0 +1,25 @@
+<h1> <%=  t('upload_file') %> </h1>
+
+
+<%= form_tag({:action => 'saveUploadFile'}, {:method => :post , :multipart => true }) do |f|  %>
+<%= hidden_field_tag :id , @related_content.id   %>
+
+
+  <p>
+    <%=  t('filename') %><br />
+    <%= file_field_tag :uploadFile %>
+  </p>
+
+  <p>
+   <%=  t('main_file') %> <br />
+    <%= check_box_tag :mainFile %>
+  </p>
+  <p>
+   <%=  t('decompress') %> <br />
+    <%= check_box_tag :decompress %>
+  </p>
+
+  <p>
+    <%= submit_tag t('upload_file') %>
+  </p>
+<% end %>

@@ -1,0 +1,20 @@
+
+<p>
+  <b><%= t('node') %>:</b>
+  <%=h @work.node.content %>
+</p>
+<p>
+  <b><%= t('initialpoints') %>:</b>
+  <%=h @work.initialpoints %>
+</p>
+
+<p>
+  <b><%= t('type') %>:</b>
+  <%=h t("workType#{@work.worktype}") %>
+</p>
+
+<%= link_to t('edit'), edit_work_path(@work) %> <br/>
+<% if @work.tests and @work.tests.length > 0 %>
+ 	<%= link_to t('view') + ' tests', :controller => 'tests' , :action => 'listByWork' , :work_id => @work.id %>
+<%end%>
+

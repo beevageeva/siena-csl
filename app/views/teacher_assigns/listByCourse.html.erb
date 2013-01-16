@@ -1,0 +1,25 @@
+<h1><%= t('teacher_assign_list' , :coursename => Course.find(params[:course_id]).name   ) %></h1>
+<%= grid(@teacher_assigns, :show_filters => :always) do |st|
+
+    st.column :name => t(:name) do |s|
+            s.teacher.user.name
+    end
+
+    st.column  :name => t('username')  do |s|
+      s.teacher.user.username
+    end
+
+    st.column  :name => t('delete_from_course')  do |s|
+    	link_to t('delete_from_course'), s, :confirm => t('deletion_confirmation'), :method => :delete 
+
+		end
+end %>
+
+  <%= form_tag({:controller => 'teacher_assigns' , :action => 'assign_to_course'}, {:method => :post}) do |f| %>
+    <%= hidden_field_tag("course_id"  , params[:course_id]) %>
+    <%= select_tag("teacher_id" , options_for_select(Teacher.find(:all , :include => 'user' , :order => 'users.name ASC' ).collect {|u| [u.user.name , u.id]}) ) %>
+
+    <%= submit_tag t("add_to_course") %>
+
+  <% end %>
+

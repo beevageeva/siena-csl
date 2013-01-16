@@ -1,0 +1,124 @@
+require 'drb/drb'
+
+class ChatsController < ApplicationController
+
+SERVER_URI="druby://localhost:8787"
+
+def initialize
+	DRb.start_service
+	@chat_service=DRbObject.new_with_uri(SERVER_URI)
+end
+
+
+
+
+def connect
+	return if !session[:userid]
+	username = 	User.find(session[:userid]).username
+	@chat_service.login(username)
+	res = {:username => username}
+	render :json => res.to_json
+end 
+
+
+
+
+def sendmessage
+	ActiveRecord::Base.logger.warn "SENDMESSAGE"
+	return if !session[:userid]
+	username = 	User.find(session[:userid]).username
+	@chat_service.send_message(username,params[:to], :chat, params[:message])	
+	ActiveRecord::Base.logger.warn "from: #{username} , to: #{params[:to]}, message: #{params[:message]}"
+	render :json => {:status => 'ok' }.to_json
+end
+
+
+#body type=error resend
+
+def sendanswermessage
+		ActiveRecord::Base.logger.warn "SENDANSWER"
+		return if !params[:test_id]
+		return if !session[:userid]
+		username = 	User.find(session[:userid]).username
+		test_id = params[:test_id].to_i
+		alugroup=Test.find(test_id).work.assignedto
+		return unless alugroup.is_a? AluGroup
+		alugroup.users.each do |u|
+			if u.id != session[:userid]
+				@chat_service.send_message(username,u.username, :sendanswer, test_id)	
+				ActiveRecord::Base.logger.warn "FROM #{username} to #{u.username}"
+			end
+		end
+		render :json => {:status => 'ok' }.to_json
+end
+
+
+
+def starttestresponsemessage
+		#TODO duplicated
+		#ActiveRecord::Base.logger.warn "STARTTESTRESPONSE"
+		if !params[:test_id]
+			render :json => {:error => 'no test id param'}
+			return
+		end
+		test_id = params[:test_id].to_i
+		session[:starttest] = test_id
+		#ActiveRecord::Base.logger.warn "******************************starttest session changed respomess " + session[:starttest].to_s + " session:" + request.session_options[:id]
+		#get_session_data
+		render :json => {:error =>  false}
+end
+
+def starttestmessage
+		ActiveRecord::Base.logger.warn "STARTTEST"
+		return if !params[:test_id]
+		return if !session[:userid]
+		username = 	User.find(session[:userid]).username
+		test_id = params[:test_id].to_i
+		work = Test.find(test_id).work
+		alugroup=work.assignedto
+		return if !alugroup.is_a? AluGroup
+		session[:starttest] = test_id
+		#ActiveRecord::Base.logger.warn "**************************starttest session changed  " + session[:starttest].to_s + " session:" + request.session_options[:id]
+		res = Hash.new
+		alugroup.users.each do |u|
+			if u.id != session[:userid]
+				@chat_service.send_message(username,u.username, :starttest, test_id.to_s + "@" + work.node.course.name + " - " + work.node.content)	
+				ActiveRecord::Base.logger.warn "FROMM #{username} to #{u.username}"
+			end
+		end
+		render :json => {:status => 'ok' }.to_json
+end
+
+def receivemessages
+		return if !session[:userid]
+		username = 	User.find(session[:userid]).username
+		messages =  @chat_service.receive_messages(username)
+		ActiveRecord::Base.logger.warn "********************#{username}**********MESSAGES**"  + messages.to_json
+		render :json => messages.to_json
+end
+
+def disconnect
+		return if !session[:userid]
+		username = 	User.find(session[:userid]).username
+		@chat_service.logout(username)
+		#ActiveRecord::Base.logger.warn "*************************DISCONNECT "  + " session:" + request.session_options[:id]
+		session[:sid] = nil	
+		session[:rid] = nil	
+		session[:starttest] = nil	
+end
+
+private 
+
+
+def get_session_data
+	require 'pg'
+	require 'base64'
+	conn = PGconn.open(:dbname => 'rrgcsl', :user => '' , :password => '')
+	res = conn.exec("select data from sessions where session_id = '#{request.session_options[:id]}';")
+	#ActiveRecord::Base.logger.warn "***********************SESSION DATA **************************"
+	#ActiveRecord::Base.logger.warn Base64.decode64(res[0]['data']) 
+end
+
+
+
+end

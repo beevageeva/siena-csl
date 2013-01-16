@@ -1,0 +1,28 @@
+<h1><%= t('student_alu_group_new_user') %></h1>
+
+<%= form_for(@student_alu_group) do |f| %>
+  	  <% if @student_alu_group.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_save, :count => @student_alu_group.errors.count %></h2>	
+	      <ul>
+	      <% @student_alu_group.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+
+		<%= f.hidden_field :alu_group_id %>
+		<%= hidden_field_tag :next , "node" %>
+		<%= hidden_field_tag :prev , "question" %>
+
+<p>
+  <b><%= t(:username) %>:</b>
+		<%= select('student_alu_group' , "student_id"  , @student_alu_group.alu_group.course.students.includes(:user).order("users.name").collect {|p| [ p.user.name, p.id ] }  )  %>
+<p>
+
+  <p>
+    <%= f.submit t('create') %>
+  </p>
+<% end %>

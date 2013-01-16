@@ -1,0 +1,93 @@
+<h1><%=  t('edit_question') %></h1>
+
+<%= form_for(@question , :html => {:multipart => true }  ) do |f| %>
+  	  <% if @question.errors.any? %>
+	    <div id="error_explanation">
+	      <h2><%= t :error_update, :count => @question.errors.count %></h2>
+	
+	      <ul>
+	      <% @question.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+
+  <p>
+   <%=  t(:content) %> <br/>
+    <%= f.text_area :content %>
+  </p>
+  <p>
+   <%=  t('answerTime') %><br />
+    <%= f.text_field :answerTime %>
+  </p>
+  <p>
+   <%=  t('correct_answer') %><br />
+    <%= f.text_field :correctAnswer %>
+  </p>
+  <p>
+   <%=  t('difficulty') %> <br />
+    <%= f.text_field :difficulty %>
+  </p>
+  <p>
+   <%=  t('luck') %> <br />
+    <%= f.text_field :luck %>
+  </p>
+
+  <p>
+   <%=  t('image') %> <br /> <%= @question.img %>
+    <%= f.file_field  :imgFile %></p>
+    <% if @question.img && @question.img != "" %>
+      <%= link_to t('delete_image') , :action => 'deleteImgFile' , :question_id => @question.id %>
+    <% end %>
+  </p>
+
+
+  <p>
+     <%= t('keywords') %> <br />
+    <%= f.text_field  :keywords %></p>
+  </p>
+
+  <p>
+    <%= f.submit t(:update) %>
+  </p>
+<% end %>
+
+
+
+
+<div id="newresp">
+	<%= render :partial => 'question_responses/list'    %>
+</div>
+
+<br />
+
+<b> <%=  t('assoc_nodes') %></b>
+<%= grid(@nodes, :show_filters => :always) do |st|
+    st.column :name => t('course') do |s|
+            s.course.name
+    end
+    st.column :name => t(:name) do |s|
+            s.content
+    end
+
+    st.column :name => t(:edit_node_question_relation) do |s|
+			link_to "Editar" , edit_node_question_relation_path(s.node_question_relations[0])
+		end
+    st.column :name => t(:delete_node_question_relation) do |s|
+			link_to "Borrar" , s.node_question_relations[0], :confirm => t(:deletion_confirmation), :method => :delete
+		end
+    st.column :name => t('edit_node') do |s|
+			link_to t("edit") , edit_node_path(s.id)  if adminQN(s)
+		end
+    st.column :name => t('dependency') do |s|
+           s.node_question_relations[0].dep
+    end
+
+end %>
+<%= link_to t('node_question_relation_new_node'), :controller => "node_question_relations" , :action => "newNode" , :question_id => @question.id %>
+<br />
+
+<%= link_to t('view'), @question %> |
+<%= link_to t(:back), @question.course %>

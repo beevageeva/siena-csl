@@ -1,0 +1,138 @@
+(in /local/ruby/siena-csl)
+[31m[1mDeprecated AJAX helper calls[0m
+[37mAJAX javascript helpers have been switched to be unobtrusive and use :remote => true instead of having a seperate function to handle remote requests.
+[1mMore information:[0m [36mhttp://www.themodestrubyist.com/2010/02/24/rails-3-ujs-and-csrf-meta-tags/
+
+[37mThe culprits: 
+[33m	- app/views/question_responses/_list.html.erb
+[33m	- app/views/question_responses/_new.html.erb
+[0m
+[31m[1mDeprecated ActionMailer API[0m
+[37mYou're using the old ActionMailer API to send e-mails in a controller, model, or observer.
+[1mMore information:[0m [36mhttp://lindsaar.net/2010/1/26/new-actionmailer-api-in-rails-3
+
+[37mThe culprits: 
+[33m	- app/controllers/users_controller.rb
+[0m
+[31m[1mOld ActionMailer class API[0m
+[37mYou're using the old API in a mailer class.
+[1mMore information:[0m [36mhttp://lindsaar.net/2010/1/26/new-actionmailer-api-in-rails-3
+
+[37mThe culprits: 
+[33m	- app/models/notifier.rb
+[33m	- app/models/alarm_clock.rb
+[33m	- app/models/notifier.rb
+[33m	- app/models/notifier.rb
+[0m
+[31m[1mOld Rails generator API[0m
+[37mA plugin in the app is using the old generator API (a new one may be available at http://github.com/trydionel/rails3-generators).
+[1mMore information:[0m [36mhttp://blog.plataformatec.com.br/2010/01/discovering-rails-3-generators/
+
+[37mThe culprits: 
+[33m	- vendor/plugins/wice_grid/generators/
+[33m	- vendor/plugins/wice_grid/generators/wice_grid_assets/
+[0m
+[31m[1mOld router API[0m
+[37mThe router API has totally changed.
+[1mMore information:[0m [36mhttp://yehudakatz.com/2009/12/26/the-rails-3-router-rack-it-up/
+
+[37mThe culprits: 
+[33m	- config/routes.rb
+[0m
+[31m[1mDeprecated test_help path[0m
+[37mYou now must require 'rails/test_help' not just 'test_help'.
+[1mMore information:[0m [36mhttp://weblog.rubyonrails.org/2009/9/1/gem-packaging-best-practices
+
+[37mThe culprits: 
+[33m	- test/test_helper.rb
+[0m
+[31m[1mSoon-to-be-deprecated ActiveRecord calls[0m
+[37mMethods such as find(:all), find(:first), finds with conditions, and the :joins option will soon be deprecated.
+[1mMore information:[0m [36mhttp://m.onkey.org/2010/1/22/active-record-query-interface
+
+[37mThe culprits: 
+[33m	- app/views/competence_nodes/newNode.html.erb
+[33m	- app/views/student_assigns/listByCourse.html.erb
+[33m	- app/views/competence_groups/newAluGroup.html.erb
+[33m	- app/views/edges/new_dest.html.erb
+[33m	- app/views/edges/new_src.html.erb
+[33m	- app/views/teacher_assigns/listByCourse.html.erb
+[33m	- app/views/user_alu_groups/newUser.html.erb
+[33m	- app/views/works/new.html.erb
+[33m	- app/views/works/newAll.html.erb
+[33m	- app/helpers/mail_log.rb
+[33m	- app/controllers/tests_controller.rb
+[33m	- app/controllers/works_controller.rb
+[33m	- app/controllers/node_question_relations_controller.rb
+[33m	- app/controllers/related_contents_controller.rb
+[33m	- app/controllers/teachers_controller.rb
+[33m	- app/controllers/competence_nodes_controller.rb
+[33m	- app/views/edges/new_dest.html.erb
+[33m	- app/views/edges/new_src.html.erb
+[33m	- app/views/user_alu_groups/newUser.html.erb
+[33m	- app/views/works/new.html.erb
+[33m	- app/views/works/newAll.html.erb
+[33m	- app/helpers/mail_log.rb
+[33m	- app/controllers/tests_controller.rb
+[33m	- app/controllers/works_controller.rb
+[33m	- app/controllers/node_question_relations_controller.rb
+[33m	- app/controllers/related_contents_controller.rb
+[33m	- app/controllers/competence_nodes_controller.rb
+[0m
+[31m[1mDeprecated ERb helper calls[0m
+[37mBlock helpers that use concat (e.g., form_for) should use <%= instead of <%.  The current form will continue to work for now, but you will get deprecation warnings since this form will go away in the future.
+[1mMore information:[0m [36mhttp://weblog.rubyonrails.org/
+
+[37mThe culprits: 
+[33m	- app/views/alu_groups/edit.html.erb
+[33m	- app/views/alu_groups/new.html.erb
+[33m	- app/views/competence_groups/edit.html.erb
+[33m	- app/views/competence_groups/newAluGroup.html.erb
+[33m	- app/views/competence_nodes/newNode.html.erb
+[33m	- app/views/competences/edit.html.erb
+[33m	- app/views/competences/new.html.erb
+[33m	- app/views/courses/edit.html.erb
+[33m	- app/views/courses/new.html.erb
+[33m	- app/views/edges/edit.html.erb
+[33m	- app/views/edges/new_dest.html.erb
+[33m	- app/views/edges/new_src.html.erb
+[33m	- app/views/node_question_relations/edit.html.erb
+[33m	- app/views/node_question_relations/newNode.html.erb
+[33m	- app/views/node_question_relations/newQuestion.html.erb
+[33m	- app/views/nodes/edit.html.erb
+[33m	- app/views/nodes/new.html.erb
+[33m	- app/views/question_responses/_new.html.erb
+[33m	- app/views/question_responses/edit.html.erb
+[33m	- app/views/questions/edit.html.erb
+[33m	- app/views/questions/new.html.erb
+[33m	- app/views/questions/renderQuestion.html.erb
+[33m	- app/views/related_contents/edit.html.erb
+[33m	- app/views/related_contents/new.html.erb
+[33m	- app/views/user_alu_groups/newUser.html.erb
+[33m	- app/views/users/chPw.html.erb
+[33m	- app/views/users/edit.html.erb
+[33m	- app/views/users/new.html.erb
+[33m	- app/views/works/edit.html.erb
+[33m	- app/views/works/new.html.erb
+[33m	- app/views/competence_groups/uploadFile.html.erb
+[33m	- app/views/courses/import.html.erb
+[33m	- app/views/nodes/importFromCompendium.html.erb
+[33m	- app/views/related_contents/uploadFile.html.erb
+[33m	- app/views/student_assigns/listByCourse.html.erb
+[33m	- app/views/teacher_assigns/listByCourse.html.erb
+[33m	- app/views/users/get_lost_password.html.erb
+[33m	- app/views/users/listChats.html.erb
+[33m	- app/views/users/listChatsByUserAndDate.html.erb
+[33m	- app/views/users/login.html.erb
+[33m	- app/views/works/newAll.html.erb
+[0m
+[31m[1mDeprecated constant(s)[0m
+[37mConstants like RAILS_ENV, RAILS_ROOT, and RAILS_DEFAULT_LOGGER are now deprecated.
+[1mMore information:[0m [36mhttp://litanyagainstfear.com/blog/2010/02/03/the-rails-module/
+
+[37mThe culprits: 
+[33m	- app/models/question.rb
+[33m	- app/models/related_content.rb
+[33m	- app/models/competence_group.rb
+[33m	- app/helpers/courses_helper.rb
+[0m

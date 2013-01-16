@@ -1,0 +1,23 @@
+<h1><%= t('question_list') %> </h1>
+<%= grid(@questions, :show_filters => :always) do |question|
+
+   question.column :name => 'Id', :attribute => 'id'  do |n|
+           n.id
+    end
+   question.column :name => t('course'), :model => Course , :attribute => 'name', :custom_filter => :auto do |n|
+           n.course.name
+    end
+   question.column :name => t(:content), :attribute => 'content' do |n|
+            n.content
+    end
+    question.column :name => t(:view) do |n|
+    	link_to t(:view), n
+		end
+    question.column :name => t(:edit) do |n|
+    	link_to t(:edit)  , edit_question_path(n)
+		end
+    question.column :name => t(:delete) do |n|
+    	link_to t(:delete) , n, :confirm => t(:deletion_confirmation) , :method => :delete
+		end
+
+end %>

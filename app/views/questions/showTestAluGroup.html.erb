@@ -1,0 +1,30 @@
+<h1> <%= t('question') %> <%= Test.find(params[:test_id]).answers.size %></h1>
+  <p>
+    <%= raw @question.content %>
+  </p>
+
+
+
+<% if @question.img %>
+ <img src="/questions/<%= @question.img %>" width="360" />
+
+<% end %>
+
+<ol type="a">
+<% @question.question_responses.each do |resp| %>
+  <li>
+   <%= raw resp.response %>
+  </li>
+<% end %>
+</ol>
+
+
+<p>
+  <b> <%= t('answerTime') %>:</b>
+  <%=h @question.answerTime %>
+</p>
+
+Answer user:
+<p>
+  <%=h  @answer.student.user.username %>(<%= link_to "Reassign" , :controller => "questions" , :action => "regenerate_student_id" , :test_id => @answer.test_id %>)
+</p>

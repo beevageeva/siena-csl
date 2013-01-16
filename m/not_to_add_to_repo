@@ -1,0 +1,5 @@
+public/questions/
+log/*
+config/database.yml
+public/mapImages/*
+public/competenceGroupsFiles/*

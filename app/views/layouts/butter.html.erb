@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Title      : Butterfly 
+Version    : 1.0
+Released   : 20110627
+Description: A two-column web design, best for your personal and business blogging.
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<%= render :partial => 'layouts/header' %>
+<link href="/butter/default.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="wrapper-bgtop">
+		<!-- start header -->
+		<div id="header">
+			<div id="logo">
+				<h1><a href="#">SIENA-csl</a></h1>
+		
+			<% if session[:userid] %>
+				<p><a href="#"><%= User.find(session[:userid]).username %></a></p>
+			<% end %>
+			</div>
+			<div id="menu">
+				<ul>
+			<li><%= link_to t('home'), :controller => "users" , :action => "getUserHome" %></li>
+			<li><%= link_to t('help'), :controller => "users" , :action => "help"  %></li>
+			<% if session[:userid]  %>
+			<li><%= link_to t('profile'), :controller => "users" , :action => "edit" ,  :id => session[:userid] %></li>
+			<li><%= link_to t('logout'), logout_path  %></li>
+			<% if User.find(session[:userid]).useraccount_type == User::ADMIN  %>
+				<li><%= link_to t('user_list'), users_path  %></li>
+				<li><%= link_to t('course_list'), courses_path  %></li>
+				<li><%= link_to t('question_list'), questions_path  %></li>
+				<li><%= link_to t('node_list'), nodes_path  %></li>
+				<li><%= link_to t('content_list'), related_contents_path  %></li>
+				<li><%= link_to t('competence_list'), competences_path  %></li>
+			<% end %>
+			<% if User.find(session[:userid]).useraccount_type == User::PROF  %>
+				<li><%= link_to t('course_list'), courses_path  %></li>
+				<li><%= link_to t('competence_list'), competences_path  %></li>
+			<% end %>
+			<% if User.find(session[:userid]).useraccount_type == User::ALU  %>
+				<li><%= link_to t('course_list'), courses_path  %></li>
+				<li><%= link_to t('competence_list'), :controller => 'competences' , :action => 'listByGroups'  %></li>
+			<% end %>
+			<% else %>
+			<li><%= link_to t('login'), login_path %></li>
+			<% end %>
+
+				</ul>
+			</div>
+		</div>
+		<hr />
+		<!-- end header -->
+		<!-- start page -->
+		<div id="page">
+			<!-- start content -->
+			<div id="content">
+				<div class="post">
+				<div class="entry">
+			<p style="color: green"><%= flash[:notice] %></p>
+			<%= render :partial => 'layouts/messenger' %>
+			<%= yield  %>
+			</div>
+			</div>
+			</div>
+			<!-- end content -->
+			<br style="clear: both;" />
+		</div>
+		<!-- end page -->
+		<!-- start footer -->
+		<div id="footer">
+			<table><tr>
+			<% ApplicationHelper::GREEN_THEMES.each do |t| %>
+			<td><%= link_to t, :controller => "users" ,:action => "changeTheme",  :theme => t %></td>
+
+			<% end %>
+			</tr></table>
+			<table><tr>
+			<% I18n.available_locales.each do |t| %>
+			<td><%= link_to t, :controller => "users" ,:action => "set_locale",  :locale => t %></td>
+
+			<% end %>
+			</tr></table>
+			<!-- end footer -->
+		</div>
+	</div>
+</div>
+</body>
+</html>

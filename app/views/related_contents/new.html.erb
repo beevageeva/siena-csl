@@ -1,0 +1,31 @@
+<h1><%=  t('node_new_related_content') %> </h1>
+
+<%= form_for(@related_content) do |f| %>
+  	  <% if @related_content.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_save, :count => @related_content.errors.count %></h2>	
+	
+	      <ul>
+	      <% @related_content.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+    <%= f.hidden_field :node_id %>
+
+  <p>
+		<%=  t('recuperation') %><br />
+    <%= f.check_box :recover %>
+  </p>
+  <p>
+    <%=  t(:description) %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.submit t(:create) %>
+  </p>
+<% end %>
+
+<%= link_to t(:back), edit_node_path(@related_content.node) %>

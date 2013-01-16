@@ -1,0 +1,24 @@
+<%= form_for(@alu_group) do |f| %>
+  	  <% if @alu_group.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_save, :count => @alu_group.errors.count %></h2>	
+	      <ul>
+	      <% @alu_group.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+  <p>
+    <%= t :name %><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= t :course %><br />
+	<%= select( "alu_group" , "course_id" , Course.find(:all).collect{|c| [c.name,c.id] } ) %>
+  </p>
+  <p>
+    <%= f.submit t('submit') %>
+  </p>
+<% end %>

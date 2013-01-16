@@ -1,0 +1,14 @@
+
+		<p>	<table border="1">
+			  <tr>
+					<th>FROM</th>
+					<th>N. MESSAGES</th>
+				</tr>
+				<% @msgtable.keys.sort.each do |username| %>
+					<tr>		
+						<td><%= username %></td>
+						<td><%= @msgtable[username] %></td>
+					</tr>
+				<%   end  %>
+			</table>
+		</p>

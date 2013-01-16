@@ -1,0 +1,24 @@
+
+<h1> <%= t('related_content_list_node' , :node => Node.find(params[:node_id]).content) %>  </h1>
+
+<% if params[:recover] == "true" %>
+	<p><b> <%= t('recuperation') %>  </b></p>
+<% end %>
+
+<table>
+  <tr>
+    <th><%= t('filename') %></th>
+    <th><%= t(:description) %></th>
+  </tr>
+
+<% @related_contents.each do |related_content| %>
+  <tr>
+    <td><a href=<%= "/relatedContents/#{related_content.id}/#{related_content.filename}" %>><%=h related_content.filename %></a></td>
+    <td><%=h related_content.description %></td>
+    <td><%= link_to "HTML" , :action =>  "view_as_html", :related_content_id => related_content.id , :filename => related_content.filename  %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

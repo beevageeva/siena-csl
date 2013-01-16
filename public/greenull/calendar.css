@@ -1,0 +1,127 @@
+#bloque1 {
+  float: left;
+  height: 250px;
+  width: 35%;
+  margin-left: 0%;
+  margin-top: 0%;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+	text-align: center;
+}
+
+#bloque2 {
+  float: left;
+  height: 420px;
+  width: 55%;
+  margin-left: 8%;
+  margin-top: 0%;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+#bloque3 {
+  float: left;
+  height: 100px;
+  width: 100%;
+  margin-left: 0%;
+  margin-top: 35%;
+  /*border: 1px solid #ccc;
+  background-color: #f9f9f9;*/
+	text-align:left;
+}
+
+.schedule {
+	/*margin: auto;*/
+	border-collapse: collapse;
+	border: 1px solid #7994a7;
+	vertical-align: top;
+	clip:  rect(auto, auto, 10px, auto);
+	margin-bottom: 12px;
+	margin-top:12px;
+}
+
+.schedule td {
+	text-align: center;
+	border-collapse: collapse;
+	background-color: #fff;
+	padding: 4px;
+	border: 1px solid #645A86;
+}
+
+.schedule td a {
+	text-decoration: none;
+	color: #002f67;
+	font-size: 0.8em;
+}
+
+.schedule td.scheduleHeader a {
+	color: black;
+	text-decoration: none;
+	text-align: center;
+}
+
+.schedule td.scheduleHeader {
+	text-align: center;
+	background-color: #d5e3f8;
+	border: 0px;
+}
+
+.schedule td.scheduleHeader {
+	color: #666;
+}
+
+.scheduleHeader tr {
+	text-align: center;
+	background-color: green;
+}
+
+.schedule td.scheduleDays {
+	font-weight: bold;
+	text-align: center;
+	background-color: #990099;
+	border: 0px;
+	font-size: 0.7em;
+	font-size: 14px;
+	color: #FFFFFF;
+}
+
+.schedule td.scheduleToday 
+{
+	background-color: #fce09f;
+	font-weight: bold;	
+}
+
+.schedule td.scheduleNoDay
+{
+	background-color: #8A7CB9;
+	background-color: #d6d6d6;
+}
+
+.schedule td.scheduleEvent
+{
+	background-color: #d5e3f8;
+	color: green;
+}
+
+.schedule td.scheduleEvents
+{
+	background-color: red;
+	color: green;
+}
+
+.OverLap
+{
+/*
+  	background-color: ;
+	color: ;
+*/
+}
+
+.meses {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-align: center;
+	color: #999999;
+
+}

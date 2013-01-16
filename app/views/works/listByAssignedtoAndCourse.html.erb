@@ -1,0 +1,69 @@
+<h1><%=  t('work_list_student_course', :studentname =>  @name ,:coursename =>  Course.find(params[:course_id]).name) %>   </h1>
+
+<table>
+  <tr>
+    <th><%= t('node') %></th>
+    <th><%= t('initialpoints') %></th>
+  </tr>
+
+<% for work in @works %>
+  <tr>
+    
+<td><%=h work.node.content %></td>
+    <td><%=h work.initialpoints %></td>
+	
+	<% if User.find(session[:userid]).useraccount_type == User::PROF %>
+
+    <td><%= link_to t('view'), work %></td>
+    <td><%= link_to t('edit'), edit_work_path(work) %></td>
+    <td><%= link_to t('delete'), work, :confirm => 'Are you sure?', :method => :delete %></td>
+	
+	<% end %>
+	<% if User.find(session[:userid]).useraccount_type == User::ALU %>
+	
+    <td>
+			<%  if canTest(work.node, params[:assignedto_id], params[:assignedto_type])   %>
+				<%= link_to t('test'), url_for(:controller => 'questions' , :action => 'starttest' , :work_id => work.id) %>
+			<% end %>
+
+</td>
+    <% if recuperation?(work.node_id, params[:assignedto_id], params[:assignedto_type]) %>
+    <td><%= link_to t('related_content_list_recuperation'), :controller => "related_contents" , :action => "listByNodeAndRecover" , :recover => 'true', :node_id => work.node_id %></td>
+		<% else %>
+    <td><%= link_to t('related_content_list'), :controller => "related_contents" , :action => "listByNodeAndRecover" , :recover => 'false' , :node_id => work.node_id %></td>
+		<% end %>
+    <% if testsPassed?(work.node_id, params[:assignedto_id], params[:assignedto_type]) %>
+			<td> <%= t('passed')  %></td>
+		<% else %>
+			<td> <%= t('not_passed') %></td>
+		<% end %>
+
+	<% end %>
+
+
+
+    <td>
+	<%= 
+		#test if there are tests
+		if work.tests and work.tests.length > 0
+			link_to t('view') + ' tests', :controller => 'tests' , :action => 'listByWork' , :work_id => work.id 
+		else
+			""
+		end
+
+	 %>
+
+	</td>
+
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<% if User.find(session[:userid]).useraccount_type == User::PROF   || User.find(session[:userid]).useraccount_type == User::ADMIN  %>
+	<%= link_to t('new_work'), :action => "new" , :assignedto_type => params[:assignedto_type] , :assignedto_id => params[:assignedto_id] , :course_id => params[:course_id] %> <br/>
+	<%= link_to t('back'), :controller => "student_assigns" , :action => "listByCourse" , :course_id => params[:course_id] %> <br/>
+<% else %>
+	<%= link_to t('back'), :controller => 'courses' , :action => "show" , :id => params[:course_id] %> <br/>
+<% end %>

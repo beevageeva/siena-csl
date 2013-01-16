@@ -1,0 +1,26 @@
+<h1><%= t('node_list') %></h1>
+
+
+<%= grid(@nodes, :show_filters => :always) do |node|
+
+   node.column :name => t('course'), :model => Course , :attribute => 'name', :custom_filter => :auto do |n|
+           n.course.name
+    end
+   node.column :name => t('content') , :attribute => 'content' do |n|
+            n.content
+    end
+   node.column :name => t('minPassPoints') do |n|
+            n.minPassPoints
+    end
+    node.column :name => t('view') do |n|
+    	link_to t('view'), n
+		end
+    node.column :name => t('edit') do |n|
+    	link_to t('edit'), edit_node_path(n) 
+		end
+    node.column :name => t('delete') do |n|
+    	link_to t('delete'), n, :confirm => t('deletion_confirmation'), :method => :delete 
+		end
+
+end %>
+

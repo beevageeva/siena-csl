@@ -1,0 +1,27 @@
+
+<b> <%= t('competence_list') %></b>
+<%= grid(@competences, :show_filters => :always) do |st|
+    st.column :name => t('name')  , :attribute => 'name'   do |s|
+			result = ""
+      result += "<b>" + s.name + "</b>&nbsp;" + (competencePassed?(s) ?  t('passed') : t('not_passed'))
+			result+="&nbsp;"
+			cg = CompetenceGroup.find_by_competence_id_and_alu_group_id(s.id, params[:alu_group_id])
+			if !cg.points.nil?
+				result+=cg.points.to_s
+			end
+			if !cg.filename.nil?
+				result+="<a href='/#{CompetenceGroup::UPLOAD_DIR_REL}/#{cg.filename}'> #{cg.filename}</a>"
+			end
+			result+="&nbsp;"
+			result+=link_to t("upload_competence_file") , :controller => 'competence_groups', :action => 'uploadFile' , :alu_group_id => params[:alu_group_id] , :competence_id => s.id
+			result +="<table>"
+			s.nodes.each do |n|
+				result+="<tr><td>" + n.content + "</td><td>"+ n.course.name  +  "</td><td>" + (testsPassed?(n.id) ? t('passed') : t('not_passed')) + "</td></tr>"		
+			end
+			result +="</table>"
+			[result , {}]
+    end
+
+
+
+end %>

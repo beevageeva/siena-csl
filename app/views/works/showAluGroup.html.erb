@@ -1,0 +1,40 @@
+
+
+<%= render :partial => 'show' %>
+
+<hr/>
+<h2>Chat</h2>
+
+<script>
+	$(function() {
+		$( "#tabs" ).tabs();
+	});
+	</script>
+
+
+
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+<!-- link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css" type="text/css" media="all" /-->
+
+
+<div class="demo">
+
+<div id="tabs">
+	<ul>
+		<!--li><a href="#tabs-1">Info</a></li>
+		<li><a href="#tabs-2">Graph</a></li -->
+		<li><a href="#tabs-3">Messages</a></li>
+	</ul>
+	<div id="tabs-3">
+		<%= render 'chat_messages/list' %>
+	</div -->
+</div>
+
+</div><!-- End demo -->
+
+
+
+<div style="display: none;" class="demo-description">
+<p>Click tabs to swap between content that is broken into logical sections.</p>
+</div><!-- End demo-description -->

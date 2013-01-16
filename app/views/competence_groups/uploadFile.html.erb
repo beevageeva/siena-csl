@@ -1,0 +1,29 @@
+
+<h1><%= t(:competence_upload_file , :name => @competence_group.competence.name) %> </h1>
+
+<%= form_tag({:controller => 'competence_groups' , :action => 'saveUploadFile'}, {:method => :post , :multipart => true }) do |f| %> 
+
+	<%= error_messages_for 'competence_group' %>
+
+		 <%= hidden_field_tag :id , @competence_group.id   %>
+
+	<p>
+		<b><%= t('description') %></b><br/>
+		<%=h @competence_group.competence.description %>
+
+	</p>
+
+		<% if !@competence_group.filename.nil? %>
+
+		
+		 <%= t('file_will_be_deleted') +   "<a href= ' /#{CompetenceGroup::UPLOAD_DIR_REL}/#{@competence_group.filename}' >  #{@competence_group.filename} </a>" %>
+
+		<% end %>
+  <p>
+    <%= t(:upload_file) %> <br />
+		 <%= file_field_tag :filename %>
+  </p>
+  <p>
+    <%= submit_tag t('upload') %>
+  </p>
+<% end %>

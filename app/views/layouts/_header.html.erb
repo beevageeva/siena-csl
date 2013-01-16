@@ -1,0 +1,12 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= csrf_meta_tags %>
+
+<% if session[:userid]  && User.find(session[:userid]).useraccount_type == User::ALU%>
+	<script src="/jabberweb/js/chat.js" type="text/javascript"></script >
+	<link type="text/css" rel="stylesheet" media="all" href="/jabberweb/css/chat.css" />
+<% end %>
+
+ 
+

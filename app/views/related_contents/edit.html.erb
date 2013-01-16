@@ -1,0 +1,60 @@
+<h1><%= t('edit_related_content') %> </h1>
+
+<%= form_for(@related_content) do |f| %>
+  	  <% if @related_content.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_update, :count => @related_content.errors.count %></h2>	
+	      <ul>
+	      <% @related_content.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+
+  <p>
+   <%= t('main_file') %><br />
+    <%= @related_content.filename %>
+  </p>
+  <p>
+   <%= t('recuperation') %> <br />
+    <%= f.check_box :recover %>
+  </p>
+  <p>
+   <%= t(:description) %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.submit t('update') %>
+  </p>
+<% end %>
+
+<br />
+
+<b><%= t('uploaded_files') %>:</b>
+<table>
+
+<% i = 0 %>
+<% @related_content.uploadedFiles.each do |n| %>
+  <tr>
+    <td><%=h n %></td>
+    <td><%= link_to t('delete'),:action => "deleteFile" , :related_content_id => @related_content.id , :name => i %></td>
+    <td><%= link_to t('main_file'),:action => "mainFile" , :related_content_id => @related_content.id , :name => i %></td>
+  </tr>
+<% i+=1 %>
+
+<% end %>
+</table>
+<%= link_to  t(:upload_file), :controller=>"related_contents",  :action=>"uploadFile",  :related_content_id=>@related_content.id %>
+
+
+
+<br />
+
+
+<%= link_to t('view'), @related_content %> |
+<%= link_to t('view_assoc_node'), :controller => "nodes" , :action => "show", :id => @related_content.node_id %>
+<% if @related_content.node.teacher_id == session[:useraccount_id] %>
+|<%= link_to t('edit_assoc_node'), :controller => "nodes" , :action => "edit", :id => @related_content.node_id %>
+<% end %>

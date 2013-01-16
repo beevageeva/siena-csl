@@ -1,0 +1,38 @@
+<p>
+<% if  @chatmessages.length > 0  %>
+<table>
+  <tr>
+    <th>From</th>
+    <th>To</th>
+    <th>Body</th>
+    <th>Question</th>
+    <th></th>
+  </tr>
+
+<% @chatmessages.each do |chat_message| %>
+  <tr>
+    <td><%= chat_message.from.user.username %></td>
+    <td><%= chat_message.to.user.username %></td>
+    <td><%= chat_message.body.split(":",3)[2] %></td>
+		<td>
+			<%=  chat_message.grouptest_chatmessages[0].qnumber %>
+		</td>
+		<td>
+			<% if [User::ADMIN, User::PROF].include? User.find(session[:userid]).useraccount_type   %>
+				<% if defined? @work 
+						redirect = "work"
+					 elsif defined? @test
+						redirect = "test"
+					 end
+				%>	
+ 
+  		  <%= link_to t('delete'),url_for(:controller => 'grouptest_chatmessages' , :action => 'destroy' , :chat_message_id => chat_message.grouptest_chatmessages[0].id, :redirect => redirect),{:confirm => 'Are you sure?', :method => :delete} %>
+			<% end %> &nbsp;
+		</td>
+
+  </tr>
+<% end %>
+</table>
+<% end %>
+</p>
+

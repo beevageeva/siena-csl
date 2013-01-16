@@ -1,0 +1,44 @@
+<h1> <%=  t :new_user %></h1>
+
+<%= form_for(@user) do |f| %>
+  	  <% if @user.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_save, :count => @user.errors.count %></h2>	
+	
+	      <ul>
+	      <% @user.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+
+ <%= f.select  "useraccount_type" , getUserAccountOptions %>
+
+
+  <p>
+   <%=  t :username %> <br />
+    <%= f.text_field :username %>
+  </p>
+  <p>
+    <%=  t :password %><br />
+    <%= f.password_field :password %>
+  </p>
+  <p>
+    <%=  t :email %><br />
+    <%= f.text_field :email %>
+  </p>
+  <p>
+    <%=  t :name %><br />
+    <%= f.text_field :name %>
+  </p>
+
+	<%= show_simple_captcha %>
+
+  <p>
+    <%= f.submit t("register") %>
+  </p>
+<% end %>
+
+<%= link_to t('back'), login_path %>

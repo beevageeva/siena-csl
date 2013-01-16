@@ -1,0 +1,41 @@
+<h1><%= t :course_list %></h1>
+
+<%= grid(@courses, :show_filters => :always) do |course|
+    course.column  :name => t('name') , :attribute => "name"  do |c|
+			c.name
+		end
+    	course.column  :name => t('view')  do |c|
+			if User.find(session[:userid]).useraccount_type == User::ALU or User.find(session[:userid]).useraccount_type == User::PROF
+				s = eval("#{User.find(session[:userid]).useraccount_type}Assign.find_by_#{underscore(User.find(session[:userid]).useraccount_type)}_id_and_course_id(session[:useraccount_id] , c.id)")
+			end
+	  	link_to t('view'), c  if User.find(session[:userid]).useraccount_type == User::ADMIN or s
+		end
+		if User.find(session[:userid]).useraccount_type == User::ADMIN 
+    	course.column  :name => t('edit')  do |c|
+    		link_to t('edit'), edit_course_path(c)
+			end
+    	course.column  :name => t('delete')  do |c|
+    		link_to t('delete'), c, :confirm => t('deletion_confirmation'), :method => :delete
+			end
+		end
+		if User.find(session[:userid]).useraccount_type == User::ALU or User.find(session[:userid]).useraccount_type == User::PROF
+    	course.column  :name => t('state')  do |c|
+				s = eval("#{User.find(session[:userid]).useraccount_type}Assign.find_by_#{underscore(User.find(session[:userid]).useraccount_type)}_id_and_course_id(session[:useraccount_id] , c.id)")
+				if not s
+    			link_to t('add_to_course'), :controller => "#{underscore(User.find(session[:userid]).useraccount_type)}_assigns" , :action => 'enroll' , :course_id => c.id 
+				else
+    			link_to t('delete_from_course'), s, :confirm => 'Are you sure?', :method => :delete 
+				end 
+			end
+		end
+
+end %>
+
+<br />
+
+<% if User.find(session[:userid]).useraccount_type == User::ADMIN %>
+	<%= link_to t('new_course'), new_course_path %>
+	<br/><%= link_to t('import_xml'), :action => :import %>
+<% else %>
+	<%= link_to t('enrolled_courses'), :action => 'indexAssigned' %>
+<% end %>

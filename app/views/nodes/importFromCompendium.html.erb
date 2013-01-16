@@ -1,0 +1,14 @@
+<h1><%= t('import_compendium_map') %></h1>
+
+
+
+<%= form_tag({:controller => 'nodes' , :action => 'saveImportFromCompendium'  }, {:method => :post , :multipart => true}) do |f| %>
+	<%= hidden_field_tag :course_id , params[:course_id] %>
+  <p>
+    <%= t('upload_file') %><br />
+    <%= file_field_tag :mapFile %>
+  </p>
+  <p>
+    <%= submit_tag t('import') %>
+  </p>
+<% end %>

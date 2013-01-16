@@ -1,0 +1,94 @@
+<p>
+  <b><%= t('finished') %>:</b>
+  <%=h @test.finished %>
+</p>
+
+<p>
+  <b><%= t('points') %>:</b>
+  <%=h "%5.3f" %  @test.points %>
+</p>
+
+<table border="1">
+  <tr>
+    <th>#</th>
+    <th><%= t('answer') %></th>
+    <th><%= t('correct_answer') %></th>
+    <th><%= t('timeleft') %></th>
+    <th><%= t('question') %></th>
+    <th><%= t('points_before') %></th>
+    <th><%= t('points_after') %></th>
+  </tr>
+<%   @test.answers.each_with_index do |answer,i|  %>
+  <tr>
+    <td><%=h i  %></td>
+    <td><%=h answer.number %></td>
+    <td><%=h answer.correctAnswer? %></td>
+    <td><%=h answer.timeleft %></td>
+    <td><%=h answer.question.content %></td>
+    <td><%=h  "%5.3f" %   answer.pointsBefore %></td>
+    <td><%=h  "%5.3f" %   
+						if i < @test.answers.length - 1
+							@test.answers[i+1].pointsBefore 	
+						else
+							@test.points
+						end
+				%>
+
+
+
+	</td>
+  <% if @test.work.assignedto_type == Work::ASSIGNEDTOALUGROUP%> 	
+    <td><%=h answer.student.user.name %></td>
+ <% end %>	
+ 
+ </tr>
+<% end %>
+</table>
+
+<hr/>
+<h2>Info</h2>
+
+<script>
+	$(function() {
+		$( "#tabs" ).tabs();
+	});
+	</script>
+
+
+
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
+
+<div class="demo">
+
+<div id="tabs">
+	<ul>
+  <% if @test.work.assignedto_type == Work::ASSIGNEDTOALUGROUP%> 	
+		<li><a href="#tabs-1">Info</a></li>
+		<li><a href="#tabs-2">Messages</a></li>
+ <% end %>	
+		<li><a href="#tabs-3">vtq</a></li>
+	</ul>
+  <% if @test.work.assignedto_type == Work::ASSIGNEDTOALUGROUP%> 	
+	<div id="tabs-1">
+		<%= render 'chat_messages/msglist' %>
+	</div>
+	<div id="tabs-2">
+		<%= render 'chat_messages/list' %>
+	</div>
+ <% end %>	
+	<div id="tabs-3">
+		<%= render 'viewed_test_questions_list' %>
+	</div>
+</div>
+
+</div><!-- End demo -->
+
+
+
+<div style="display: none;" class="demo-description">
+<p>Click tabs to swap between content that is broken into logical sections.</p>
+</div><!-- End demo-description -->
+
+

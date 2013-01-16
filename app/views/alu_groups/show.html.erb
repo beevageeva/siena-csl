@@ -1,0 +1,21 @@
+<p>
+  <b><%=  t('name')  %></b>
+  <%=h @alu_group.name %>
+</p>
+  <b><%=  t('course_name')  %></b>
+  <%=h @alu_group.course ? @alu_group.course.name : "NINGUNA" %>
+</p>
+
+<b> <%= t('user_list') %></b>
+<%= grid(@students, :show_filters => :always) do |st|
+    st.column :name => t('name')  do |s|
+            s.user.name
+    end
+    st.column :name => t('username') do |s|
+           s.user.username
+    end
+
+
+end %>
+
+<%= link_to t('edit'), edit_alu_group_path(@alu_group)  %>

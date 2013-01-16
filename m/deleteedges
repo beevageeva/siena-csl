@@ -1,0 +1,3 @@
+ delete from edges e where not exists (select * from nodes n  where n.id = e.src_id);
+ delete from edges e where not exists (select * from nodes n  where n.id = e.dest_id);
+

@@ -1,0 +1,9 @@
+
+1. modif remote
+REMOTE modificar , commit, push
+ISAATC update (o merge si se ha modif local_)
+
+2. modif isaatc
+ISAATC modif, commit
+REMOTE pull, update(o merge si se ha modif local_)
+

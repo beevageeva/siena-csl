@@ -1,0 +1,383 @@
+<!DOCTYPE html PUBLIC "-//W3C//Dtd XHTML 1.1 plus MathML 2.0//EN" "mathml.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+	<head>
+		
+    	<title>Ulbra</title>
+			<link rel="stylesheet" href="/ulbra/content.css" type="text/css" title="normal" id="css01"/>
+			<link rel="stylesheet" href="/ulbra/estilos.css" type="text/css" title="normal" id="css02"/>
+			<link rel="stylesheet" href="/ulbra/reticula.css" type="text/css" title="normal" id="css03"/>
+			<link rel="stylesheet" href="/ulbra/calendar.css" type="text/css" title="normal" id="css04"/>
+	
+		<%= render :partial => 'layouts/header' %>	
+
+</head>
+
+
+			<body id="body">
+		<div id="divMain">	
+		<div id="cabecera">
+	<a href="http://www.ulbra.br">
+		<img src="/ulbra/logo.gif" border="0" alt="Ulbra"/>
+	</a>
+			
+
+		
+
+				
+    				<div id="central">
+	<div id="basecontenido" class="clearfix">
+		
+
+<div id="menulateral">
+ <table class="menu">
+    <tbody>
+    <tr>
+     <td>  </td></tr></tbody></table>
+
+ <table class="menu">
+    <tbody>
+    <tr>
+     <td>
+
+		</td></tr></tbody></table>
+
+ <table class="menu">
+    <tbody>
+    <tr>
+     <td>
+
+		</td></tr></tbody></table>
+	<img alt="separador" src='/images/separamenu.gif'/>
+ <table class="menu">
+    <tbody>
+    <tr>
+     <td>
+			<%= link_to t('home'), :controller => "users" , :action => "getUserHome" %>
+
+		</td></tr></tbody></table>
+
+	<img alt="separador" src='/images/separamenu.gif'/>
+<table class="menu">
+    <tbody>
+    <tr valign="top">
+     <td>
+		<%= link_to t('help'), :controller => "users" , :action => "help"  %>
+		</td></tr></tbody></table>
+
+<% if session[:userid] %>
+<!-- logged users -->
+
+	<img alt="separador" src='/images/separamenu.gif'/>
+		<h3> <center> Opciones para <%= t(User.find(session[:userid]).useraccount_type)  %> (<%= User.find(session[:userid]).username  %>)</center>  </h3>
+	
+	<img alt="separador" src='/images/separamenu.gif'/>
+<table class="menu">
+    <tbody>
+    <tr valign="top">
+     <td>
+		<%= link_to t('profile'), :controller => "users" , :action => "edit" ,  :id => session[:userid] %>
+		</td></tr></tbody></table>
+
+
+
+
+<% if User.find(session[:userid]).useraccount_type == User::ADMIN  %>
+
+	<img alt="separador" src='/images/separamenu.gif'/>
+<table class="menu">
+    <tbody>
+    <tr valign="top">
+     <td>
+	<%= link_to  link_to t('user_list'), users_path  %>
+		</td></tr></tbody></table>
+
+	<img alt="separador" src='/images/separamenu.gif'/>
+<table class="menu">
+    <tbody>
+    <tr valign="top">
+     <td>
+			<%= link_to  link_to t('course_list'), courses_path  %>
+		</td></tr></tbody></table>
+
+	<img alt="separador" src='/images/separamenu.gif'/>
+<table class="menu">
+    <tbody>
+    <tr valign="top">
+     <td>
+			<%= link_to  link_to t('question_list'), questions_path  %>
+		</td></tr></tbody></table>
+
+	<img alt="separador" src='/images/separamenu.gif'/>
+<table class="menu">
+    <tbody>
+    <tr valign="top">
+     <td>
+		<%= link_to  link_to t('node_list'), nodes_path  %>
+		</td></tr></tbody></table>
+
+	<img alt="separador" src='/images/separamenu.gif'/>
+<table class="menu">
+    <tbody>
+    <tr valign="top">
+     <td>
+			<%= link_to  link_to t('content_list'), related_contents_path  %>
+		</td></tr></tbody></table>
+
+
+
+	<img alt="separador" src='/images/separamenu.gif'/>
+<table class="menu">
+    <tbody>
+    <tr valign="top">
+     <td>
+			<%= link_to  link_to t('competence_list'), competences_path  %>
+		</td></tr></tbody></table>
+<% end %>
+
+
+
+<% if User.find(session[:userid]).useraccount_type == User::PROF %>
+	<img alt="separador" src='/images/separamenu.gif'/>
+<table class="menu">
+    <tbody>
+    <tr valign="top">
+     <td>
+
+<%= link_to  link_to 'Lista de asignaturas', courses_path  %>
+		</td></tr></tbody></table>
+
+	<img alt="separador" src='/images/separamenu.gif'/>
+<table class="menu">
+    <tbody>
+    <tr valign="top">
+     <td>
+			<%= link_to  link_to t('competence_list'), competences_path  %>
+		</td></tr></tbody></table>
+<% end %>
+<% if User.find(session[:userid]).useraccount_type == User::ALU %>
+
+
+	<img alt="separador" src='/images/separamenu.gif'/>
+<table class="menu">
+    <tbody>
+    <tr valign="top">
+     <td>
+
+<%= link_to  link_to 'Lista de asignaturas', courses_path  %>
+		</td></tr></tbody></table>
+
+	<img alt="separador" src='/images/separamenu.gif'/>
+<table class="menu">
+    <tbody>
+    <tr valign="top">
+     <td>
+
+<%= link_to  link_to t('competence_list'), :controller => 'competences' , :action => 'listByGroups'  %>
+		</td></tr></tbody></table>
+
+
+
+<% end %>
+
+<% end %>	
+<!-- END ADMIN -->
+
+	<img alt="separador" src='/images/separamenu.gif'/>
+<table class="menu">
+    <tbody>
+    <tr valign="top">
+     <td>
+                        <% if session[:userid].nil? %>
+															<%= link_to t('login'), login_path %>
+                        <% else %>
+																<%= link_to t('logout'), logout_path  %>
+                        <% end %>
+
+        </td></tr></tbody></table>
+
+	<img alt="separador" src='/images/separamenu.gif'/>
+
+
+</div>
+
+			      
+					<div id="contenedorsecundario" class="clearfix">  
+<div id="contenido">
+	<div id="child">
+
+<p style="color: green"><%= flash[:notice] %></p>
+
+
+
+<%= yield -%>
+<% if session[:userid] && User.find(session[:userid]).useraccount_type == User::ALU %>
+	<%= render :partial => 'layouts/messenger' %>	
+<% end %>
+</div>
+
+
+			<div id="right_help" style="display: none;">
+				<a href="#" class="cerrar" onclick="javascript:AlternateShowHide('right_help');" ><img src="/images/cancel.gif" alt="cerrar"/></a>
+													No hay ayuda sobre este tema
+											</div>
+				</div>
+			</div>
+	</div>
+
+
+	 <div id="footer">
+			<table><tr>
+			<% ApplicationHelper::GREEN_THEMES.each do |t| %>
+			<td><%= link_to t ,  :controller => "users" ,:action => "changeTheme",  :theme => t %></td>
+
+			<% end %>
+			</tr></table>
+
+
+			<table><tr>
+			<% I18n.available_locales.each do |t| %>
+			<td><%= link_to t, :controller => "users" ,:action => "set_locale",  :locale => t %></td>
+
+			<% end %>
+			</tr></table>
+
+
+		<img style="border: 0px; width:100%; margin-top:4px" src="/images/bluefooter.jpg" alt=""/>
+      <strong>Ulbra</strong>Porto alegre, Brasil<br/>
+
+		<div id="acerca">
+			
+			<a href="http://www.ulbra.br/">Acerca de la web</a>
+								</div>
+
+     <div id="aviso">
+			
+			<a href="http://www.ulbra.br/">Aviso legal</a>
+								</div>
+      <br/>
+
+      <a href="http://feedvalidator.org/check.cgi?url=http://www.ull.es/index.rss"><img src="/images/valid-rss.png" class="foto" alt="valid-rss" border="0" /></a>
+      <a href="http://validator.w3.org/check/referer"><img src="/images/w3html.jpg" class="foto" alt="w3html" border="0" /></a>
+      <a href="http://jigsaw.w3.org/css-validator/check/referer"><img src="/images/w3css.jpg" class="foto" alt="w3html" border="0" /></a>
+		<br />
+      Optimizado para Firefox 1.5 o superior, Konqueror, Internet Explorer 6 y 7, Ópera, Safari
+
+      <center>
+      <br/>
+                           </center>
+
+               <div style="float:left; margin-left: 20px; margin-top: 2px; border: 0px;">
+        <!--    <a href="/login/portal.aspx" title="Iniciar sesion"><img style="border: 0px;" src="/estilos/img/candado.gif" alt=""></a>-->
+         </div>
+	</div>	
+</div>
+<script language="JavaScript1.2" type="text/javascript" >
+<!--
+	centrarPage(1024);
+-->
+</script>
+
+				<script type="text/javascript"  language="javascript"> 	
+	var style = document.getElementById("adminheader");
+	Drag.init(style);
+</script>
+
+<script type="text/javascript" language="javascript">
+    matchHeight=function(){
+         var divs,contDivs,maxHeight,divHeight,d;
+         // get all <div> elements in the document
+         divs=document.getElementsByTagName('div');
+         contDivs=[];
+         // initialize maximum height value
+         maxHeight=0;
+         // iterate over all <div> elements in the document
+         for(var i=0;i<divs.length;i++){
+              // make collection with <div> elements with class attribute 'container'
+              if(/\bcontainer\b/.test(divs[i].className)){
+                    d=divs[i];
+                    contDivs[contDivs.length]=d;
+                    // determine height for <div> element
+                    if(d.offsetHeight){
+                         divHeight=d.offsetHeight;
+                    }
+                    else if(d.style.pixelHeight){
+                         divHeight=d.style.pixelHeight;
+                    }
+                    // calculate maximum height
+                    maxHeight=Math.max(maxHeight,divHeight);
+              }
+              if(/\bsubcontainer\b/.test(divs[i].className)){
+                    d=divs[i];
+                    subContDivs[subContDivs.length]=d;
+              }
+         }
+         // assign maximum height value to all of container <div> elements
+         for(var i=0;i<contDivs.length;i++){
+              contDivs[i].style.height=maxHeight;
+         }
+         
+         var subDivs,subContDivs,subMaxHeight,subDivHeight,subD;
+         // get all <div> elements in the document
+         subDivs=document.getElementsByTagName('div');
+         subContDivs=[];
+         // initialize maximum height value
+         subMaxHeight=0;
+         // iterate over all <div> elements in the document
+         for(var i=0;i<subDivs.length;i++){
+              // make collection with <div> elements with class attribute 'container'
+              if(/\bsubContainer\b/.test(subDivs[i].className)){
+                    subD=subDivs[i];
+                    subContDivs[subContDivs.length]=subD;
+                    // determine height for <div> element
+                    if(subD.offsetHeight){
+                         subDivHeight=subD.offsetHeight;
+                    }
+                    else if(subD.style.pixelHeight){
+                         subDivHeight=subD.style.pixelHeight;
+                    }
+                    // calculate maximum height
+                    subMaxHeight=Math.max(subMaxHeight,subDivHeight);
+              }
+          }
+         // assign maximum height value to all of container <div> elements
+         for(var i=0;i<subContDivs.length;i++){
+              div = subContDivs[i];
+              if(/\bsubContent\b/.test(subContDivs[i].className)) {
+                  div.style.height=subMaxHeight - parseInt(80) + "px";
+              } else {
+                  div.style.height=subMaxHeight + "px";
+              }
+         }
+    }
+    // execute function when page loads
+    window.onload=function(){
+         if(document.getElementsByTagName){
+              matchHeight();
+         }
+    }
+
+
+</script> 
+
+		<!--script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+		</script -->
+		<script type="text/javascript">
+			_uacct = "UA-3741269-1";
+			urchinTracker();
+
+
+		</script>
+
+</div>
+</div>
+
+
+
+
+
+  	</body>
+</html>

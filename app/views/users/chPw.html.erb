@@ -1,0 +1,29 @@
+
+<h1><%= t('user_change_password') %></h1>
+
+<%=   form_for @user, { :action => "chPwUpdate" }   do |f| %>
+  	  <% if @user.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_update, :count => @user.errors.count %></h2>	
+	
+	      <ul>
+	      <% @user.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+
+	<%= hidden_field_tag 'userid' , @user.id %>
+
+  <p>
+   <%= t('password') %> : <br />
+    <%= f.password_field :password %>
+  </p>
+
+
+  <p>
+    <%= f.submit t("update") %>
+  </p>
+<% end %>

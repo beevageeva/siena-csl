@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Compressed 
+Description: A three-column, fixed-width template fit for 1024x768 screen resolutions.
+Version    : 1.0
+Released   : 20080524
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>SIENA</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="/compressed/style.css" rel="stylesheet" type="text/css" media="screen" />
+<%= render :partial => 'layouts/header' %>
+</head>
+<body>
+	<div id="logo">
+		<h1><a href="#">SIENA </a></h1>
+		<h2>csl</h2>
+	</div>
+<!-- end #header -->
+<div id="page">
+	<!-- start sidebar1 -->
+	<div id="sidebar1" class="sidebar">
+		<ul>
+			<li>
+				<h2>SIENA</h2>
+				<ul>
+			<li><%= link_to t('home'), :controller => "users" , :action => "getUserHome" %></li>
+			<li><%= link_to t('help'), :controller => "users" , :action => "help"  %></li>
+			<% if session[:userid]  %>
+			<li><%= link_to t('profile'), :controller => "users" , :action => "edit" ,  :id => session[:userid] %></li>
+			<li><%= link_to t('chat_list'), :controller => "users" , :action => "listChats" ,  :username => User.find(session[:userid]).username %></li>
+			<li><%= link_to t('logout'), logout_path, :onclick => "iJab.logout();" %></li>
+			<% if User.find(session[:userid]).useraccount_type == User::ADMIN  %>
+				<li><%= link_to  link_to t('user_list'), users_path  %></li>
+				<li><%= link_to  link_to t('course_list'), courses_path  %></li>
+				<li><%= link_to  link_to t('question_list'), questions_path  %></li>
+				<li><%= link_to  link_to t('node_list'), nodes_path  %></li>
+				<li><%= link_to  link_to t('content_list'), related_contents_path  %></li>
+				<li><%= link_to  link_to t('alu_group_list'), alu_groups_path  %></li>
+				<li><%= link_to  link_to t('competence_list'), competences_path  %></li>
+			<% end %>
+			<% if User.find(session[:userid]).useraccount_type == User::PROF  %>
+				<li><%= link_to  link_to t('course_list'), courses_path  %></li>
+				<li><%= link_to  link_to t('alu_group_list'), alu_groups_path  %></li>
+				<li><%= link_to  link_to t('competence_list'), competences_path  %></li>
+			<% end %>
+			<% if User.find(session[:userid]).useraccount_type == User::ALU  %>
+				<li><%= link_to  link_to t('course_list'), courses_path  %></li>
+				<li><%= link_to  link_to t('competence_list'), :controller => 'competences' , :action => 'listByGroups'  %></li>
+			<% end %>
+			<% else %>
+			<li><%= link_to t('login'), login_path %></li>
+			<% end %>
+
+
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<!-- end sidebar1 -->
+	<!-- start content -->
+	<div id="content">
+	<div class="bgtop">
+	<div class="bgbtm">
+		<div class="post">
+			<p style="color: green"><%= flash[:notice] %></p>
+			<%= yield  %>
+		</div>
+	</div>
+	</div>
+	</div>
+<!-- end content -->
+	<div style="clear: both;">&nbsp;</div>
+</div>
+<!-- end page -->
+<div id="footer">
+			<table><tr>
+			<% ApplicationHelper::GREEN_THEMES.each do |t| %>
+			<td><%= link_to(t, :controller => "users" ,:action => "changeTheme",  :theme => t) %></td>
+
+			<% end %>
+			</tr></table>
+			<table><tr>
+			<% I18n.available_locales.each do |t| %>
+			<td><%= link_to t, :controller => "users" ,:action => "set_locale",  :locale => t %></td>
+
+			<% end %>
+			</tr></table>
+
+
+</div>
+</body>
+</html>

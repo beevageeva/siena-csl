@@ -1,0 +1,25 @@
+<h1><%=  t :alu_group_list   %></h1>
+
+<table border="1">
+  <tr>
+    <th><%=  t :name   %></th>
+    <th><%=  t :user_list   %></th>
+    <th><%=  t :work_list   %></th>
+  </tr>
+
+<% @alu_groups.each do |alu_group| %>
+  <tr>
+    <td><%= alu_group.name %></td>
+    <td>
+		<% alu_group.students.each do |s| %>	
+			<%= s.user.username %> 
+		<% end %>
+
+
+		</td>
+    <td><%=	link_to t('work_list'), :controller => "works", :action => 'listByAssignedtoAndCourse', :assignedto_id => alu_group.id, :course_id => params[:course_id], :assignedto_type => 'AluGroup'  %>
+  </tr>
+<% end %>
+</table>
+
+

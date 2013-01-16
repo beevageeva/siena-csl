@@ -1,0 +1,47 @@
+<h1><%= t('test_list') %> </h1>
+
+<table>
+  <tr>
+    <th><%= t('creation_date') %></th>
+    <th><%= t('finished') %></th>
+    <th><%= t('points') %></th>
+  </tr>
+
+<% @tests.each do |test| %>
+  <tr>
+    <td><%=h test.created_at.strftime("%d.%m.%Y %H:%M:%S") %></td>
+    <td><%=h test.finished %></td>
+    <td><%=h "%5.3f" %   test.points %></td>
+    <td><%= link_to t('view'), test %></td>
+		<% if User.find(session[:userid]).useraccount_type == User::PROF  %>
+    	<td><%= link_to t('delete'), test, :confirm => t('deletion_confirmation'), :method => :delete %></td>
+		<% elsif User.find(session[:userid]).useraccount_type == User::ALU  %>
+			<% if !test.finished %>
+			<% if test.work.assignedto_type == Work::ASSIGNEDTOALUGROUP  %>
+				
+				<% if GrouptestStudent.find_by_test_id_and_student_id(test.id,session[:useraccount_id]) %>
+    					<td><%= link_to t('leave_test'), :controller => "tests" , :action => "leave_test", :test_id => test.id %></td>
+    					<td><%= link_to t('go_to_test'), :controller => "questions" , :action => "test", :test_id => test.id %></td>
+				<% else %>
+    					<td><%= link_to t('register_test'), :controller => "tests" , :action => "register_to_test", :test_id => test.id %></td>
+				<% end %>
+
+			<% else %>
+    				<td><%= link_to t('go_to_test'), :controller => "questions" , :action => "test", :test_id => test.id %></td>
+
+
+			<% end %>
+			<% end %>
+
+
+
+
+		<% end %>
+
+  </tr>
+<% end %>
+</table>
+
+<br />
+<% work = Work.find(params[:work_id]) %>
+<%= link_to t('back'), :controller => "works" , :action => "listByAssignedtoAndCourse", :assignedto_id => work.assignedto_id, :assignedto_type => work.assignedto_type, :course_id => work.node.course_id  %>

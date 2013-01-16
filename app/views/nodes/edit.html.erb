@@ -1,0 +1,137 @@
+<h1><%= t('edit_node') %></h1>
+
+<%= form_for(@node) do |f| %>
+  	  <% if @node.errors.any? %>
+	    <div id="error_explanation">
+	      <h2><%= t :error_update, :count => @node.errors.count %></h2>
+	
+	      <ul>
+	      <% @node.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+
+  <p>
+    <%= t('course') %><br />
+    <%= @node.course.name %>
+  </p>
+  <p>
+    <%= t('content') %><br />
+    <%= f.text_area :content %>
+  </p>
+  <p>
+    <%= t('minPassPoints') %><br />
+    <%= f.text_field :minPassPoints %>
+  </p>
+  <p>
+    <%= f.submit t("update") %>
+  </p>
+<% end %>
+
+<b><%= t('assoc_questions') %></b>
+<%= grid(@questions, :show_filters => :always) do |st|
+    st.column :name => t('course') do |s|
+            s.course.name
+    end
+    st.column :name => t('name') do |s|
+            s.content
+    end
+    st.column :name => t('dependency') do |s|
+           s.node_question_relations[0].dep
+    end
+
+#    st.column :name => 't('view') dependencia' do |s|
+#			link_to "t('view')" , s.node_question_relations[0]
+#		end
+
+    st.column :name => t('edit_node_question_relation') do |s|
+			link_to t("edit") , edit_node_question_relation_path(s.node_question_relations[0])
+		end
+    st.column :name => t('delete_node_question_relation') do |s|
+			link_to t("delete") , s.node_question_relations[0], :confirm => t("deletion_confirmation"), :method => :delete
+		end
+    st.column :name => t('edit_question') do |s|
+			link_to t("edit") , edit_question_path(s.id)  if adminQN(s)
+		end
+
+end %>
+<%= link_to t('node_question_relation_new_question'), :controller => "node_question_relations" , :action => "newQuestion" , :node_id => @node.id %>
+
+<br />
+<b><%= t('node_succ_list') %></b>
+<table>
+<tr>
+	<th><%= t('content') %></th>
+	<th><%= t('dependency') %></th>
+	<th><%= t('edit') %></th>
+	<th><%= t('delete') %></th>
+</tr>
+
+
+<% @node.edges_as_source.each do |e| %>
+<% n = e.dest %>
+  <tr>
+    <td><%=h n.content %></td>
+    <td><%=h e.dep %></td>
+    <td><%= link_to t('edit'), :controller => 'edges' , :action => "edit" , :src_id => e.src_id, :dest_id => e.dest_id %></td>
+    <td><%= link_to t('delete'),url_for(:controller => 'edges',  :action => "destroy" , :src_id => e.src_id, :dest_id => e.dest_id) ,{ :confirm => 'Estas seguro que quieres borrar el succesor del nodo?', :method => :delete } %></td>
+  </tr>
+<% end %>
+</table>
+<%= link_to t('new_edge_dest'), :controller => "edges" , :action => "new_src" , :src_id => @node.id %>
+
+<br />
+
+<b><%= t('node_pred_list') %></b>
+<table>
+
+<tr>
+	<th><%= t('content') %></th>
+	<th><%= t('dependency') %></th>
+	<th><%= t('edit') %></th>
+	<th><%= t('delete') %></th>
+</tr>
+<% @node.edges_as_dest.each do |e| %>
+<% n = e.src %>
+
+  <tr>
+    <td><%=h n.content %></td>
+    <td><%=h e.dep %></td>
+    <td><%= link_to t('edit'), :controller => 'edges' , :action => "edit" , :src_id => e.src_id, :dest_id => e.dest_id %></td>
+    <td><%= link_to t('delete'),url_for(:controller => 'edges',  :action => "destroy" , :src_id => e.src_id, :dest_id => e.dest_id) ,{ :confirm => 'Estas seguro que quieres borrar el predecesor del nodo?', :method => :delete } %></td>
+  </tr>
+<% end %>
+</table>
+<%= link_to t('new_edge_src'), :controller => "edges" , :action => "new_dest" , :dest_id => @node.id %>
+<br />
+
+<b><%= t('node_related_content_list') %></b>
+<table>
+
+<tr>
+	<th><%= t('filename') %></th>
+	<th><%= t('description') %></th>
+	<th><%= t('view') %></th>
+	<th><%= t('edit') %></th>
+	<th><%= t('delete') %></th>
+</tr>
+<% @node.related_contents.each do |n| %>
+
+  <tr>
+    <td><%=h n.filename %></td>
+    <td><%=h n.description %></td>
+    <td><%= link_to t('view'), n %></td>
+    <td><%= link_to t('edit'), edit_related_content_path(n) %></td>
+    <td><%= link_to t('delete'), n, :confirm => t('deletion_confirmation'), :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+<%= link_to t('node_new_related_content'), :controller => "related_contents" , :action => "new" , :node_id => @node.id %>
+
+
+<br />
+<%= link_to t('view'), @node %> |
+<%= link_to t('back'), :action => "listByCourse" , :course_id => @node.course_id %>

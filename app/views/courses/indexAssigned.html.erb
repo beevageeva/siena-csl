@@ -1,0 +1,17 @@
+<h1><%= t('course_list_assigned') %></h1>
+
+<%= grid(@courses, :show_filters => :always) do |course|
+    course.column  :name => t('name') , :attribute => "name"  do |c|
+			c.name
+		end
+    	course.column  :name => t('view')  do |c|
+	  		link_to t('view'), c  
+			end
+    	course.column  :name => t('state')  do |c|
+				s = eval("#{User.find(session[:userid]).useraccount_type}Assign.find_by_#{underscore(User.find(session[:userid]).useraccount_type)}_id_and_course_id(session[:useraccount_id] , c.id)")
+    		link_to t('delete_from_course'), s, :confirm => t('deletion_confirmation'), :method => :delete 
+			end
+
+end %>
+
+

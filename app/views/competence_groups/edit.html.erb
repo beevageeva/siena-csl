@@ -1,0 +1,52 @@
+<h1><%= t :edit_competence_group %></h1>
+
+
+<% if @competence_group.filename.nil? %>
+	<%= t :edit_competence_group_no_file_uploaded %>
+
+<% else %>
+
+	<%  for  u in @competence_group.alu_group.users %>
+	<%= t :user_tests , :username => u.name %></br>
+		<table>
+		<% for n in @competence_group.competence.nodes %>
+		<tr>
+	
+	
+	    <td><%= link_to  n.content , :controller => 'tests' , :action => 'listByWork' , :work_id  =>  getWork(n.id , u.useraccount_id).id  %></td>
+		</tr>
+		<% end %>
+	</table>
+	
+	
+	<% end %>
+	
+	  <p>
+		<%= t :filename %>:<br/>
+		<%=  "<a href= ' /#{CompetenceGroup::UPLOAD_DIR_REL}/#{@competence_group.filename}' >  #{@competence_group.filename} </a>" %>
+	  </p>
+	
+	
+	
+	<%= form_for(@competence_group) do |f| %>
+	  	  <% if @competence_group.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_update, :count => @competence_group.errors.count %></h2>	
+	      <ul>
+	      <% @competence_group.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+	  <p>
+	    <%= t('points') %><br />
+	    <%= f.text_field :points %>
+	  </p>
+	  <p>
+	    <%= f.submit t('update') %>
+	  </p>
+	<% end %>
+
+<% end %>

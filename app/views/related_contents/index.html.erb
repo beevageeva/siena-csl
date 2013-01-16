@@ -1,0 +1,31 @@
+<h1><%= t('related_content_list') %></h1>
+
+<%= grid(@related_contents, :show_filters => :always) do |related_content|
+    related_content.column :name => 'Id' , :attribute => 'id' do |rc|
+			rc.id
+		end
+    related_content.column :name => t(:description) , :attribute => 'description' do |rc|
+			rc.description
+		end
+    related_content.column :name => t('filename') , :attribute => 'filename' do |rc|
+			rc.filename
+		end
+    related_content.column :name => t('node')  do |rc|
+			rc.node.content
+		end
+    related_content.column :name => t('course')  do |rc|
+			rc.node.course.name
+		end
+    related_content.column :name => t('view') do |rc|
+    	link_to t('view'), rc
+		end
+    related_content.column :name => t('edit') do |rc|
+    	link_to t('edit'), edit_related_content_path(rc)
+		end
+    related_content.column :name => t('delete') do |rc|
+    	link_to t('delete'), rc, :confirm => t('deletion_confirmation'), :method => :delete 
+		end
+
+
+end %>
+

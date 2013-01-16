@@ -1,0 +1,78 @@
+<p>
+  <b> <%= t(:content) %>:</b>
+  <%= @question.content %>
+</p>
+
+<p>
+  <b> <%= t('answerTime') %>:</b>
+  <%=h @question.answerTime %>
+</p>
+
+<p>
+  <b> <%= t('correct_answer') %>:</b>
+  <%=h @question.correctAnswer %>
+</p>
+
+<p>
+  <b> <%= t('difficulty') %>:</b>
+  <%=h @question.difficulty %>
+</p>
+
+<p>
+  <b> <%= t('luck') %>:</b>
+  <%=h @question.luck %>
+</p>
+
+<p>
+  <b> <%= t('image') %>:</b>
+
+    <% if @question.img && @question.img != "" %>
+ <img src="/questions/<%= @question.img %>" width="360" />
+    <% end %>
+</p>
+
+
+<p>
+  <b> <%= t('keywords') %>:</b>
+  <%=h @question.keywords %>
+</p>
+
+<p>
+<b> <%= t('created_by') %>:</b>
+  <%=h @question.teacher.user.name %>
+</p>
+
+
+
+
+
+<b><%= t('question_response_list') %></b>
+<table>
+
+<% @question.question_responses.each do |question_response| %>
+  <tr>
+    <td><%= question_response.response %></td>
+  </tr>
+<% end %>
+</table>
+<br />
+
+<b><%= t('assoc_nodes') %></b>
+<%= grid(@nodes, :show_filters => :always) do |st|
+    st.column :name => t('course') do |s|
+            s.course.name
+    end
+    st.column :name => t(:name) do |s|
+            s.content
+    end
+    st.column :name => t('dependency') do |s|
+           s.node_question_relations[0].dep
+    end
+    st.column :name => t('view') do |s|
+			link_to t("view") , s
+    end
+
+
+end %>
+
+<%= link_to  t(:back), :controller => "questions" , :action => "listByCourse" , :course_id => @question.course_id %>

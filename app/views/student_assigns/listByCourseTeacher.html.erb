@@ -1,0 +1,40 @@
+
+<h1><%= t('student_assign_list' , :coursename => Course.find(params[:course_id]).name   ) %></h1>
+		
+<%= grid(@students, :show_filters => :always) do |st|
+
+
+    st.column :name => t('name') , :model => "User" , :attribute => "name" do |s|
+            s.user.name
+    end
+
+    st.column  :name => t('username') , :model => "User" , :attribute => "username"  do |s|
+      s.user.username
+    end
+
+    st.column  :name => t('work_list')  do |s|
+    	link_to t('work_list'), :controller => "works", :action => 'listByAssignedtoAndCourse', :assignedto_id => s.id, :course_id => params[:course_id], :assignedto_type => 'Student'
+		end 
+    st.column  :name => t('alu_group_list')  do |s|
+			 link_to t('alu_group_list'), :controller => "alu_groups" , :action => "listByUserAndCourse" , :user_id => s.user.id, :course_id => params[:course_id] 
+		end
+    st.column  :name => t('work_list_xml')  do |s|
+    	link_to t('work_list_xml'), :controller => "works", :action => 'listByAssignedtoAndCourseXML', :assignedto_id => s.id, :course_id => params[:course_id], :assignedto_type => 'Student' 
+		end
+
+
+
+end %>
+
+
+
+<br/>
+
+	<%= link_to t('assign_work_all_students') ,:controller => 'works' ,:action => 'newAll', :course_id => params[:course_id], :assignedtoType => Work::ASSIGNEDTOSTUDENT %> <br/>
+<br/>
+
+
+
+
+		<br/>
+    <%= link_to t('back'), :controller => "courses" , :action => "show" , :id => params[:course_id]%>

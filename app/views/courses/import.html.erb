@@ -1,0 +1,13 @@
+<h1><%= t('import_xml') %></h1>
+
+
+
+<%= form_tag({:action => 'saveImport'  }, {:method => :post , :multipart => true}) do |f| %>
+  <p>
+    <%= t(:upload_file) %><br />
+    <%= file_field_tag :xmlFile %>
+  </p>
+  <p>
+    <%= submit_tag t('import') %>
+  </p>
+<% end %>

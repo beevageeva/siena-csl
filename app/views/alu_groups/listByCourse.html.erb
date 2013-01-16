@@ -1,0 +1,31 @@
+
+<h1><%= t('alu_group_list_by_course' , :coursename => Course.find(params[:course_id]).name   ) %></h1>
+		
+<%= grid(@alu_groups, :show_filters => :always) do |st|
+
+    st.column :name => t('name') do |s|
+            s.name
+    end
+
+    st.column  :name => t('edit')  do |s|
+    	link_to t('view'), s
+		end
+
+    st.column  :name => t('edit')  do |s|
+    	link_to t('edit'), :action => 'edit' , :id => s.id 
+		end
+
+    st.column  :name => t('delete')  do |s|
+    	link_to t('delete'), s, :confirm => t('deletion_confirmation'), :method => :delete 
+		end
+
+    st.column  :name => t('work_list')  do |s|
+    	link_to t('work_list'), :controller => "works", :action => 'listByAssignedtoAndCourse', :assignedto_id => s.id, :assignedto_type => 'AluGroup', :course_id => params[:course_id] 
+		end
+end %>
+	<br/>
+	<%= link_to t('assign_work_all_groups') ,:controller => 'works' ,:action => 'newAll', :course_id => params[:course_id], :assignedtoType => Work::ASSIGNEDTOALUGROUP %> <br/>
+	<br/>
+	<br/>
+
+	<%= link_to t('new_alu_group') ,:controller => 'alu_groups' ,:action => 'new', :course_id => params[:course_id] %> <br/>

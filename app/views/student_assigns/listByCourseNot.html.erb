@@ -1,0 +1,33 @@
+
+<h1><%= t('student_assign_list_not' , :coursename => Course.find(params[:course_id]).name   ) %></h1>
+		
+
+  <%= form_tag({:controller => 'student_assigns' , :action => 'register_to_course'}, {:method => :post}) do |f| %>
+    <%= hidden_field_tag("course_id"  , params[:course_id]) %>
+	
+
+<%= grid(@students, :show_filters => :always) do |st|
+
+   st.action_column :param_name => "studentids"	
+
+
+    st.column :name => t('name') , :model => "User", :attribute => "name" do |s|
+            s.user.name
+    end
+
+    st.column  :name => t('username') , :model => "User" , :attribute => "username" do |s|
+      s.user.username
+    end
+
+
+
+end %>
+<%= submit_tag t("add_to_course") %>
+<% end %>
+<br/>
+
+
+
+
+
+    <%= link_to t('student_assign_list' , :coursename => Course.find(params[:course_id]).name   ) , :controller => "student_assigns" , :action => "listByCourse" , :course_id => params[:course_id]%>

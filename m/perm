@@ -1,0 +1,84 @@
+alu_groups
+
+crear, editar , borrar, ver ADMIN PROF
+
+
+
+
+
+
+
+
+
+answers:
+create  ALU 
+
+
+
+competence_groups
+create, update, destroy : ADMIN, PROF
+uploadfile ALU 
+
+competence_nodes
+create, update, destroy , ver: ADMIN, PROF
+
+
+competences
+create , update , destroy, ver   ADMIN, PROF
+listByGroup , listByGroups    ALU
+
+
+courses
+crear,editar, borrar ADMIN
+ver, lista : auth
+index assigned ALU, PROF
+create png PROF
+
+
+edges
+new_src , :new_dest, :create , :update , :edit, :destroy ADMIN,PROF TODO check node id owner
+
+node_question_relation
+:newNode , :newQuestion, :create , :update , :edit, :destroy, :getQuestionsDep :getNodesDep  ADMIN,PROF TODO check node id owner
+
+
+nodes and questions
+editar, borrar ADMIN, PROF(solo  los nodos creados por el)
+lista ADMIN
+crear, lista por asignatura, ver PROF, ADMIN
+
+question_responses  : crear, editar, borrar - PROF , ADMIN
+
+contenidos
+lista ADMIN
+lista por nodo  ALU
+crear PROF
+editar, borrar, ver, upload/delete file PROF , ADMIN 
+
+
+
+student_assigns
+create, destroy ALU (matr only himself) , ADMIN
+list by course PROF, ADMIN
+
+
+teacher_assigns
+create, destroy, list by course PROF( matr  only himself) , ADMIN
+
+
+
+
+
+
+
+users
+
+activar/desactivar, lista de todos , borrar   ADMIN
+editar, ver  ALU, PROF (solo a ellos) , ADMIN
+no se usan otros campos asi que admins, students and teachers deleted
+
+
+
+
+TODO delete cascade because deleted all works for alu
+

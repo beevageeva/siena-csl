@@ -1,0 +1,25 @@
+<h1><%= t('edit_edge') %></h1>
+
+<%= form_for(@edge) do |f| %>
+  	  <% if @edge.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_update, :count => @edge.errors.count %></h2>	
+	      <ul>
+	      <% @edge.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+    <%= f.hidden_field :src_id %>
+    <%= f.hidden_field :dest_id %>
+  <b><%= t('dependency') %>:</b>
+    <%= f.text_field :dep %>
+  </p>
+
+  <p>
+    <%= f.submit t('update') %>
+  </p>
+<% end %>
+

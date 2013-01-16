@@ -1,0 +1,50 @@
+<h1><%= t :new_competence_node %></h1>
+
+<%= form_for(@competence_node) do |f| %>
+  	  <% if @competence_node.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_save, :count => @competence_node.errors.count %></h2>	
+	      <ul>
+	      <% @competence_node.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+
+		<%= f.hidden_field :competence_id %>
+
+<p>
+  <b><%= t :course %>:</b>
+    <%= select_tag "course_id" , options_for_select(@coursesoptions)  %>
+<p>
+ <% serializedAttr = "'course_id=' + document.getElementById('course_id').value" %>
+<script>
+$(document).ready(function(){
+  $("#course_id").change(function() {
+    // make a POST call and replace the content
+    $.post("<%= url_for(:action => 'getNodesDep') %>", <%= serializedAttr %>, function(data) {
+      $("#nodes_div").html(data);
+    });
+  });
+
+    $.post("<%= url_for(:action => 'getNodesDep') %>", <%= serializedAttr %>, function(data) {
+      $("#nodes_div").html(data);
+    });
+
+})
+</script>
+
+
+  <div id="nodes_div">
+  </div>
+<!-- p>
+  <b>Nodo:</b>
+		<%= select('competence_node' , "node_id"  ,  Node.find(:all).collect {|p| [ p.content, p.id ] }  )  %>
+<p -->
+
+  <p>
+    <%= f.submit t(:create) %>
+  </p>
+<% end %>

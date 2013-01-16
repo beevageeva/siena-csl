@@ -1,0 +1,15 @@
+<b> <%= t('user_list') %></b>
+<%= grid(@students, :show_filters => :always) do |st|
+    st.column :name => t('name')  do |s|
+            s.user.name
+    end
+    st.column :name => t('username') do |s|
+           s.user.username
+    end
+
+    st.column :name => t('delete_from_group') do |s|
+			link_to t("delete") , s.student_alu_groups[0], :confirm => t('deletion_confirmation'), :method => :delete
+		end
+
+end %>
+<%= link_to t('group_new_user'), :controller => "student_alu_groups" , :action => "newStudent" , :alu_group_id => @alu_group.id %>

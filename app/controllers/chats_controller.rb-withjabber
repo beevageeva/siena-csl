@@ -1,0 +1,167 @@
+class ChatsController < ApplicationController
+
+require 'xmpphttpbind/client'
+
+
+
+
+def connect
+	return if !session[:userid]
+	if !session[:sid]
+		res = connectToJabber
+	end
+	res = Hash.new if res.nil? #TODO cheanged else
+	res['username'] = User.find(session[:userid]).username 
+	render :json => res.to_json
+end 
+
+
+def connectToJabber
+		connectres = Jabber.connect(User.find(session[:userid]).username, session[:password])
+		if !connectres
+			return
+		end
+		session[:sid] = connectres[:sid]
+		session[:rid] = connectres[:rid]
+		ActiveRecord::Base.logger.warn "1SEssion rid changed to #{session[:rid]} " 
+		res = getmessages(connectres[:messages])
+		res
+end
+
+
+def sendmessages_or_connect(resend = false,messages=nil, type = 'chat')
+	begin
+		res = Jabber.send_messages(session[:rid],session[:sid],resend, messages , type)
+	rescue Net::HTTPBadResponse=>e
+		connectToJabber
+		res = Jabber.send_messages(session[:rid],session[:sid], resend, messages , type)
+	end
+	session[:rid] = res[:rid]
+	ActiveRecord::Base.logger.warn "2SEssion rid changed to #{session[:rid]} " 
+	return res
+end
+
+def sendmessage
+		#message type, , if not present it will be chat type
+		type = params[:type]
+		type = 'chat' if !type
+		res = sendmessages_or_connect([{:to => params[:to], :message => params[:message] }] , type)
+		render :json => {'items' => getmessages(res[:messages]) }.to_json
+end
+
+
+#body type=error resend
+
+def sendanswermessage
+		#ActiveRecord::Base.logger.warn "SENDANSWER"
+		return if !params[:test_id]
+		test_id = params[:test_id].to_i
+		alugroup=Test.find(test_id).work.assignedto
+		return unless alugroup.is_a? AluGroup
+		res = Hash.new
+		alugroup.users.each do |u|
+			if u.id != session[:userid]
+				sendmsgresult = sendmessages_or_connect(true,[{:to => u.username , :message => test_id}] , 'sendanswer')
+				res = res.merge(sendmsgresult[:messages]	){|key, oldval, newval| oldval.concat(newval) if oldval.is_a?(Array) && newval.is_a?(Array) }
+			end
+		end
+		render :json => getmessages(res).to_json
+end
+
+
+
+def starttestresponsemessage
+		#TODO duplicated
+		#ActiveRecord::Base.logger.warn "STARTTESTRESPONSE"
+		if !params[:test_id]
+			render :json => {:error => 'no test id param'}
+			return
+		end
+		test_id = params[:test_id].to_i
+		session[:starttest] = test_id
+		#ActiveRecord::Base.logger.warn "******************************starttest session changed respomess " + session[:starttest].to_s + " session:" + request.session_options[:id]
+		#get_session_data
+		render :json => {:error =>  false}
+end
+
+def starttestmessage
+		#ActiveRecord::Base.logger.warn "STARTTEST"
+		return if !params[:test_id]
+		test_id = params[:test_id].to_i
+		work = Test.find(test_id).work
+		alugroup=work.assignedto
+		return if !alugroup.is_a? AluGroup
+		session[:starttest] = test_id
+		#ActiveRecord::Base.logger.warn "**************************starttest session changed  " + session[:starttest].to_s + " session:" + request.session_options[:id]
+		res = Hash.new
+		alugroup.users.each do |u|
+			if u.id != session[:userid]
+				sendmsgresult = sendmessages_or_connect(true,[{:to => u.username , :message => test_id.to_s + "@" + work.node.course.name + " - " + work.node.content  }] , 'starttest')
+				res = res.merge(sendmsgresult[:messages]	){|key, oldval, newval| oldval.concat(newval) if oldval.is_a?(Array) && newval.is_a?(Array) }
+			end
+		end
+		render :json => getmessages(res).to_json
+end
+
+def receivemessages
+		res = sendmessages_or_connect()
+		render :json => getmessages(res[:messages]).to_json
+end
+
+def disconnect
+		Jabber.closesession(session[:sid])
+		#ActiveRecord::Base.logger.warn "*************************DISCONNECT "  + " session:" + request.session_options[:id]
+		session[:sid] = nil	
+		session[:rid] = nil	
+		session[:starttest] = nil	
+end
+
+private 
+
+def  getmessages(messages)
+#	ActiveRecord::Base.logger.warn "******getmessages function*************** getmessagesALL *************** " 
+#	ActiveRecord::Base.logger.warn messages 
+	messages and messages.each  do |type,mlist|
+#		if type == 'starttest' && session[:starttest]
+#			#remove messages type starttest if alreday making a test
+#			mlist.clear()
+#			#delete messages which are not for the test in session or if not making any test
+#		elsif type == 'sendanswer'	
+#		#ActiveRecord::Base.logger.warn "session STARTTEST in hash"
+#		#lazy loading session?? 
+#		#ActiveRecord::Base.logger.warn  session[:starttest]
+#		#ActiveRecord::Base.logger.warn  " sessionUser:"
+#		#ActiveRecord::Base.logger.warn  session[:userid]
+#		#ActiveRecord::Base.logger.warn  " session:" + request.session_options[:id]
+#			if ! session[:starttest]
+#				mlist.clear()
+#			else
+#				mlist.delete_if {|m| m[:message].to_i != session[:starttest]}
+#			end	
+#		else			
+			mlist.each do |m|
+				#ActiveRecord::Base.logger.warn "#message from: #{m[:from]} #{m[:message]}"
+				m[:from] = m[:from][0..m[:from].index("@")-1]
+			end
+#		end
+
+
+	end
+	ActiveRecord::Base.logger.warn "**********************GETMESSAGES RESULT getmessagesfunctionend"
+	ActiveRecord::Base.logger.warn messages
+	messages
+
+end
+
+def get_session_data
+	require 'pg'
+	require 'base64'
+	conn = PGconn.open(:dbname => 'rrgcsl', :user => '' , :password => '')
+	res = conn.exec("select data from sessions where session_id = '#{request.session_options[:id]}';")
+	#ActiveRecord::Base.logger.warn "***********************SESSION DATA **************************"
+	#ActiveRecord::Base.logger.warn Base64.decode64(res[0]['data']) 
+end
+
+
+
+end

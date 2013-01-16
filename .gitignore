@@ -1,0 +1,16 @@
+/.bundle
+/log/*.log
+/tmp/
+/public/questions/*
+/public/competenceGroupsFiles/*
+/public/relatedContents/*
+/public/mapImages/*
+/public/chatImages/work/*
+/public/chatImages/test/*
+/mongrel.pid
+/Gemfile.lock
+/Gemfile
+/config/initializers/constants.rb
+/config/database.yml
+/public/assets/*
+/.hg/*

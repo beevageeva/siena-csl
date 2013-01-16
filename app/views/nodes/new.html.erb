@@ -1,0 +1,29 @@
+<h1><%= t('course_new_node')  %></h1>
+<%= form_for(@node) do |f| %>
+  	  <% if @node.errors.any? %>
+	    <div id="error_explanation">
+	      <h2><%= t :error_save, :count => @node.errors.count %></h2>
+	      <ul>
+	      <% @node.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+
+    <%= f.hidden_field :course_id %>
+  <p>
+   <%= t :content %> <br />
+    <%= f.text_area :content %>
+  </p>
+  <p>
+    <%= t 'minPassPoints' %> <br />
+    <%= f.text_field :minPassPoints %>
+  </p>
+  <p>
+    <%= f.submit t("create") %>
+  </p>
+<% end %>
+
+<%= link_to t('back'), @node.course %>

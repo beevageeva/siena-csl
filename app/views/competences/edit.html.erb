@@ -1,0 +1,64 @@
+<h1><%= t('edit_competence') %></h1>
+
+<%= form_for(@competence) do |f| %>
+  	  <% if @competence.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_update, :count => @competence.errors.count %></h2>	
+	      <ul>
+	      <% @competence.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+
+  <p>
+    <%= t('name') %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= t('description') %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.submit t('update') %>
+  </p>
+<% end %>
+
+<b> <%= t('alu_group_list') %></b>
+<%= grid(@alu_groups, :show_filters => :always) do |st|
+    st.column :name => t('name')  do |s|
+            s.name
+    end
+
+    #st.column :name => 'Borrar grupo' do |s|
+    st.column :name => t('delete_group') do |s|
+			link_to t("delete") , s.competence_groups[0], :confirm => "Estas  seguro ?", :method => :delete
+		end
+    st.column :name => t('points') do |s|
+			link_to t("points") , edit_competence_group_path(s.competence_groups[0])
+		end
+    st.column :name => 'Ver grupo' do |s|
+			link_to t("view") , :controller => 'alu_groups', :action => 'show' , :id =>  s.competence_groups[0].alu_group_id
+		end
+
+end %>
+
+<br/>
+<%= link_to t('competence_new_alu_group'), :controller => "competence_groups" , :action => "newAluGroup" , :competence_id => @competence.id %>
+
+<br/>
+<br/>
+<b> <%= t('node_list') %></b>
+<%= grid(@nodes, :show_filters => :always) do |st|
+    st.column :name => t('name')  do |s|
+            s.content
+    end
+
+    st.column :name => 'Borrar nodo' do |s|
+			link_to t("delete") , s.competence_nodes[0], :confirm => "Estas  seguro ?", :method => :delete
+		end
+
+end %>
+<%= link_to t('competence_new_node'), :controller => "competence_nodes" , :action => "newNode" , :competence_id => @competence.id %>

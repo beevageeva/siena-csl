@@ -1,0 +1,31 @@
+<h1><%= t('edit_work')  %></h1>
+
+<%= form_for(@work) do |f| %>
+  	  <% if @work.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_update, :count => @work.errors.count %></h2>	
+	      <ul>
+	      <% @work.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+
+  <p>
+   <%= t('initialpoints')  %> <br />
+    <%= f.text_field :initialpoints %>
+  </p>
+  <p>
+  <%= t(:type)  %>:
+  <% Work::WORK_TYPES.each do |q| %>
+    <%= f.radio_button :worktype , q %><%= t("workType#{q}") %>
+  <% end %>
+  </p>
+  <p>
+    <%= f.submit t("update") %>
+  </p>
+<% end %>
+
+<%= link_to t('view'), @work %> |

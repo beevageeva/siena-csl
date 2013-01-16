@@ -1,0 +1,21 @@
+<h1> <%= t('course_question_list') %>   </h1>
+<%= grid(@questions, :show_filters => :always) do |question|
+    question.column :name => t(:name) , :attribute => 'content' do |q|
+			q.content
+		end
+    question.column :name => t('view') do |q|
+    	link_to t('view') , q
+		end
+    question.column :name => t('edit') do |q|
+    	link_to t('edit'), edit_question_path(q) if adminQN(q)
+		end
+    question.column :name => t('delete') do |q|
+    	link_to t('delete') , q, :confirm => 'Are you sure?', :method => :delete if adminQN(q)
+		end
+
+end %>
+    <%= link_to t('new_question'), :controller => "questions", :action => "new" , :course_id => params[:course_id] %>
+		<br/>
+		
+    <%= link_to t(:back), :controller => "courses" , :action => "show" , :id => params[:course_id]%>
+		<br/>

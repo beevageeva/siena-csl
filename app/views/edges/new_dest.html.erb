@@ -1,0 +1,28 @@
+<h1><%=t('new_edge_src') %></h1>
+
+<%= form_for(@edge) do |f| %>
+  	  <% if @edge.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_save, :count => @edge.errors.count %></h2>	
+	      <ul>
+	      <% @edge.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+	<%= f.hidden_field :dest_id %>
+	<%= hidden_field_tag :next , "dest" %>
+
+<p>
+  <b><%=t('node') %>:</b>
+    <%= f.select "src_id" , Node.find(:all , :conditions => ["course_id = #{@edge.dest.course_id}"] ).collect {|u| [u.content , u.id]}  %>
+<!-- p>
+  <b>Dependencia:</b>
+    <%= f.text_field :dep %>
+  </p -->
+  <p>
+    <%= f.submit t('create') %>
+  </p>
+<% end %>

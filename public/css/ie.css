@@ -1,0 +1,15 @@
+<html>
+<title>Error 404</title><body bgcolor="white"><h1><font color="red">Server error in '/' application</font></h1><hr>
+<h2><font color="maroon"><i>File '/Public/javascript/ie.css' not found.</i></font></h2>
+<b>Description: </b>Error processing request.
+<p>
+<b>Error Message: </b>HTTP 404. File '/Public/javascript/ie.css' not found.
+<p>
+<hr>
+</body>
+</html>
+<!--
+System.Web.HttpException: File '/Public/javascript/ie.css' not found.
+  at System.Web.StaticFileHandler.ProcessRequest (System.Web.HttpContext context) [0x00000] 
+  at System.Web.HttpApplication+&lt;&gt;c__CompilerGenerated2.MoveNext () [0x00000] 
+-->

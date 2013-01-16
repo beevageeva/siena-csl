@@ -1,0 +1,42 @@
+.encabezado {
+	FONT-WEIGHT: bolder; FONT-SIZE: 14px; TEXT-TRANSFORM: uppercase; COLOR: #333333; FONT-FAMILY: "Times New Roman", Times, serif; TEXT-ALIGN: center; TEXT-DECORATION: none
+}
+.lineaencabezado {
+	BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; LINE-HEIGHT: 1px; BORDER-BOTTOM: #cccccc 1px solid
+}
+.titulo {
+	FONT-WEIGHT: bold; FONT-SIZE: 12pt; VERTICAL-ALIGN: baseline; TEXT-TRANSFORM: none; COLOR: #666666; LINE-HEIGHT: 1px; FONT-FAMILY: "Times New Roman", Times, serif; TEXT-ALIGN: center; FONT-VARIANT: normal; TEXT-DECORATION: underline
+}
+.textoNormal {
+	FONT-SIZE: 10pt; WORD-SPACING: 1pt; MARGIN-LEFT: 20px; COLOR: #333333; LINE-HEIGHT: 16pt; FONT-FAMILY: Georgia, "Times New Roman", Times, serif; LETTER-SPACING: 0pt; TEXT-ALIGN: justify
+}
+A.textoNormal {
+	FONT-SIZE: 10pt; WORD-SPACING: 1pt; MARGIN-LEFT: 20px; COLOR: #006699; LINE-HEIGHT: 16pt; FONT-FAMILY: Georgia, "Times New Roman", Times, serif; LETTER-SPACING: 0pt; TEXT-ALIGN: justify
+}
+A.textoNormal:hover {
+	FONT-SIZE: 10pt; WORD-SPACING: 1pt; MARGIN-LEFT: 20px; COLOR: #996699; LINE-HEIGHT: 16pt; FONT-FAMILY: Georgia, "Times New Roman", Times, serif; LETTER-SPACING: 0pt; TEXT-ALIGN: justify
+}
+.estipulaciones {
+	MARGIN-TOP: 30px; FONT-WEIGHT: bold; FONT-SIZE: 11pt; COLOR: #666666; FONT-STYLE: normal; FONT-FAMILY: "Times New Roman", Times, serif; FONT-VARIANT: small-caps
+}
+.elemMenu {
+	FONT-SIZE: 10pt; COLOR: #666666; FONT-FAMILY: Arial, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+.barraMenu {
+	BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BACKGROUND-IMAGE: url(../img/bggrisclaro.gif); BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid; BACKGROUND-REPEAT: repeat; BACKGROUND-COLOR: #cccccc
+}
+.fondo {
+	BACKGROUND-POSITION: right 300px; BACKGROUND-ATTACHMENT: fixed; BACKGROUND-IMAGE: url(../img/fondo.gif); BACKGROUND-REPEAT: no-repeat
+}
+.titPuntos {
+	FONT-WEIGHT: bolder; FONT-SIZE: 10pt; COLOR: #666666; FONT-FAMILY: Georgia, "Times New Roman", Times, serif; TEXT-DECORATION: none
+}
+.titulos {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; MARGIN-LEFT: 20px; COLOR: #666666; FONT-FAMILY: Georgia, "Times New Roman", Times, serif; FONT-VARIANT: small-caps; TEXT-DECORATION: underline
+}
+.fecha {
+	FONT-SIZE: 11px; COLOR: #666666; LINE-HEIGHT: 20px; MARGIN-RIGHT: 10px; FONT-FAMILY: Georgia, "Times New Roman", Times, serif; TEXT-ALIGN: right
+}
+.tablas {
+	BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid
+}

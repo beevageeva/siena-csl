@@ -1,0 +1,27 @@
+<b><%=  t('question_response_list') %>  </b>
+<table>
+  <tr>
+    <th><%=  t('response') %></th>
+  </tr>
+
+
+
+
+<% @question.question_responses.each do |question_response| %>
+  <tr>
+    <td><%=h question_response.response %></td>
+    <td><%= link_to t('edit'), edit_question_response_path(question_response), :remote => true  %></td>
+    <td><%= link_to t('delete'), question_response, :confirm => 'Are you sure?', :method => :delete , :remote => true%></td>
+  </tr>
+<% end %>
+</table>
+<br />
+
+<%= link_to t("new_question_response"),{
+        :controller=>"question_responses",
+        :action=>"new",
+        :question_id=>@question.id},
+		:remote => true
+%>
+
+

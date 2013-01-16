@@ -1,0 +1,32 @@
+<p>
+  <b><%= t :name %>:</b>
+  <%=h @competence.name %>
+</p>
+
+<b> <%= t('alu_group_list') %></b>
+<%= grid(@alu_groups, :show_filters => :always) do |st|
+    st.column :name => t('name')  do |s|
+            s.name
+    end
+    st.column :name => 'Nota' do |s|
+			link_to t("points") , s.competence_groups[0]
+		end
+
+
+end %>
+
+<br/>
+
+<br/>
+<br/>
+<b> <%= t('node_list') %></b>
+<%= grid(@nodes, :show_filters => :always) do |st|
+    st.column :name => t('name')  do |s|
+            s.content
+    end
+
+
+end %>
+
+
+<%= link_to t('edit'), edit_competence_path(@competence)  %>

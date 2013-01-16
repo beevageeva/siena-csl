@@ -1,0 +1,121 @@
+
+  <style type="text/css">
+		.timertextboxred {color: red}
+	</style>
+
+
+ <script type="text/javascript">
+    var tf = 0;
+  	var seconds = 0;
+    var minutes = 0;
+   	var tcount = 0;
+    // core timer function
+    function TimerFunc()
+    {
+				var formAns = document.getElementById('saveQuestionAnswer');
+        tf = window.setTimeout( "TimerFunc();" , 1000 );
+        tcount++;
+        formAns.timeleft.value = <%= @question.answerTime %> - tcount;
+        minutes = 0;
+        seconds = 0;
+				formAns = document.getElementById('saveQuestionAnswer');
+        if( formAns.timeleft.value  > 0 )
+        {
+            minutes = Math.round( ( formAns.timeleft.value  / 60 ) - 0.5 );
+            seconds = formAns.timeleft.value - 60*minutes;
+            if( minutes > 0 )
+            {
+		        formAns.timerbox.value = minutes + ' Min. ' + seconds + ' Seg. restantes';
+            }
+            else
+            {
+		        formAns.timerbox.value = seconds + " Segundos restantes";
+            }
+        }
+
+        else{
+            	formAns.timerbox.value = "El tiempo ha expirado.";
+	            window.clearTimeout( tf );
+  	          //clear the select buttons
+    	        numResp =  <%= @question.question_responses.size  %>;
+      	      for(saInd=0;saInd< numResp ;saInd++){
+	        	    formAns.selectedAnswer[saInd].disabled=true;
+	        		}
+            }
+        if( formAns.timeleft.value  == 30 )
+        {
+            doWarning();
+        }
+
+        if( formAns.timeleft.value <= 30 )
+        {
+            formAns.timerbox.className = "timertextboxred";
+        }
+        if( formAns.timeleft.value <= 25 )
+        {
+            doWarningOver();
+        }
+    }
+
+
+    function doOnload()
+    {
+          tf = window.setTimeout( 'TimerFunc()' , 1000 );
+    }
+
+    
+	//:D    
+
+    // this function is called by the timer function when 30 seconds are left.
+    function doWarning()
+    {
+        document.warningmsg.src = "/images/custommessicon.gif";
+        document.warningmsg.alt = "There are only 30 seconds remaining for this question.";
+    }
+
+
+	function doWarningOver()
+	{
+        document.warningmsg.src = "/images/messenger.gif";
+        document.warningmsg.alt = "Pregunta";
+	}
+
+	doOnload(); 
+	</script>
+
+
+
+
+
+<h1> <%= t('question') %> <%= @answer.test.answers.size %></h1>
+  <p>
+    <%= raw @question.content %>
+  </p>
+
+
+
+<% if @question.img %>
+ <img src="/questions/<%= @question.img %>" width="360" />
+
+<% end %>
+
+	<%= form_for(@answer, :url => {:action => 'answer'} ,:html => { :id => "saveQuestionAnswer" } ) do |f|  %>
+
+
+ 	<%= hidden_field_tag :test_id  , params[:test_id] %>
+ 	<%= f.hidden_field :timeleft  , :name => "timeleft" %>
+	
+
+	<input type="text" name="timerbox" readonly="true" class="timertextbox" size="25" value=""/>
+<ol type="a">	
+<% @question.question_responses.each_index do |index| %>
+ <li> <p>   
+	<%= raw @question.question_responses[index].response %> <%= f.radio_button :number , index , :name => "selectedAnswer"   %>
+  </p></li>
+<% end %>
+</ol>
+  <p>
+    <%= f.submit t('submit') %>
+  </p>
+
+<% end %>
