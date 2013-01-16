@@ -1,0 +1,83 @@
+Configuración SIENA SOCIAL
+
+===================
+
+Requisitos de la instalación
+Los siguientes paquetes tienen que haber sido instalados:
+	* RubyGems
+$ apt-get install rubygems
+sudo gem update --system (hace falta rubygems>= 1.3.5) si es una version mas vieja de rubygems 
+	* Rails
+  	$ gem install rails 
+(para bundle que viene de rails como dependencia)
+
+hace falta ruby >=1.8.7
+en centos esta en repositorio karan
+http://www.memonic.com/user/toni/id/1uQXW
+
+	* Graphviz
+	 $ apt-get install graphviz
+(hace falta para generar el mapa de los nodos de la asignatura)
+	* ImageMagick
+(hace falta para la captcha)
+
+Adicionalmente debe disponerse de:
+	* Un servidor de bases de datos PostgreSQL(o cualquier otro que funcione con rails)instalado y configurado:
+  	$ apt-get install postgresql
+Hace falta version de postgres >=9 
+(en centos  hay hay que anadir los repositorios:
+http://yum.pgrpms.org/repopackages.php )
+
+	* Las herramientas del control de versiones Mercurial, para poder descargar las fuentes del programa SIENA:
+  	$ apt-get install mercurial
+(en centos mercurial esta en el repo rpmforge
+http://repoforge.org/use/   )
+
+* Además debe haber un servidor de correo (Postfix o cualquier otro) instalado y configurado (por ejemplo, para recuperar las contraseñas olvidadas).
+
+Instalación
+
+Se mantienen los 2 repositorios: mercurial y de github
+1) Obtener el código fuente de la aplicación con mercurial:
+hg clone http://mrepo.ignorelist.com/siena-csl/
+o desde github
+git clone https://github.com/beevageeva/siena-csl.git
+2) en siena-csl 
+* copy Gemfile.sample to Gemfile
+* copy config/database.yml.sample to config/database.yml
+* copy config/initializers/constants.rb.example to config/initializers/constants.rb
+y hacer las modificaciones necesarias
+
+$ bundle install
+para instalar los gems necesarios en la aplicacion
+(TODO a ver si no se puede usar bundle package para que no haya problemas de las versiones de los gems) Hay un fichero en la carpeta principal siena-csl bundlelist (contiene las versiones de los gems instalado cuando eso estaba funcionando bien)
+
+Se usa apache + passenger (mod_rails)
+(mas documentación en 
+http://www.modrails.com/documentation/Users%20guide%20Apache.html )
+hay que poner después 
+$ passenger-install-apache2-module
+para compilar mod_rails para apache 
+3) Apache
+Hay un fichero ejemplo de la configuracion de apache 
+*  apache-passenger-config.example que hay que copiar en la carpeta de configuracion de apache (mirar la parte de cargar el modulo mod_rails tambien que sea conforme al output despues de compilar el modulo)
+
+
+4)Base de datos:
+     Crear un usuario en el servidor de base de datos con la contrasena y la base de datos conformes con los datos de config/database.yml  
+  
+Si se hace upgrade de la version de siena hay que meter el dump de la base de datos y ejecutar el script de migracion que esta en siena-csl
+* m/upgradesiena-sienacsl.sql  
+
+Ejecutar:
+$ rake db:migrate 
+para crear la tablas y las tablas que faltan si se hace el upgrade
+
+si se hace upgrade de siena:
+copiar los ficheros estaticos de public:
+* questions
+* relatedContents
+* mapImages
+* competenceGroupsFiles (eso de momento no se usa)
+
+5)OPCIONAL configurar logrotate para los ficheros que estan en la carpeta siena-csl/log’
