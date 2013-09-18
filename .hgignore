@@ -14,4 +14,4 @@ syntax: regexp
 ^public/assets/.*$
 ^public/jwsiena/ijab_config.js$
 ^tmp/cache/.*$
-^.git/.*$
+^\.git/.*$
