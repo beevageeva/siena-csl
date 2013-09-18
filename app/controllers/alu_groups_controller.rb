@@ -1,7 +1,7 @@
 class AluGroupsController < ApplicationController
 
  before_filter(:only => [:new, :create , :update , :edit, :destroy, :listByCourse] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN]  }]  }
- before_filter(:only => [:listByStudentAndCourse] ) { |c| c.auth  [ {:types =>  [User::ALU] , :condition => lambda{|params,session| params[:student_id] == session[:useraccount_id].to_s  }  }]  }
+ before_filter(:only => [:listByStudentAndCourse] ) { |c| c.auth  [ {:types =>  [User::ALU] , :condition => lambda{|params,session| params[:student_id] == session[:useraccount_id].to_s  }  }, {:types => [User::PROF] }]  }
 
 
 	layout :green_web

@@ -25,12 +25,12 @@
     <td><%=h answer.correctAnswer? %></td>
     <td><%=h answer.timeleft %></td>
     <td><%=h answer.question.content %></td>
-    <td><%=h  "%5.3f" %   answer.pointsBefore %></td>
+    <td><%=h  "%5.3f" %   (answer.pointsBefore.nil? ? 0.0 :  answer.pointsBefore) %></td>
     <td><%=h  "%5.3f" %   
 						if i < @test.answers.length - 1
-							@test.answers[i+1].pointsBefore 	
+							@test.answers[i+1].pointsBefore.nil? ? 0.0 :  @test.answers[i+1].pointsBefore	
 						else
-							@test.points
+							 @test.points
 						end
 				%>
 
@@ -65,15 +65,15 @@
 <div id="tabs">
 	<ul>
   <% if @test.work.assignedto_type == Work::ASSIGNEDTOALUGROUP%> 	
-		<li><a href="#tabs-1">Info</a></li>
+		<!-- li><a href="#tabs-1">Info</a></li -->
 		<li><a href="#tabs-2">Messages</a></li>
  <% end %>	
 		<li><a href="#tabs-3">vtq</a></li>
 	</ul>
   <% if @test.work.assignedto_type == Work::ASSIGNEDTOALUGROUP%> 	
-	<div id="tabs-1">
+	<!-- div id="tabs-1">
 		<%= render 'chat_messages/msglist' %>
-	</div>
+	</div -->
 	<div id="tabs-2">
 		<%= render 'chat_messages/list' %>
 	</div>

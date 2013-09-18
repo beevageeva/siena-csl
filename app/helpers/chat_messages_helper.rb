@@ -14,7 +14,7 @@ module ChatMessagesHelper
 	def ChatMessagesHelper.getChatMessagesList(alugroup, testid)
 		msgtable = Hash.new
 		alugroup.students.each do |s|
-			nmsgs = ChatMessage.joins(:grouptest_chatmessages).where(:from_id => s.id, :grouptest_chatmessages => {:test_id => testid}).count
+			nmsgs = (ChatMessage.joins(:grouptest_chatmessages).where(:from_id => s.id, :grouptest_chatmessages => {:test_id => testid}).select("distinct from_id, body" ).count) 
 			msgtable[s.user.username] = nmsgs
 		end
 		#ActiveRecord::Base.logger.warn "MSGLIST"

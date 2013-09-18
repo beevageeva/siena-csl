@@ -3,12 +3,19 @@
 
 
     <script>
-    $(function() {
+    var mvis;
+    function showChatWindow() {
         $( "#messengerlist" ).dialog( {
 			position:{
                 		at: "right top" 
-			}
-		 });
+			},
+			  close: function(ev, ui)
+                {
+										$.post("/chats/setmvis", {mvis: false});
+				
+			               //$(this).dialog("close"); recursion?
+                }
+		 }).attr('id', 'chatDialogId') ;
 	    $('.sendmailtoteacherslink').click(function() {
 		var courseid = $(this).attr("courseid");
         	$('#sendmailtoteachersform' ).dialog({
@@ -35,16 +42,30 @@
 		var testid = $(this).attr("testid");
 		$.post("/chats/invite", {test_id: testid} );	
     		});
-
+		
 
 	
+    }
+    $(function() {
+			mvis = <%= session[:mvis] %>;
+			showChatWindow();
+			if(!mvis){
+			$("#chatDialogId").dialog("close");
+		}
     });
+
+		function reopenChatWindow(){
+			$("#chatDialogId").dialog("open");
+			$.post("/chats/setmvis", {mvis: true});
+			showChatWindow();
+    }
+		
     </script>
 
 
 <link rel="stylesheet" href="/css/jquery-ui.css" />
 
-
+<a href="#" onclick="reopenChatWindow();">chat window</a>
 <div id="messengerlist" title="CHAT">
 <h3>Groups</h3>	
 <% 

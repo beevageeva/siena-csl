@@ -16,7 +16,7 @@
     	link_to t('work_list'), :controller => "works", :action => 'listByAssignedtoAndCourse', :assignedto_id => s.id, :course_id => params[:course_id], :assignedto_type => 'Student'
 		end 
     st.column  :name => t('alu_group_list')  do |s|
-			 link_to t('alu_group_list'), :controller => "alu_groups" , :action => "listByUserAndCourse" , :user_id => s.user.id, :course_id => params[:course_id] 
+			link_to t("alu_group_list"), :controller => "alu_groups" , :action => "listByStudentAndCourse" , :course_id => params[:course_id], :student_id => s.id
 		end
     st.column  :name => t('work_list_xml')  do |s|
     	link_to t('work_list_xml'), :controller => "works", :action => 'listByAssignedtoAndCourseXML', :assignedto_id => s.id, :course_id => params[:course_id], :assignedto_type => 'Student' 

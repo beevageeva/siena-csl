@@ -26,6 +26,7 @@ SienaCsl::Application.routes.draw do
   resources :teacher_assigns
 
   resources :student_assigns
+  resources :grouptest_chatmessages
 
   resources :teachers
 
@@ -155,7 +156,7 @@ SienaCsl::Application.routes.draw do
  match 'competencias_grupo/:alu_group_id' => 'competences#listByGroup'
  match 'competencias_grupos' => 'competences#listByGroups'
  match 'ver_chats/:username' => 'users#listChats'
- match 'borrar/:chat_messages_id/:redirect' => 'chat_messages#destroy'
+
  match 'changePassword/:userid' => 'users#chPw' 
 	match 'usuarios_no_activos' => 'users#indexNotActive'
  match 'nuevo_test/:work_id' => 'questions#starttest'

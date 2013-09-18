@@ -31,7 +31,11 @@ before_filter(:only => [:show] ) { |c| c.auth  [ {:types =>  [User::PROF, User::
   def show
     @test = Test.find(params[:id])
 		if @test.work.assignedto_type == "AluGroup"
-			@chatmessages = ChatMessage.joins(:grouptest_chatmessages).where(:grouptest_chatmessages => {:test_id => @test.id}).includes(:grouptest_chatmessages)
+			cmall = ChatMessage.joins(:grouptest_chatmessages).where(:grouptest_chatmessages => {:test_id => @test.id}).includes(:grouptest_chatmessages).order("chat_messages.created_at")
+			@chatmessages=[]
+			cmall.each do |cm|
+					@chatmessages.push(cm) if @chatmessages.index{|cm1| cm1.grouptest_chatmessages[0].qnumber == cm.grouptest_chatmessages[0].qnumber && cm1.from_id == cm.from_id && cm1.body == cm.body}.nil? 
+			end	
 			alugroup = @test.work.assignedto
 			#!!!  no msgtable anymore app/views/chat_messages/_msgtable.html.erb not used !!!
 			#@msgtable = ChatMessagesHelper.getChatMessagesTable(alugroup, Proc.new{|username1, username2| {:test_id => @test.id, :from => username1, :to => username2}  })

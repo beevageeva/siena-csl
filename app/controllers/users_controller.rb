@@ -157,6 +157,7 @@ class UsersController < ApplicationController
 				#TODO user should not be kept in the session because it can be modified (when user changes the profile session user should be loaded again)
 				 session[:userid] = @user.id
 				session[:useraccount_id] = @user.useraccount_id
+					session[:mvis] = true
          flash[:notice] = t('user_login_ok')
       else
          flash[:notice] = "Usuario, contraseña incorrectos o usuario no activo"

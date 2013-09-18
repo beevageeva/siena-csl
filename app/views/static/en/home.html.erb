@@ -1,43 +1,103 @@
 <h1> What is SIENA?</h1>
-
-<p>
-SIENA (Sistema Integrado de Enseñanza Aprendizaje[1]) is a computing tool. More specifically, it is a web-based application used for two purposes, one is to assess the existing abilities and knowledge of a student, and the other is to serve as tool which aids self-study and self-evaluation with its main purpose being to support student focused learning (significant learning). This web-based tool is designed to work using concept maps. The concept maps, which are laid out by the teacher, progress from the objective concept through to the existing knowledge base held by students. Put simply, in any given map, concept A will appear before concept B to a student if s/he need a prior understanding of A to be able to understand concept B.
-</p>
-
-<p>
-Once the concept map has been created using ‘Compendium’, it can then be exported in XML format and incorporated into the SIENA tool. SIENA will then identify from within the concept map that has been imported which of the concepts appearing in the map are already known by the students, and how well they understand them. However, for it to be able to do this we first have to define the previous concepts and the objective concepts that we want to evaluate within the imported concept map.
-</p>
-
-<p>
-Having completed this process, the next step involves adding the questions that students will be asked for each concept into the SIENA tool. This will allow the teacher to identify the student’s depth of knowledge and abilities for each concept. The questions used are defined as ‘multiple choice’ questions, this means that a student is presented with a selection of possible answers and must select the correct answer from among them. The difficulty of the questions varies, so consequently the parameters for each of the questions needs to be defined (between a range of 0 and 1), these will include:
-</p>
-<ol>
-<li> The degree of correlation between the question and the concept.</li>
-<li>    The difficulty of the questions.</li>
-<li>    The correct answer.</li>
-<li>    Guesswork - by this we mean identifying whether it is easy to answer the question by relying only on luck and guesswork.</li>
-<li>    The estimate of previous knowledge held by the student on this topic.</li>
-<li>    Response time (in seconds) students are given for answering each question.</li>
-
+<p style="margin-bottom:6pt;line-height:12pt"><span style="font-family:&#39;Arial&#39;;font-size:9pt;color:#333333">SIENA (Sistema Integrado de Enseñanza Aprendizaje[1]) is a computing 
+tool. More specifically, it is a web-based application used for two 
+purposes, one is to assess the existing abilities and knowledge of a 
+student, and the other is to serve as tool which aids self-study and 
+self-evaluation with its main purpose being to support student focused 
+learning (significant learning). This web-based tool is designed to 
+work using concept maps. The concept maps, which are laid out by the 
+teacher, progress from the objective concept through to the existing 
+knowledge base held by students. Put simply, in any given map, concept 
+A will appear before concept B to a student if s/he need a prior understanding 
+of A to be able to understand concept B.</span></p>
+<p style="margin-bottom:6pt;line-height:12pt"><span style="font-family:&#39;Arial&#39;;font-size:9pt;color:#333333">Once the concept map has been created using ‘Compendium’, it can 
+then be exported in XML format and incorporated into the SIENA tool. 
+SIENA will then identify from within the concept map that has been imported 
+which of the concepts appearing in the map are already known by the 
+students, and how well they understand them. However, for it to be able 
+to do this we first have to define the previous concepts and the objective 
+concepts that we want to evaluate within the imported concept map.</span></p>
+<p style="margin-bottom:6pt;line-height:12pt"><span style="font-family:&#39;Arial&#39;;font-size:9pt;color:#333333">Having completed this process, the next step involves adding the questions 
+that students will be asked for each concept into the SIENA tool. This 
+will allow the teacher to identify the student’s depth of knowledge 
+and abilities for each concept. The questions used are defined as ‘multiple 
+choice’ questions, this means that a student is presented with 
+a selection of possible answers and must select the correct answer from 
+among them. The difficulty of the questions varies, so consequently 
+the parameters for each of the questions needs to be defined (between 
+a range of 0 and 1), these will include:</span></p>
+<ol style="list-style:decimal">
+  <li style="margin-top:5pt;margin-bottom:5pt;margin-left:0pt;line-height:13pt"><span style="font-family:&#39;Helvetica&#39;,&#39;Arial&#39;;font-size:10pt;color:#333333">The degree of correlation between 
+  the question and the concept.</span></li>
+  <li style="margin-top:5pt;margin-bottom:5pt;margin-left:0pt;line-height:13pt"><span style="font-family:&#39;Helvetica&#39;,&#39;Arial&#39;;font-size:10pt;color:#333333">The difficulty of the questions.</span></li>
+  <li style="margin-top:5pt;margin-bottom:5pt;margin-left:0pt;line-height:13pt"><span style="font-family:&#39;Helvetica&#39;,&#39;Arial&#39;;font-size:10pt;color:#333333">The</span><span style="font-family:&#39;Helvetica&#39;,&#39;Arial&#39;;font-size:10pt;color:#333333"> </span><span style="font-family:&#39;Helvetica&#39;,&#39;Arial&#39;;font-size:10pt;color:#333333">correct</span><span style="font-family:&#39;Helvetica&#39;,&#39;Arial&#39;;font-size:10pt;color:#333333"> </span><span style="font-family:&#39;Helvetica&#39;,&#39;Arial&#39;;font-size:10pt;color:#333333">answer</span><span style="font-family:&#39;Helvetica&#39;,&#39;Arial&#39;;font-size:10pt;color:#333333">.</span></li>
+  <li style="margin-top:5pt;margin-bottom:5pt;margin-left:0pt;line-height:13pt"><span style="font-family:&#39;Helvetica&#39;,&#39;Arial&#39;;font-size:10pt;color:#333333">Guesswork - by this we mean identifying 
+  whether it is easy to answer the question by relying only on luck and 
+  guesswork.</span></li>
+  <li style="margin-top:5pt;margin-bottom:5pt;margin-left:0pt;line-height:13pt"><span style="font-family:&#39;Helvetica&#39;,&#39;Arial&#39;;font-size:10pt;color:#333333">The estimate of previous knowledge 
+  held by the student on this topic.</span></li>
+  <li style="margin-top:5pt;margin-bottom:5pt;margin-left:0pt;line-height:13pt"><span style="font-family:&#39;Helvetica&#39;,&#39;Arial&#39;;font-size:10pt;color:#333333">Response time (in seconds) students 
+  are given for answering each question.</span></li>
 </ol>
-<p>
-We understand that defining these parameters for each question is a tedious process, but it is essential if SIENA is going to work properly. The reason for this is that SIENA includes an adaptive test that is based on searching Bayesian networks; therefore all these parameters need to be in place if SIENA is going to be able to correctly estimate a student’s ability and understanding of a given concept dependent on their test results. For it to be able to do this, the test presents students with increasingly more difficult questions, that is to say, if the student answers correctly, the system will increase the difficulty level of the next question; however, if at any given moment the student does not answer a question correctly then the difficulty level will drop in the next question. As well as this function, the system also includes a stop mechanism which is useful when it is either no longer possible to obtain a further estimate of how well a concept is understood, or because the tool has run out of questions. For the reason just mentioned, it is recommendable to have at least a dozen questions prepared for each difficulty level.
-</p>
+<p style="margin-bottom:6pt;line-height:12pt"><span style="font-family:&#39;Arial&#39;;font-size:9pt;color:#333333">We understand that defining these parameters for each question is 
+a tedious process, but it is essential if SIENA is going to work properly. 
+The reason for this is that SIENA includes an adaptive test that is 
+based on searching Bayesian networks; therefore all these parameters 
+need to be in place if SIENA is going to be able to correctly estimate 
+a student’s ability and understanding of a given concept dependent 
+on their test results. For it to be able to do this, the test presents 
+students with increasingly more difficult questions, that is to say, 
+if the student answers correctly, the system will increase the difficulty 
+level of the next question; however, if at any given moment the student 
+does not answer a question correctly then the difficulty level will 
+drop in the next question. As well as this function, the system also 
+includes a stop mechanism which is useful when it is either no longer 
+possible to obtain a further estimate of how well a concept is understood, 
+or because the tool has run out of questions. For the reason just mentioned, 
+it is recommendable to have at least a dozen questions prepared for 
+each difficulty level.</span></p>
+<p style="margin-bottom:6pt;line-height:12pt"><span style="font-family:&#39;Arial&#39;;font-size:9pt;color:#333333">In self-evaluation, SIENA requires the teacher to outline a task for 
+the student to complete. Tasks are defined as parts of the concept map 
+which are considered consistent with a particular objective node, which 
+will be an intermediate node, that the student hopes to reach during 
+self-evaluation, as well as an initial node which coincides with the 
+last node of the map that was used as the objective node in a previous 
+stage of self-evaluation. A completed task will coincide with the totality 
+of the concept map. Tasks are set in instances when a concept map is 
+very large and the teacher decides it is preferable that the student 
+progresses in stages. The process begins by looking at the previous 
+concepts that are defined in the map and then starts to evaluate the 
+concepts progressively within the map, but only when the student passes 
+a given concept with a mark of at least 0.5. When a concept is not successfully 
+passed, the system does not continue evaluating the student along the 
+same branch of the map as it is assumed that if the concept has not 
+been passed then nor will the other concepts that follow. The system 
+may continue down other branches of the map but not down the one mentioned.</span></p>
+<p style="margin-bottom:0pt;line-height:12pt"><span style="font-family:&#39;Arial&#39;;font-size:10pt;color:#222222">Tests can be taken by an individual student, or by 
+a group of students working together on an online collaborative task. 
+In the latter, students communicate using an instant messaging chat 
+and discuss the possible answers to the test questions.</span></p>
+<p style="margin-bottom:0pt;line-height:12pt"><span style="font-family:&#39;Arial&#39;;font-size:10pt;color:#222222">For individual students, SIENA produces the estimate 
+of a student&#39;s knowledge by using the answers to the questions that 
+are presented by the test.</span></p>
+<p style="margin-bottom:0pt;line-height:12pt"><span style="font-family:&#39;Arial&#39;;font-size:10pt;color:#222222">In the case of collaborative online tests, SIENA uses 
+the answers to the questions  to estimate the knowledge of the group. 
+In addition to predicting the group&#39;s knowledge, it also presents the 
+number of message that are sent by each student and also the content 
+of said messages. With this information the teacher is able to objectively 
+assess each student&#39;s contribution during the collaborative task.</span></p>
+<p style="margin-bottom:6pt"> </p>
+<p style="margin-bottom:6pt;line-height:12pt"><a name="0.1__GoBack"></a><span style="font-family:&#39;Arial&#39;;font-size:9pt;color:#333333">SIENA also includes content for every node of the conceptual map, 
+which offers the possibility of combining self-study with self-evaluation. 
+In reality, the system is prepared to incorporate two types of content: 
+content the student has to study the first time they deal with a concept, 
+or repeat content that must be studied when a student has failed a test 
+on that concept. In this case, the content that the system shows is 
+not the content presented originally, but rather the ‘re-take’ content. 
+The tool allows you to define which content is ‘normal’ content, 
+and which content is ‘re-take’ content, although on occasions this 
+will not be necessary and the teacher will only include one type of 
+content.</span></p>
+<p style="margin-bottom:6pt;line-height:12pt"><span style="font-family:&#39;Arial&#39;;font-size:9pt;color:#333333">[1] Integrated Teaching and Learning System</span></p>
+<p> </p>
 
-<p>
-In self-evaluation, SIENA requires the teacher to outline a task for the student to complete. Tasks are defined as parts of the concept map which are considered consistent with a particular objective node, which will be an intermediate node, that the student hopes to reach during self-evaluation, as well as an initial node which coincides with the last node of the map that was used as the objective node in a previous stage of self-evaluation. A completed task will coincide with the totality of the concept map. Tasks are set in instances when a concept map is very large and the teacher decides it is preferable that the student progresses in stages. The process begins by looking at the previous concepts that are defined in the map and then starts to evaluate the concepts progressively within the map, but only when the student passes a given concept with a mark of at least 0.5. When a concept is not successfully passed, the system does not continue evaluating the student along the same branch of the map as it is assumed that if the concept has not been passed then nor will the other concepts that follow. The system may continue down other branches of the map but not down the one mentioned.
-</p>
-
-<p>
-For each concept, the system will display which questions were asked, which were correctly answered, and produce an estimate of the level of understanding for each concept.
-</p>
-<p>
-SIENA also includes content for every node of the conceptual map, which offers the possibility of combining self-study with self-evaluation. In reality, the system is prepared to incorporate two types of content: content the student has to study the first time they deal with a concept, or repeat content that must be studied when a student has failed a test on that concept. In this case, the content that the system shows is not the content presented originally, but rather the ‘re-take’ content. The tool allows you to define which content is ‘normal’ content, and which content is ‘re-take’ content, although on occasions this will not be necessary and the teacher will only include one type of content.
-</p> 
- 
-<p>
-[1] Integrated Teaching and Learning System
-</p> 
- 
- 
- 

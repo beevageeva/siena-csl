@@ -310,6 +310,8 @@ private
 			answer.student_id = student_id
 			answer.question_id = generate_question_id(test_id)
 			answer.test_id = test_id
+			#TODO pointsbefore set here, there is no need  for checking it !=nil in tests.show view
+			answer.pointsBefore = test.points
 			answer.save
 			return true
 		end

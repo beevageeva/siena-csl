@@ -24,6 +24,13 @@ def invite
 end
 
 
+def setmvis
+	session[:mvis]=params[:mvis]
+	render :json => {:error =>  false}
+end
+
+
+
 def showLastmessages
 	alu_group_id = params[:alu_group_id].to_i
 	chatmessages = ChatMessage.where("msgtype = ? AND body LIKE '?:%'", ChatMessage::MSGTYPE_CHAT, alu_group_id).order("max(created_at) DESC").limit(NUMBER_MESSAGES_LAST).select("from_id, body").group("from_id, body")
