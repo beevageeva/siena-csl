@@ -74,10 +74,6 @@ class AluGroupsController < ApplicationController
   def destroy
     @alu_group = AluGroup.find(params[:id])
     @alu_group.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(alu_groups_url) }
-      format.xml  { head :ok }
-    end
+		 redirect_to :controller=>"alu_groups", :action => "listByCourse",:course_id => @alu_group.course_id
   end
 end
