@@ -1,0 +1,10 @@
+
+			
+				<%= g.comment %>
+			
+			(<%= link_to t("change"),{
+				        :controller=>"grouptest_chatmessages",
+				        :action=>"changeComment",
+				        :grouptest_chatmessage_id=>g.id},
+						:remote => true
+				%>)
