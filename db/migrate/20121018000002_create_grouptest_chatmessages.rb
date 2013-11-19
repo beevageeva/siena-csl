@@ -4,8 +4,9 @@ class CreateGrouptestChatmessages < ActiveRecord::Migration
 
 			t.references :test
 			t.references :chat_message
-		  	t.integer :qnumber
-      			t.timestamps
+		  t.integer :qnumber
+			t.string :comment
+      t.timestamps
     end
   end
 

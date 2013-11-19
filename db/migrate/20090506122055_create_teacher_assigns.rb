@@ -3,7 +3,7 @@ class CreateTeacherAssigns < ActiveRecord::Migration
     create_table :teacher_assigns do |t|
       t.references :teacher
       t.references :course
-
+			t.boolean :coordinator
       t.timestamps
     end
   end

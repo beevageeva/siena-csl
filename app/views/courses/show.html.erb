@@ -18,6 +18,11 @@
 <% end %>
 
 <% if User.find(session[:userid]).useraccount_type == User::PROF %>
+
+<% if TeacherAssign.find_by_teacher_id_and_course_id(session[:useraccount_id] , @course.id).coordinator? %>
+	<p><b> Coordinador </b></p>
+<% end %>
+
 	<%= link_to t('alu_group_list', :coursename => @course.name), :controller => "alu_groups" , :action => "listByCourse" , :course_id => @course.id %> <br/>
 	<%= link_to t('student_assign_list', :coursename => @course.name), :controller => "student_assigns" , :action => "listByCourse" , :course_id => @course.id %> <br/>
 	<%= link_to t('course_node_list'), :controller => "nodes" , :action => "listByCourse" , :course_id => @course.id %> <br/>

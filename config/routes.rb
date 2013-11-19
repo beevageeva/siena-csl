@@ -116,6 +116,7 @@ SienaCsl::Application.routes.draw do
 	match 'ayuda' => 'users#help'
 	match 'matricular_alumno/:course_id' => 'student_assigns#enroll'
 	match 'matricular_profesor/:course_id' => 'teacher_assigns#enroll'
+	match 'cambiar_coordinador/:id/:course_id' => 'teacher_assigns#changeCoordinator'
 	match 'matricular_profesor_admin/:course_id/:teacher_id' => 'teacher_assigns#assign_to_course'
 	match 'matricular_alumnos/:course_id' => 'student_assigns#register_to_course'
 	match 'matricular_profesores/:course_id' => 'teacher_assigns#register_to_course'
@@ -168,6 +169,10 @@ SienaCsl::Application.routes.draw do
  match 'regenerar_test_alumno/:test_id' => 'questions#regenerate_student_id'
  match 'register_to_test/:test_id' => 'tests#register_to_test'
  match 'leave_test/:test_id' => 'tests#leave_test'
+ match 'cambiar_comentario/:grouptest_chatmessage_id' => 'grouptest_chatmessages#changeComment'
+
+
+
 
  match 'lista_tests/:work_id' => 'tests#listByWork'
  match 'subir_fichero_contenido/:related_content_id' => 'related_contents#uploadFile'

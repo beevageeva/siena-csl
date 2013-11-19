@@ -13,4 +13,20 @@ class GrouptestChatmessagesController < ApplicationController
 		g.destroy
     redirect_to( g.test ) 
   end
+
+
+	def changeComment
+		@g =  GrouptestChatmessage.find(params[:grouptest_chatmessage_id])
+	end
+
+	def update  #TODO how can I change the name of the method?? to updateComment
+		ActiveRecord::Base.logger.warn("params:")
+		ActiveRecord::Base.logger.warn(params)
+		@g = GrouptestChatmessage.find(params[:grouptest_chatmessage][:id])
+		@g.comment = params[:grouptest_chatmessage][:comment]
+		@g.save
+		render :action => 'link'	
+	end	
+
+
 end

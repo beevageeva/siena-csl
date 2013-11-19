@@ -100,7 +100,7 @@ class UsersController < ApplicationController
   def create
 	@user = User.new(params[:user])
 	if simple_captcha_valid?
-
+		saved = false
 		User.transaction do
 			useraccount = eval(@user.useraccount_type).new
 			if useraccount.save
@@ -108,7 +108,9 @@ class UsersController < ApplicationController
 				@user.active = false
     				if @user.save
         				flash[:notice] = t('user_created_success')
-					redirect_to :action => "getUserHome"
+								saved = true
+								redirect_to :action => "getUserHome"
+				
 					Notifier.user_created(@user.username).deliver
 				else
 					#IMPORTANT render before exception
@@ -117,6 +119,7 @@ class UsersController < ApplicationController
     				end
 			end
 		end
+	Notifier.user_created(@user.username).deliver if saved
 	else
 		flash[:notice] = "Captcha not valid"
 		render :action => 'new'

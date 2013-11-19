@@ -72,7 +72,9 @@
 	</ul>
   <% if @test.work.assignedto_type == Work::ASSIGNEDTOALUGROUP%> 	
 	<!-- div id="tabs-1">
-		<%= render 'chat_messages/msglist' %>
+		<%= 
+			#render 'chat_messages/msglist' 
+		%>
 	</div -->
 	<div id="tabs-2">
 		<%= render 'chat_messages/list' %>

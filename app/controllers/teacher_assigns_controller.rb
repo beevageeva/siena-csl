@@ -21,10 +21,25 @@ layout :green_web
     redirect_to(courses_url)
   end
   def assign_to_course
-	TeacherAssign.find_or_create_by_teacher_id_and_course_id(params[:teacher_id] , params[:course_id])
-        flash[:notice] = 'Profesor matriculado .'
-    redirect_to(courses_url)
+		t = TeacherAssign.find_or_create_by_teacher_id_and_course_id(params[:teacher_id] , params[:course_id])
+		if(params[:coord].nil?)
+			t.coordinator = false
+		else	
+			t.coordinator = params[:coord]
+		end
+		t.save	
+		flash[:notice] = 'Profesor matriculado .'
+		redirect_to :action => :listByCourse, :course_id => params[:course_id]
   end
+
+	def changeCoordinator
+    teacher_assign = TeacherAssign.find(params[:id])
+		teacher_assign.coordinator = !teacher_assign.coordinator
+		teacher_assign.save
+    flash[:notice] = 'Coordinador cambiado .'
+		redirect_to :action => :listByCourse, :course_id => params[:course_id]
+
+	end
 
   # DELETE /teacher_assigns/1
   # DELETE /teacher_assigns/1.xml

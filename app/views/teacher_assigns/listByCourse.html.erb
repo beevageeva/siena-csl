@@ -9,6 +9,10 @@
       s.teacher.user.username
     end
 
+    st.column  :name => t('coordinator')  do |s|
+      t(s.coordinator.to_s)  + "(" + link_to(t('change'),:action => "changeCoordinator", :id => s.id, :course_id => params[:course_id])  + ")"
+    end
+
     st.column  :name => t('delete_from_course')  do |s|
     	link_to t('delete_from_course'), s, :confirm => t('deletion_confirmation'), :method => :delete 
 
@@ -18,7 +22,7 @@ end %>
   <%= form_tag({:controller => 'teacher_assigns' , :action => 'assign_to_course'}, {:method => :post}) do |f| %>
     <%= hidden_field_tag("course_id"  , params[:course_id]) %>
     <%= select_tag("teacher_id" , options_for_select(Teacher.find(:all , :include => 'user' , :order => 'users.name ASC' ).collect {|u| [u.user.name , u.id]}) ) %>
-
+		<%= check_box_tag :coord %>
     <%= submit_tag t("add_to_course") %>
 
   <% end %>
