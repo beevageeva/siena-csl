@@ -242,8 +242,8 @@ include WorksHelper
   # DELETE /questions/1.xml
   def destroy
     @question = Question.find(params[:id])
-    @question.destroy
     @question.deleteImgFile
+    @question.destroy
     redirect_to :action => "listByCourse" , :course_id => @question.course_id
   end
 
