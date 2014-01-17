@@ -23,8 +23,9 @@ before_filter(:only => [:listByAssignedtoAndCourse, :listByAssignedtoAndCourseXM
 		else
 			alugroup = AluGroup.find(params[:assignedto_id])
 			@name = alugroup.name
-			@alugroupid = alugroup.id
-			@alugroupusers = User.includes("alu_groups").where("username <> ? and alu_groups.id = ?",User.find(session[:userid]).username, params[:assignedto_id] )
+			#TODO delete the following
+			#@alugroupid = alugroup.id
+			#@alugroupusers = User.includes("alu_groups").where("username <> ? and alu_groups.id = ?",User.find(session[:userid]).username, params[:assignedto_id] )
 		end	
 
   end

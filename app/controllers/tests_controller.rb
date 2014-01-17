@@ -17,12 +17,12 @@ before_filter(:only => [:show] ) { |c| c.auth  [ {:types =>  [User::PROF, User::
 
 
   def listByWork
-    @tests = Test.find(:all , {:conditions => {:work_id => params[:work_id]} , :order => "created_at DESC"  });
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @tests }
-    end
+    @work = Work.find(params[:work_id])
+		#si el un trabajo para un grupo el usuario puede ver los trabajos de otros grupos
+		if(@work.assignedto_type ==  Work::ASSIGNEDTOALUGROUP)
+    	@other_groups_works = Work.where("assignedto_type = ? and nodes.id = ? and assignedto_id != ?",  Work::ASSIGNEDTOALUGROUP , @work.node_id, @work.assignedto_id).includes(:node)
+		end
+		render	
   end
 
 

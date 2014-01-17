@@ -27,7 +27,7 @@
 
 		<td >
 			<%=  
-				SpellingCorrector.keywords(messagebody, @test.answers[ansIndex].question.keywords, session[:locale] ).join(" ") 
+				SpellingCorrector.keywords(messagebody, @test.answers[ansIndex].question.keywords, session[:locale] ).join(" ") if @test.answers[ansIndex] 
 			%>
 		</td>
     <td><%= chat_message.created_at.strftime(" %H:%M:%S") %></td>

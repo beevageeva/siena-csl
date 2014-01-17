@@ -1,4 +1,5 @@
-<h1><%= t('test_list') %> </h1>
+<h1><%= t('test_list') %> (<%= @work.assignedto_type == Work::ASSIGNEDTOALUGROUP ? @work.assignedto.name : @work.assignedto.user.name %> <%= @work.node.content %>)</h1>
+<% if @work.tests.length > 0 %>
 
 <table>
   <tr>
@@ -7,7 +8,7 @@
     <th><%= t('points') %></th>
   </tr>
 
-<% @tests.each do |test| %>
+<% @work.tests.each do |test| %>
   <tr>
     <td><%=h test.created_at.strftime("%d.%m.%Y %H:%M:%S") %></td>
     <td><%=h test.finished %></td>
@@ -17,7 +18,7 @@
     	<td><%= link_to t('delete'), test, :confirm => t('deletion_confirmation'), :method => :delete %></td>
 		<% elsif User.find(session[:userid]).useraccount_type == User::ALU  %>
 			<% if !test.finished %>
-			<% if test.work.assignedto_type == Work::ASSIGNEDTOALUGROUP  %>
+			<% if @work.assignedto_type == Work::ASSIGNEDTOALUGROUP  %>
 				
 				<% if GrouptestStudent.find_by_test_id_and_student_id(test.id,session[:useraccount_id]) %>
     					<td><%= link_to t('leave_test'), :controller => "tests" , :action => "leave_test", :test_id => test.id %></td>
@@ -41,6 +42,33 @@
   </tr>
 <% end %>
 </table>
+<% else %>
+	No hay ninguno
+<% end %>
+
+
+<% if @work.assignedto_type == Work::ASSIGNEDTOALUGROUP  %>
+
+<h3>Tests hechos por otros grupos para <%= @work.node.content %></h3>
+<% if @other_groups_works.length > 0 %>
+<table>
+  <tr>
+    <th><%= t('name') %></th>
+    <th><%= t('view') %></th>
+  </tr>
+<% @other_groups_works.each do |ow| %>
+<% ag = AluGroup.find(ow.assignedto_id)  %>
+<tr>
+	<td><%= ag.name %></td>
+	<td><%= link_to t("test_list") , :controller => "tests" , :action => "listByWork", "work_id" => ow.id %></td>
+</tr>
+<% end %>
+</table>
+<% else %>
+	No hay ninguno
+<% end %>
+<% end %>
+
 
 <br />
 <% work = Work.find(params[:work_id]) %>

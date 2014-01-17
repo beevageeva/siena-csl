@@ -7,7 +7,9 @@ module WorksHelper
 			return student_id == w.assignedto_id
 		end		
 		if w.assignedto_type == Work::ASSIGNEDTOALUGROUP
-			return w.assignedto.students.pluck("students.id").include?(student_id)
+			#Now the students can see other groups tests
+			#return w.assignedto.students.pluck("students.id").include?(student_id)
+			return true
 		end	
 		return false
 	end
