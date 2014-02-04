@@ -126,6 +126,7 @@ include CoursesHelper
 		file = params[:xmlFile]
 		if file
 			result = importFromXML(file)
+			ActiveRecord::Base.logger.warn "***********************LOGGINGgg---------------------"
 			flash[:notice]  = "Imported #{result}"
  		else
 			flash[:notice]  = "No file"
