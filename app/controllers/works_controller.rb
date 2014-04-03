@@ -8,7 +8,9 @@ require 'chat_messages_helper'
 
 before_filter(:only => [:new, :create, :newAll, :createAll, :getNodesDep, :destroy, :edit, :update] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN]   } ] }
 before_filter(:only => [:show] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN] } , {:types =>  [User::ALU] , :condition => lambda{|params,session| WorksHelper.studentCanViewWork(params[:id] , session[:useraccount_id])   }} ]  }
-before_filter(:only => [:listByAssignedtoAndCourse, :listByAssignedtoAndCourseXML] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN, User::ALU]   } ] }
+#trabajos_asignatura/:assignedto_type/:assignedto_id/:course_id los alumnos solo pueden ver lista de trabajos de asignados a ellos o a un grupo a que aparten
+#before_filter(:only => [:listByAssignedtoAndCourse, :listByAssignedtoAndCourseXML] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN, User::ALU]   } ] }
+before_filter(:only => [:listByAssignedtoAndCourse, :listByAssignedtoAndCourseXML] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN] } , {:types =>  [User::ALU] , :condition => lambda{|params,session| WorksHelper.studentCanListWorks(params[:assignedto_id].to_i, params[:assignedto_type] , session[:useraccount_id] )   }} ]  }
 
 	layout :green_web
 

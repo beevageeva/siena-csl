@@ -6,7 +6,8 @@ class QuestionsController < ApplicationController
 before_filter(:only => [:destroy ,:edit, :update ] ) { |c| c.auth  [ {:types =>  [User::PROF] , :condition => lambda{|params,session| Question.find(params[:id]).teacher_id == session[:useraccount_id]} } , {:types => [User::ADMIN]} ]  }
 before_filter(:only => [:new, :create , :listByCourse, :show, :deleteImgFile] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN] } ]  }
  before_filter(:only => [:index] ) { |c| c.auth  [ {:types =>  [User::ADMIN]  }]  }
- before_filter(:only => [:test,:answer, :regenerate_student_id] ) { |c| c.auth  [ {:types =>  [User::ALU] , :condition => lambda{|params,session| WorksHelper.studentCanViewWork(Test.find(params[:test_id]).work_id,session[:useraccount_id])   }  }]  }
+ before_filter(:only => [:test,:answer, :regenerate_student_id] ) { |c| c.auth  [ {:types =>  [User::ALU] , :condition => lambda{|params,session| WorksHelper.studentCanTestWork(Test.find(params[:test_id]).work_id,session[:useraccount_id])   }  }]  }
+ before_filter(:only => [:starttest] ) { |c| c.auth  [ {:types =>  [User::ALU] , :condition => lambda{|params,session| WorksHelper.studentCanTestWork(params[:work_id],session[:useraccount_id])   }  }]  }
 
 include WorksHelper
 

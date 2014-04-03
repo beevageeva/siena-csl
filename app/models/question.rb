@@ -24,7 +24,7 @@ attr_accessible :content, :answerTime, :correctAnswer, :difficulty, :luck, :imgF
 
 
 	QUESTIONS_FILES_DIR	=  "#{Rails.root.to_s}/public/questions"
-
+	KEYWORDS_SEP=","
 	
 
 

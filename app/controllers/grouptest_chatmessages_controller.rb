@@ -1,6 +1,6 @@
 class GrouptestChatmessagesController < ApplicationController
 
- before_filter(:only => [:destroy] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN]  }]  }
+ before_filter(:only => [:destroy, :changeComment, :update] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN]  }]  }
 
 
 	layout :green_web

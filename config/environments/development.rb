@@ -13,8 +13,28 @@ SienaCsl::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
+
+	#MAILER CONFIG
   # Don't care if the mailer can't send
-  config.action_mailer.raise_delivery_errors = false
+  #config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
+	config.action_mailer.perform_deliveries = true
+	#TODO ruby 1.9 You're trying to use 1.9 hash syntax (key: value) with a 1.8 Ruby (key => value).
+	config.action_mailer.delivery_method = :smtp
+	config.action_mailer.smtp_settings = {
+  	:address   =>        'localhost',
+	  :port      =>           25,
+		:openssl_verify_mode  => 'none'
+	}
+	#config.action_mailer.delivery_method = :sendmail
+	# Defaults to:
+	# config.action_mailer.sendmail_settings = {
+	#   location: '/usr/sbin/sendmail',
+	#   arguments: '-i -t'
+	# }
+
+	#END MAILER CONFIG
+
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
@@ -35,7 +55,8 @@ SienaCsl::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  config.log_level = :warn #log file for ActiveRecord::Base.logger is /var/log/apache2/error_log
+  #config.log_level = :debug #log file for ActiveRecord::Base.logger is log/development.log
+  config.log_level = :warn #log file for ActiveRecord::Base.logger is /var/log/apache2/error.log
 
 
 end

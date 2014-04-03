@@ -34,9 +34,9 @@ class UsersController < ApplicationController
         end
 
         def lost_password
-	ActiveRecord::Base.logger.warn("LOST PASSWORD")
+	#ActiveRecord::Base.logger.warn("LOST PASSWORD")
 	if simple_captcha_valid?
-		ActiveRecord::Base.logger.warn("simple captcha vlid")
+		#ActiveRecord::Base.logger.warn("simple captcha vlid")
                 username = params[:username]
                 password  = [Array.new(8){rand(256).chr}.join].pack("m").chomp
                 user = User.find_by_username(username)
