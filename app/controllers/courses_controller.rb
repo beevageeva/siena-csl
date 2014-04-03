@@ -73,7 +73,7 @@ include CoursesHelper
   # POST /courses
   # POST /courses.xml
   def create
-    @course = Course.new(params[:course])
+    @course = Course.new(course_params)
 
     respond_to do |format|
       if @course.save
@@ -93,7 +93,7 @@ include CoursesHelper
     @course = Course.find(params[:id])
 
     respond_to do |format|
-      if @course.update_attributes(params[:course])
+      if @course.update(course_params)
         flash[:notice] = t('course_updated_success')
         format.html { redirect_to(@course) }
         format.xml  { head :ok }

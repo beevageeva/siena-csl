@@ -129,7 +129,7 @@ layout :green_web
 	private
 
 	def node_params
-			params.require(:node).permit(:content, :course_id, :minPasspoints)
+			params.require(:node).permit(:content, :course_id, :minPassPoints)
 	end
 
 end

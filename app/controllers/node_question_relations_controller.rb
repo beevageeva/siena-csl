@@ -85,7 +85,7 @@ layout :green_web
 
 
 	def getNodesDep
-		@nodesoptions = Node.find(:all , :conditions => ["course_id = #{params[:course_id]}"] ).collect {|u| [u.content , u.id]}
+		@nodesoptions = Node.where(course_id: params[:course_id]).collect {|u| [u.content , u.id]}
 		ActiveRecord::Base.logger.warn("nodes dep") 
 		ActiveRecord::Base.logger.warn(@nodesoptions) 
 		render :partial => 'getNodesDep' , :layout => false
@@ -93,7 +93,7 @@ layout :green_web
 
 
 	def getQuestionsDep
-		@questionsoptions = Question.find(:all , :conditions => ["course_id = #{params[:course_id]}"] ).collect {|u| [u.content , u.id]} 
+		@questionsoptions = Question.where(course_id: params[:course_id]).collect {|u| [u.content , u.id]}
 		ActiveRecord::Base.logger.warn("quest dep") 
 		ActiveRecord::Base.logger.warn(@questionsoptions) 
 		render :partial => 'getQuestionsDep' , :layout => false
@@ -102,7 +102,11 @@ layout :green_web
 
 private
 	def getCourses
-		TeacherAssign.find(:all, :conditions => ["teacher_assigns.teacher_id = #{session[:useraccount_id]}"] ).collect{|u| [Course.find(u.course_id).name , u.course_id]}
+		if(User.find(session[:userid]).useraccount_type == User::PROF)
+			TeacherAssign.find(:all, :conditions => ["teacher_assigns.teacher_id = #{session[:useraccount_id]}"] ).collect{|u| [Course.find(u.course_id).name , u.course_id]}
+		else
+			Course.pluck(:name, :id)
+		end
 	end
 
 
