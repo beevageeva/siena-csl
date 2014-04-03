@@ -17,24 +17,23 @@ def self.edits1 word, locale
   insertion = []
   (n+1).times {|i| LETTERS.each_byte {|l| insertion << word[0...i]+l.chr+word[i..-1] } }
   result = deletion + transposition + alteration + insertion
-	#try to put word derivations depending on ecah locale
-	if(locale == "es")
-		result <<  word + "es" 	if !word.ends_with?("s") #plural
-	end	
-
-  result.empty? ? nil : result
+	#TODO try to put word derivations depending on each locale: the word may be a phrase part
+	#if(locale == "es")
+	#	result <<  word + "es" 	if !word.ends_with?("s") #plural
+	#end	
+  return result
 	
 end
 
 
-def self.iscorrect word, listwords, locale
-	if listwords.include?(word)
-		return true 		
+def self.iscorrect text, keyword, locale
+	if text.include?(keyword)
+		return keyword 		
 	end
-	edits1(word, locale).each do |w|
-		return true if listwords.include?(w)
+	edits1(keyword, locale).each do |w|
+		return w if text.include?(w)
 	end
-	return false
+	return nil
 end
 
 
@@ -42,12 +41,12 @@ end
 def self.keywords text, listwordstr, locale
 	res = []
 	if(!listwordstr.nil?)
-		listwords = words(listwordstr)
-		ActiveRecord::Base.logger.warn("keywords array " + listwords.to_s)	
-		words(text).each do |w|
-			ActiveRecord::Base.logger.warn("message word " + w)	
-			if iscorrect w, listwords,locale
-				res.append(w) 		
+		listwords = listwordstr.split(Question::KEYWORDS_SEP)
+		listwords.each do |keyword|
+			keyword.strip!
+			found = iscorrect text, keyword, locale
+			if found	
+				res.append(found) 		
 			end
 		end
 	end

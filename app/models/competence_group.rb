@@ -1,6 +1,5 @@
 
 class CompetenceGroup < ActiveRecord::Base
-attr_accessible :filename, :points, :competence_id, :alu_group_id
 
 	belongs_to :competence
 	belongs_to :alu_group

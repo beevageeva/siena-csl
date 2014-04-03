@@ -61,4 +61,10 @@ layout :green_web
     redirect_to(courses_url)
 
   end
+	private
+
+	def sa_params
+			params.require(:student_assign).permit(:student_id)
+	end
+
 end

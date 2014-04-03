@@ -7,7 +7,7 @@ module WorksHelper
 			return student_id == w.assignedto_id
 		end		
 		if w.assignedto_type == Work::ASSIGNEDTOALUGROUP
-			#Now the students can see other groups tests
+			#Now the students can see other groups tests, create new method studentCanTestWork
 			#return w.assignedto.students.pluck("students.id").include?(student_id)
 			return true
 		end	
@@ -15,6 +15,27 @@ module WorksHelper
 	end
 
 
+	def self.studentCanTestWork(work_id, student_id)
+		w = Work.find(work_id)
+		if w.assignedto_type == Work::ASSIGNEDTOSTUDENT
+			return student_id == w.assignedto_id
+		end		
+		if w.assignedto_type == Work::ASSIGNEDTOALUGROUP
+			return w.assignedto.students.pluck("students.id").include?(student_id)
+		end	
+		return false
+	end
+
+
+	def self.studentCanListWorks(assignedto_id, assignedto_type, student_id)
+	if assignedto_type ==  Work::ASSIGNEDTOSTUDENT
+		return assignedto_id == student_id
+	end
+	if assignedto_type == Work::ASSIGNEDTOALUGROUP
+		return AluGroup.find(assignedto_id).students.pluck("students.id").include?(student_id)
+	end
+
+	end
 
 
 def canTest(node, assignedto_id, assignedto_type)

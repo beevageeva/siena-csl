@@ -107,7 +107,7 @@ class RelatedContentsController < ApplicationController
   # POST /related_contents
   # POST /related_contents.xml
   def create
-    @related_content = RelatedContent.new(params[:related_content])
+    @related_content = RelatedContent.new(rc_params)
     if @related_content.save
       flash[:notice] = t('relatedcontent_created_success')
 			redirect_to :action => "edit" , :id => @related_content.id
@@ -120,7 +120,7 @@ class RelatedContentsController < ApplicationController
   # PUT /related_contents/1.xml
   def update
     @related_content = RelatedContent.find(params[:id])
-      if @related_content.update_attributes(params[:related_content])
+      if @related_content.update(rc_params)
         flash[:notice] = t('relatedcontent_updated_success')
         redirect_to edit_related_content_path(@related_content) 
       else
@@ -156,6 +156,12 @@ end
 	end
 	
   end	
+
+	private
+
+	def rc_params
+			params.require(:related_content).permit(:description, :filename, :recover, :node_id)
+	end
 
 
 end

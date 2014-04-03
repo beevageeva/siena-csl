@@ -54,7 +54,7 @@ layout :green_web
   # POST /nodes
   # POST /nodes.xml
   def create
-    @node = Node.new(params[:node])
+    @node = Node.new(node_params)
 	if User.find(session[:userid]).useraccount_type == User::PROF
 		@node.teacher_id = session[:useraccount_id]
 	else
@@ -75,7 +75,7 @@ layout :green_web
     @node = Node.find(params[:id])
 
     respond_to do |format|
-      if @node.update_attributes(params[:node])
+      if @node.update(node_params)
         flash[:notice] = t('node_updated_success')
         format.html { redirect_to(@node) }
         format.xml  { head :ok }
@@ -124,6 +124,12 @@ layout :green_web
 			flash[:notice] << "<br/>#{fn}"
 		end
 		redirect_to :action => "listByCourse" , :course_id => params[:course_id]
+	end
+
+	private
+
+	def node_params
+			params.require(:node).permit(:content, :course_id, :minPasspoints)
 	end
 
 end

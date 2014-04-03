@@ -2,6 +2,7 @@
 // This file is automatically included by javascript_include_tag :defaults
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap
 //= require wice_grid
-//= require jquery-ui
+//= require jquery.ui.all
 //= require_tree . 

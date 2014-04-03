@@ -1,5 +1,4 @@
 class Edge < ActiveRecord::Base
-attr_accessible :src_id, :dest_id, :dep
 
 	belongs_to :src , :class_name => "Node"
 	belongs_to :dest , :class_name => "Node"

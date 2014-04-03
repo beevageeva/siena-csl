@@ -4,9 +4,12 @@ require 'rails/all'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets => %w(development test)))
+  # Bundler.require(*Rails.groups(:assets => %w(development test)))
   # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
+	#Rails 4.0 removed the assets group from Gemfile. You'd need to remove that line from your Gemfile when upgrading. You should also update your application file (in config/application.rb):
+   #Bundler.require(:default, :assets, Rails.env)
+   Bundler.require(:default,  Rails.env)
+	
 end
 
 module SienaCsl
@@ -51,12 +54,19 @@ module SienaCsl
     # This will create an empty whitelist of attributes available for mass-assignment for all models
     # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
     # parameters by using an attr_accessible or attr_protected declaration.
-    config.active_record.whitelist_attributes = true
+    config.active_record.whitelist_attributes = false
 
     # Enable the asset pipeline
     config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+		
+		#THIS SHOULD BE THE DEFAULT!!!!
+		#config.assets.prefix = "#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets"
+		#config.assets.prefix = "/siena2/assets"
+		#config.relative_url_root = "/siena2"
+		#config.action_controller.relative_url_root = '/sub'
+
   end
 end

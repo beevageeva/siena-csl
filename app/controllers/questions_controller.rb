@@ -6,7 +6,8 @@ class QuestionsController < ApplicationController
 before_filter(:only => [:destroy ,:edit, :update ] ) { |c| c.auth  [ {:types =>  [User::PROF] , :condition => lambda{|params,session| Question.find(params[:id]).teacher_id == session[:useraccount_id]} } , {:types => [User::ADMIN]} ]  }
 before_filter(:only => [:new, :create , :listByCourse, :show, :deleteImgFile] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN] } ]  }
  before_filter(:only => [:index] ) { |c| c.auth  [ {:types =>  [User::ADMIN]  }]  }
- before_filter(:only => [:test,:answer, :regenerate_student_id] ) { |c| c.auth  [ {:types =>  [User::ALU] , :condition => lambda{|params,session| WorksHelper.studentCanViewWork(Test.find(params[:test_id]).work_id,session[:useraccount_id])   }  }]  }
+ before_filter(:only => [:test,:answer, :regenerate_student_id] ) { |c| c.auth  [ {:types =>  [User::ALU] , :condition => lambda{|params,session| WorksHelper.studentCanTestWork(Test.find(params[:test_id]).work_id,session[:useraccount_id])   }  }]  }
+ before_filter(:only => [:starttest] ) { |c| c.auth  [ {:types =>  [User::ALU] , :condition => lambda{|params,session| WorksHelper.studentCanTestWork(params[:work_id],session[:useraccount_id])   }  }]  }
 
 include WorksHelper
 
@@ -199,7 +200,7 @@ include WorksHelper
   # POST /questions
   # POST /questions.xml
   def create
-    @question = Question.new(params[:question])
+    @question = Question.new(question_params)
 	if User.find(session[:userid]).useraccount_type == User::PROF
 		@question.teacher_id = session[:useraccount_id]
 	else
@@ -229,7 +230,7 @@ include WorksHelper
   # PUT /questions/1.xml
   def update
     @question = Question.find(params[:id])
-    if @question.update_attributes(params[:question])
+    if @question.update(question_params)
       flash[:notice] = t('question_updated_success')
       redirect_to(@question) 
     else
@@ -429,5 +430,18 @@ def generate_student_id(test_id)
 	return online_testing_students_ids.min{|s1id,s2id| already_answered_student_ids.find_all{|id| id == s1id}.length - already_answered_student_ids.find_all{|id| id == s2id}.length  }
 
 end
+
+
+	private
+
+	def question_params
+			params.require(:question).permit(:content, :answerTime, :correctAnswer, :difficulty, :luck, :imgFile, :course_id,  :keywords, :img
+)
+	end
+
+
+
+
+
 
 end

@@ -30,6 +30,8 @@ var newMessagesWin = new Array();
 var chatBoxes = new Array();
 
 
+//TODO
+var relativeUrl = "/siena2"
 
 
 $(document).ready(function(){
@@ -148,7 +150,7 @@ function createChatBox(chatboxtitle,chatboxid,minimizeChatBox) {
 }
 
 function showLastMessages(chatboxid){
-	$.post("/chats/showLastmessages", { alu_group_id: chatboxid}, function(data){
+	$.post(relativeUrl + "/chats/showLastmessages", { alu_group_id: chatboxid}, function(data){
 										parsemessages(data);	
 									});
 }
@@ -196,7 +198,7 @@ function chatHeartbeat(){
 	}
 	
 	$.ajax({
-	  url: "/chats/receivemessages",
+	  url: relativeUrl + "/chats/receivemessages",
 	  cache: false,
 	  dataType: "json",
 	  success: function(data) {
@@ -210,7 +212,7 @@ function closeChatBox(chatboxtitle) {
 	$('#chatbox_'+chatboxtitle).css('display','none');
 	restructureChatBoxes();
 	//TODO  send a message when closing the chat?
-	//$.post("/chats/closechatbox", { chatbox: chatboxtitle} , function(data){	
+	//$.post(relativeUrl +  "/chats/closechatbox", { chatbox: chatboxtitle} , function(data){	
 	//});
 
 }
@@ -271,7 +273,7 @@ function checkChatBoxInputKey(event,chatboxtextarea,chatboxtitle,chatboxid) {
 				$("#chatbox_"+chatboxtitle+" .chatboxcontent").append(username+' : '+message + "<br/>");
 
 
-			$.post("/chats/sendmessage", {to: chatboxid, message: message});
+			$.post(relativeUrl +  "/chats/sendmessage", {to: chatboxid, message: message});
 
 
 		}
@@ -294,9 +296,9 @@ function checkChatBoxInputKey(event,chatboxtextarea,chatboxtitle,chatboxid) {
 	 
 }
 
-function startChatSession(){ 
+function startChatSession(){
 	$.ajax({
-	  url: "/chats/connect",
+	  url: relativeUrl +  "/chats/connect",
 	  cache: false,
 	  dataType: "json",
 	  success: function(data) {
@@ -334,7 +336,7 @@ function parsemessages(data){
 						            buttons: {
 						                "Start": function() {
 						                    $( this ).dialog( "close" );
-	        					  	    window.location.href = "/register_to_test/" + item.body;
+	        					  	    window.location.href = relativeUrl +  "/register_to_test/" + item.body;
 						                },
 						                Cancel: function() {
 						                    $( this ).dialog( "close" );
@@ -344,7 +346,7 @@ function parsemessages(data){
 						//answer = confirm("start test " + item.body + "?");
 						//if(answer){ 
 	        				//	  window.location.href = "/test_pregunta/" + item.test_id + "/" + item.question_id ;
-						//	$.post("/chats/starttestresponsemessage" ,{test_id: item.test_id});
+						//	$.post(relativeUrl +  "/chats/starttestresponsemessage" ,{test_id: item.test_id});
 						//}
 					}
 					else if(item.msgtype == 3 || item.msgtype == 4){
@@ -365,7 +367,7 @@ function parsemessages(data){
 						            buttons: {
 						                "Ok": function() {
 						                    $( this ).dialog( "close" );
-	        					  	    	window.location.href = "/test/" + item.body;
+	        					  	    	window.location.href = relativeUrl + "/test/" + item.body;
 
 						                }
 						            }

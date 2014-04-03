@@ -44,7 +44,7 @@ layout :green_web
 		prevController = params[:prev]
 		return if (not ["question", "node"].include? nextController	)
 		return if (not ["question", "node"].include? prevController	)
-    @node_question_relation = NodeQuestionRelation.new(params[:node_question_relation])
+    @node_question_relation = NodeQuestionRelation.new(nqr_params)
 		if NodeQuestionRelation.find_by_node_id_and_question_id(@node_question_relation.node_id, @node_question_relation.question_id)	
         flash[:notice] = t('nodequestionrelation_exists')
 		else
@@ -64,7 +64,7 @@ layout :green_web
   def update
     @node_question_relation = NodeQuestionRelation.find(params[:id])
 
-      if @node_question_relation.update_attributes(params[:node_question_relation])
+      if @node_question_relation.update(nqr_params)
         flash[:notice] = t('nodequestionrelation_updated_success')
 				redirect_to @node_question_relation.question.course		
       else
@@ -104,5 +104,12 @@ private
 	def getCourses
 		TeacherAssign.find(:all, :conditions => ["teacher_assigns.teacher_id = #{session[:useraccount_id]}"] ).collect{|u| [Course.find(u.course_id).name , u.course_id]}
 	end
+
+
+	def nqr_params
+			params.require(:node_question_relation).permit(:node_id, :question_id, :dep)
+	end
+
+
 
 end

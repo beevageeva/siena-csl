@@ -33,16 +33,23 @@ end
 
 def showLastmessages
 	alu_group_id = params[:alu_group_id].to_i
-	chatmessages = ChatMessage.where("msgtype = ? AND body LIKE '?:%'", ChatMessage::MSGTYPE_CHAT, alu_group_id).order("max(created_at) DESC").limit(NUMBER_MESSAGES_LAST).select("from_id, body").group("from_id, body")
+	chatmessagesAR = ChatMessage.where("msgtype = ? AND body LIKE '?:%'", ChatMessage::MSGTYPE_CHAT, alu_group_id).order("max(created_at) DESC").limit(NUMBER_MESSAGES_LAST).select("from_id, body").group("from_id, body")
 	#ActiveRecord::Base.logger.warn("chatmessages sql")
 	#ActiveRecord::Base.logger.warn(chatmessages.to_sql)
 	
-	chatmessages.each do |msg|
+	#The result will be an array of ActiveRecord and from rails 4 will result an error: can't write unknown attribute `alu_group_id'
+	#we cant write arbitrary attributes to activeRecord anymore?????
+	#see below in receivemessage function as well
+
+	chatmessages = []
+	chatmessagesAR.each do |msgAR|
+		msg = msgAR.attributes.dup.symbolize_keys
 		addChatMessageAttr(msg)
 		msg["from_name"] = Student.find(msg[:from_id]).user.username
 		msg["msgtype"] = ChatMessage::MSGTYPE_CHAT
+		chatmessages.insert(0, msg) #no need to reverse the array aftewards
 	end
-	response = chatmessages.reverse.to_json(:except => [:from_id,:to_id])
+	response = chatmessages.to_json(:except => [:from_id,:to_id])
 	#ActiveRecord::Base.logger.warn("chatmessages json:")
 	#ActiveRecord::Base.logger.warn(response)
 
@@ -99,14 +106,21 @@ def receivemessages
 	#last 10 sec messages
 	lastmsgs_condition = chat_messages[:created_at].gt(Time.at(Time.now.to_i - NUMBER_SECONDS_DUPLICATE_SESSION))
 	newmessages_condition= SessionChatmessage.where(session_chatmessages[:chat_message_id].eq(chat_messages[:id])).exists.not
-	newmessages = ChatMessage.where(chat_messages[:to_id].eq(student_id).and(lastmsgs_condition.and(newmessages_session_condition).or(newmessages_condition))).limit(MAX_NUMBER_MESSAGES_RECEIVE)	
+	newmessagesAR = ChatMessage.where(chat_messages[:to_id].eq(student_id).and(lastmsgs_condition.and(newmessages_session_condition).or(newmessages_condition))).limit(MAX_NUMBER_MESSAGES_RECEIVE)	
 	#ActiveRecord::Base.logger.warn("******************************SQL")
 	#ActiveRecord::Base.logger.warn(newmessages.to_sql)
 	# SELECT "chat_messages".* FROM "chat_messages" WHERE ("chat_messages"."to_id" = 340 AND ("chat_messages"."created_at" > '2012-10-19 20:26:22.000000' AND NOT (EXISTS (SELECT "session_chatmessages".* FROM "session_chatmessages" WHERE ("session_chatmessages"."chat_message_id" = "chat_messages"."id" AND "session_chatmessages"."sessionid" = '97bf0f040ec1935a145b89a9dc36f463'))) OR NOT (EXISTS (SELECT "session_chatmessages".* FROM "session_chatmessages" WHERE "session_chatmessages"."chat_message_id" = "chat_messages"."id"))))
 
-	newmessages.each do |newmsg|
+	#The result will be an array of ActiveRecord and from rails 4 will result an error: can't write unknown attribute `alu_group_id'
+	#we cant write arbitrary attributes to activeRecord anymore?????
+
+	newmessages = []
+	newmessagesAR.each do |newmsgAR|
+		newmsg = newmsgAR.attributes.dup.symbolize_keys
+		#ActiveRecord::Base.logger.warn("---------------------------------------newmsg as HASH")
+		#ActiveRecord::Base.logger.warn(newmsg)
 		begin
-			case newmsg.msgtype
+			case newmsg[:msgtype]
 				when ChatMessage::MSGTYPE_CHAT
 					addChatMessageAttr(newmsg)
 				when ChatMessage::MSGTYPE_STARTTEST
@@ -114,14 +128,15 @@ def receivemessages
 					newmsg[:node_name] = test.work.node.content
 					newmsg[:alu_group_name] = test.work.assignedto.name
 		end
-		newmsg[:from_name] = Student.find(newmsg.from_id).user.username 
+		newmsg[:from_name] = Student.find(newmsg[:from_id]).user.username 
+		newmessages.push(newmsg)
 		rescue Exception=>e
 			ActiveRecord::Base.logger.warn("receive message error")
 			ActiveRecord::Base.logger.warn(e)
-			newmessages.delete(newmsg)
+			ActiveRecord::Base.logger.warn("message dropped")
 		end
 	end
-	insertarray = newmessages.map{|nm| {:sessionid => session[:session_id] , :chat_message_id => nm.id } }
+	insertarray = newmessages.map{|nm| {:sessionid => session[:session_id] , :chat_message_id => nm[:id] } }
 	
 	#ActiveRecord::Base.logger.warn("******************************INSERT ARRAY")
 	#ActiveRecord::Base.logger.warn(insertarray)

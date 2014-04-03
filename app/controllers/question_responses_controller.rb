@@ -20,7 +20,7 @@ layout :green_web
   # POST /question_responses
   # POST /question_responses.xml
   def create
-    @question_response = QuestionResponse.new(params[:question_response])
+    @question_response = QuestionResponse.new(qr_params)
 
       if @question_response.save
 				@question = @question_response.question
@@ -38,7 +38,7 @@ layout :green_web
     @question_response = QuestionResponse.find(params[:id])
 
 			@question = @question_response.question
-      if @question_response.update_attributes(params[:question_response])
+      if @question_response.update(qr_params)
         flash[:notice] = t('questionresponse_updated_success')
 				render :action => 'list' 
       else
@@ -54,4 +54,13 @@ layout :green_web
 		@question = @question_response.question
 		render :action => 'list' 
   end
+
+
+	private
+
+	def qr_params
+			params.require(:question_response).permit(:response, :question_id)
+	end
+
+
 end

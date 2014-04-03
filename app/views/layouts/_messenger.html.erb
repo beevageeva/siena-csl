@@ -3,6 +3,9 @@
 
 
     <script>
+
+		var relativeUrl = "/siena2"
+
     var mvis;
     function showChatWindow() {
         $( "#messengerlist" ).dialog( {
@@ -11,7 +14,7 @@
 			},
 			  close: function(ev, ui)
                 {
-										$.post("/chats/setmvis", {mvis: false});
+										$.post(relativeUrl +  "/chats/setmvis", {mvis: false});
 				
 			               //$(this).dialog("close"); recursion?
                 }
@@ -23,7 +26,7 @@
 			buttons: {
                 		"Send": function() {
 					$('#sendmailformid input[name="courseid"] ').val(courseid);		
-					$.post("/chats/sendmailtoteachers", $('#sendmailformid').serialize()  );
+					$.post(relativeUrl +  "/chats/sendmailtoteachers", $('#sendmailformid').serialize()  );
 					$( this ).dialog( "close" );
 				},
                 		Cancel: function() {
@@ -40,7 +43,7 @@
 
 	    $('.invitelink').click(function() {
 		var testid = $(this).attr("testid");
-		$.post("/chats/invite", {test_id: testid} );	
+		$.post(relativeUrl +  "/chats/invite", {test_id: testid} );	
     		});
 		
 
@@ -56,7 +59,7 @@
 
 		function reopenChatWindow(){
 			$("#chatDialogId").dialog("open");
-			$.post("/chats/setmvis", {mvis: true});
+			$.post(relativeUrl +  "/chats/setmvis", {mvis: true});
 			showChatWindow();
     }
 		
@@ -79,7 +82,7 @@
 		<ul>
 			
 <% 
-		ags = AluGroup.where("course_id = ? and students.id = ?",c.id, student_id).includes(:students)
+		ags = AluGroup.where("course_id = ? and students.id = ?",c.id, student_id).includes(:students).references(:students)
 		ags.each do |ag|
 %>
 			<li><a href="javascript:void(0)" onclick="javascript:chatWith('<%= ag.name %>', <%= ag.id%> )"> <%= ag.name %></a>

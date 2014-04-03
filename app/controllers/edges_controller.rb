@@ -25,7 +25,7 @@ class EdgesController < ApplicationController
   # POST /edges
   # POST /edges.xml
   def create
-    @edge = Edge.new(params[:edge])
+    @edge = Edge.new(edge_params)
 		@edge.dep = 1
 		nextController = params[:next]
 		return if (not ["src", "dest"].include? nextController	)
@@ -47,7 +47,7 @@ class EdgesController < ApplicationController
   def update
     @edge = Edge.find_by_src_id_and_dest_id(params[:edge][:src_id] , params[:edge][:dest_id])
 
-      if @edge.update_attributes(params[:edge])
+      if @edge.update(edge_params)
         flash[:notice] = t('edge_updated_success')
 				redirect_to :controller => "nodes" , :action => "listByCourse" , :course_id => @edge.src.course_id		
       else
@@ -63,4 +63,13 @@ class EdgesController < ApplicationController
 		redirect_to :controller => "nodes" , :action => "listByCourse" , :course_id => @edge.src.course_id		
 
   end
+
+
+	private
+
+	def edge_params
+			params.require(:edge).permit(:src_id, :dest_id, :dep)
+	end
+
+
 end

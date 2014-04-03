@@ -76,4 +76,13 @@ class AluGroupsController < ApplicationController
     @alu_group.destroy
 		 redirect_to :controller=>"alu_groups", :action => "listByCourse",:course_id => @alu_group.course_id
   end
+
+
+
+	private
+
+	def alu_group_params
+			params.require(:alu_group).permit(:name, :course_id)
+	end
+
 end
