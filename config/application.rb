@@ -3,13 +3,7 @@ require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 
 if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  # Bundler.require(*Rails.groups(:assets => %w(development test)))
-  # If you want your assets lazily compiled in production, use this line
-	#Rails 4.0 removed the assets group from Gemfile. You'd need to remove that line from your Gemfile when upgrading. You should also update your application file (in config/application.rb):
-   #Bundler.require(:default, :assets, Rails.env)
    Bundler.require(:default,  Rails.env)
-	
 end
 
 module SienaCsl
@@ -61,12 +55,6 @@ module SienaCsl
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-		
-		#THIS SHOULD BE THE DEFAULT!!!!
-		#config.assets.prefix = "#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets"
-		#config.assets.prefix = "/siena2/assets"
-		#config.relative_url_root = "/siena2"
-		#config.action_controller.relative_url_root = '/sub'
 
   end
 end
