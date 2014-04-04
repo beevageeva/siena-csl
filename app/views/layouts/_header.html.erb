@@ -4,8 +4,8 @@
   <%= csrf_meta_tags %>
 
 <% if session[:userid]  && User.find(session[:userid]).useraccount_type == User::ALU%>
-	<script src="<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/jabberweb/js/chat.js" type="text/javascript"></script >
-	<link type="text/css" rel="stylesheet" media="all" href="<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/jabberweb/css/chat.css" />
+  <%= stylesheet_link_tag  "chat" , :media => "all" %>
+  <%= javascript_include_tag "chat" %>
 <% end %>
 
  

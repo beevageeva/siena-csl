@@ -10,7 +10,8 @@
  *
  *= require_self
  *= require jquery.ui.all
- *= require_tree .
+ *= require wice_grid
+ *= require styles
 */
 
 @import "bootstrap";
