@@ -1,6 +1,7 @@
 /.bundle
 /log/*.log
 /tmp/
+/email.txt
 /public/questions/*
 /public/competenceGroupsFiles/*
 /public/relatedContents/*
@@ -11,6 +12,9 @@
 /Gemfile.lock
 /Gemfile
 /config/initializers/constants.rb
-/config/database.yml
+/config/initializers/secret_token.rb
+/config/initializers/session_store.rb
+/config/initializers/recaptcha.rb
+config/database.yml
 /public/assets/*
 /.hg/*
