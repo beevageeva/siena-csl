@@ -31,7 +31,9 @@ def self.iscorrect text, keyword, locale
 		return keyword 		
 	end
 	edits1(keyword, locale).each do |w|
-		return w if text.include?(w)
+		#If want to keep the mispelled word
+		#return w if text.include?(w)
+		return keyword if text.include?(w)
 	end
 	return nil
 end

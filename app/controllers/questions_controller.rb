@@ -391,6 +391,8 @@ private
 		testQuestions = test.answers.map{|a| a.question}
 		availQuestions = allQuestions - testQuestions	
 		if(availQuestions.size >0)
+			toChooseQuestions = []
+			resQuestion = nil
 			if(testQuestions.size > 0)
 				pointsarray = test.answers.map{|p| p.pointsBefore}	
 				lastP = pointsarray.last
@@ -405,8 +407,11 @@ private
 	       			 	cFunc = (1 - w1) * dep +  w1 * modif2
 	        			if (cFunc > maxFunc) 
 	          				maxFunc = cFunc
-	          				resQuestion = cQuestion
-	        			end
+						toChooseQuestions = [cQuestion]
+	        elsif cFunc == maxFunc
+						toChooseQuestions.push(cQuestion)
+	        end
+					resQuestion = toChooseQuestions[rand(toChooseQuestions.size)] if toChooseQuestions.size>0
 	
 	      			end
 			end
