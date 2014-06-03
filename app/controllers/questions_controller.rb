@@ -12,38 +12,38 @@ before_filter(:only => [:new, :create , :listByCourse, :show, :deleteImgFile] ) 
 include WorksHelper
 
 # after_filter :set_content_type , :only => [:show]  
-  
+	
 
 	layout :green_web
 
 
 
-  # GET /questions
-  # GET /questions.xml
-  def index
+	# GET /questions
+	# GET /questions.xml
+	def index
 		@questions = initialize_grid(Question , {:include => ["course"]})
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @questions }
-    end
-  end
+	  respond_to do |format|
+	    format.html # index.html.erb
+	    format.xml  { render :xml => @questions }
+	  end
+	end
 
 	def listByCourse
 		@questions = initialize_grid(Question , {:conditions => ["course_id = #{params[:course_id]}"]})
 	end
 
-  # GET /questions/1
-  # GET /questions/1.xml
-  def show
-    @question = Question.find(params[:id])
+	# GET /questions/1
+	# GET /questions/1.xml
+	def show
+	  @question = Question.find(params[:id])
 		@nodes = initialize_grid(Node, {:conditions => ['node_question_relations.question_id = ?', @question], :include => [:node_question_relations]})
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @question }
-    end
-  end
+	  respond_to do |format|
+	    format.html # show.html.erb
+	    format.xml  { render :xml => @question }
+	  end
+	end
 
 	
 	def test
@@ -83,17 +83,17 @@ include WorksHelper
 
 	end
 
-  # GET /tests/new
-  # GET /tests/new.xml
-  def starttest
+	# GET /tests/new
+	# GET /tests/new.xml
+	def starttest
 	work = Work.find(params[:work_id])
 		#AUTH
 	if !(canTest(Work.find(params[:work_id]).node, work.assignedto_id, work.assignedto_type))
-      		flash[:notice] = "You must login"
-      		redirect_to(login_url)
+	    		flash[:notice] = "You must login"
+	    		redirect_to(login_url)
 		
-    	else
-    		test = Test.new
+	  	else
+	  		test = Test.new
 		test.work_id = params[:work_id]
 
 #media de los tests
@@ -134,7 +134,7 @@ include WorksHelper
 				return
 			end
 		end	
-    	end
+	  	end
 	flash[:notice] = "Error empezando el test"
 	redirect_to :controller => "works" , :action => "listByAssignedtoAndCourse" , :course_id => work.node.course_id , :assignedto_id => work.assignedto_id, :assignedto_type => work.assignedto_type
 	end
@@ -179,28 +179,28 @@ include WorksHelper
 
 
 
-  # GET /questions/new
-  # GET /questions/new.xml
-  def new
-    @question = Question.new
+	# GET /questions/new
+	# GET /questions/new.xml
+	def new
+	  @question = Question.new
 		@question.course_id = params[:course_id]
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @question }
-    end
-  end
+	  respond_to do |format|
+	    format.html # new.html.erb
+	    format.xml  { render :xml => @question }
+	  end
+	end
 
-  # GET /questions/1/edit
-  def edit
-    @question = Question.find(params[:id])
+	# GET /questions/1/edit
+	def edit
+	  @question = Question.find(params[:id])
 		@nodes = initialize_grid(Node, {:conditions => ['node_question_relations.question_id = ?', @question], :include => [:node_question_relations]})
-  end
+	end
 
-  # POST /questions
-  # POST /questions.xml
-  def create
-    @question = Question.new(params[:question])
+	# POST /questions
+	# POST /questions.xml
+	def create
+	  @question = Question.new(params[:question])
 	if User.find(session[:userid]).useraccount_type == User::PROF
 		@question.teacher_id = session[:useraccount_id]
 	else
@@ -208,45 +208,45 @@ include WorksHelper
 
 	end
 
-      if @question.save
-        flash[:notice] = 'Pregunta creada.'
+	    if @question.save
+	      flash[:notice] = 'Pregunta creada.'
 				redirect_to  :action => "edit" , :id => @question.id
-      else
-        render :action => "new" 
-      end
-  end
+	    else
+	      render :action => "new" 
+	    end
+	end
 
 
-  def deleteImgFile
-    question = Question.find(params[:question_id])
-    question.deleteImgFile
-    redirect_to :action => 'edit' , :id => question.id
-  end
+	def deleteImgFile
+	  question = Question.find(params[:question_id])
+	  question.deleteImgFile
+	  redirect_to :action => 'edit' , :id => question.id
+	end
 
 
 
 
-  # PUT /questions/1
-  # PUT /questions/1.xml
-  def update
-    @question = Question.find(params[:id])
-    if @question.update_attributes(params[:question])
-      flash[:notice] = t('question_updated_success')
-      redirect_to(@question) 
-    else
+	# PUT /questions/1
+	# PUT /questions/1.xml
+	def update
+	  @question = Question.find(params[:id])
+	  if @question.update_attributes(params[:question])
+	    flash[:notice] = t('question_updated_success')
+	    redirect_to(@question) 
+	  else
 			@nodes = initialize_grid(Node, {:conditions => ['node_question_relations.question_id = ?', @question], :include => [:node_question_relations]})
-      render :action => "edit" 
-    end
-  end
+	    render :action => "edit" 
+	  end
+	end
 
-  # DELETE /questions/1
-  # DELETE /questions/1.xml
-  def destroy
-    @question = Question.find(params[:id])
-    @question.deleteImgFile
-    @question.destroy
-    redirect_to :action => "listByCourse" , :course_id => @question.course_id
-  end
+	# DELETE /questions/1
+	# DELETE /questions/1.xml
+	def destroy
+	  @question = Question.find(params[:id])
+	  @question.deleteImgFile
+	  @question.destroy
+	  redirect_to :action => "listByCourse" , :course_id => @question.course_id
+	end
 
 
 	def regenerate_student_id
@@ -323,19 +323,19 @@ private
 
 
 
-  #This is not needed (new firefox version??)
-  #def set_content_type
-  #   headers['Content-Type'] = 'application/xhtml+xml; charset=utf-8'
-  #end
+	#This is not needed (new firefox version??)
+	#def set_content_type
+	#   headers['Content-Type'] = 'application/xhtml+xml; charset=utf-8'
+	#end
 
-  def adjustPoints(test) 
-    lastP = test.points
+	def adjustPoints(test) 
+	  lastP = test.points
 		if test.answers.last.correctAnswer?
 			lastQuestion = test.answers.last.question	
 			#	ActiveRecord::Base.logger.info "lastQuestion #{lastQuestion} lastP = #{lastP} "
-      first = lastQuestion.difficulty * lastP
-      second = first + (1 - lastP) *  lastQuestion.luck
-      newLastP = second == 0 ? 0 : (first / second)
+	    first = lastQuestion.difficulty * lastP
+	    second = first + (1 - lastP) *  lastQuestion.luck
+	    newLastP = second == 0 ? 0 : (first / second)
 			if newLastP >=1
 				ActiveRecord::Base.logger.info "newLastP >=1 "
 				newLastP = 1
@@ -345,12 +345,12 @@ private
 				ActiveRecord::Base.logger.info "question luck = #{lastQuestion.luck},dif = #{lastQuestion.difficulty}, lastP=#{lastP} , fisrt = #{first}, second = #{second}, newLastP = #{newLastP} "
 				newLastP = lastP
 			end	
-    else 
+	  else 
 			newLastP = lastP
-    end
+	  end
 		test.points = newLastP
 		test.save
-  end
+	end
 
 
 
@@ -391,24 +391,27 @@ private
 		testQuestions = test.answers.map{|a| a.question}
 		availQuestions = allQuestions - testQuestions	
 		if(availQuestions.size >0)
+			toChooseQuestions = []
+			resQuestion = nil
 			if(testQuestions.size > 0)
 				pointsarray = test.answers.map{|p| p.pointsBefore}	
 				lastP = pointsarray.last
 				modif = test.answers.last.correctAnswer?  ? 1 : -1
-	      			lastQuestDiff = test.answers.last.question.difficulty
+	      lastQuestDiff = test.answers.last.question.difficulty
 				maxFunc = 0
-				resQuestion = nil
 				availQuestions.each do |cQuestion|
-	        			diffRes = (modif * (cQuestion.difficulty - lastQuestDiff) * lastP) / (cQuestion.difficulty * lastP + (1 - lastP) * cQuestion.luck)
-	        			modif2 = diffRes < 0.001 ? diffRes : 1- diffRes
+	        diffRes = (modif * (cQuestion.difficulty - lastQuestDiff) * lastP) / (cQuestion.difficulty * lastP + (1 - lastP) * cQuestion.luck)
+	        modif2 = diffRes < 0.001 ? diffRes : 1- diffRes
 					dep = NodeQuestionRelation.find_by_node_id_and_question_id(test.work.node_id, cQuestion.id).dep
-	       			 	cFunc = (1 - w1) * dep +  w1 * modif2
-	        			if (cFunc > maxFunc) 
-	          				maxFunc = cFunc
-	          				resQuestion = cQuestion
-	        			end
-	
-	      			end
+	       	cFunc = (1 - w1) * dep +  w1 * modif2
+	        if (cFunc > maxFunc) 
+	        	maxFunc = cFunc
+						toChooseQuestions = [cQuestion]
+	        elsif cFunc == maxFunc
+						toChooseQuestions.push(cQuestion)
+					end
+					resQuestion = toChooseQuestions[rand(toChooseQuestions.size)] if toChooseQuestions.size>0
+	      end
 			end
 			resQuestion = availQuestions[rand(availQuestions.size)] if ! resQuestion
 			ActiveRecord::Base.logger.warn("****next question id *****" + resQuestion.id.to_s)
