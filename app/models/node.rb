@@ -1,6 +1,5 @@
 class Node < ActiveRecord::Base
 
-	attr_accessible :content, :course_id, :minPassPoints
 
 	#changed because has_many_and_belongs_to deprecated edges deleted here, no need for before_destroy
 	has_many :successors , :through => :edges_as_source, :source => :dest

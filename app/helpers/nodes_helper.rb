@@ -1,6 +1,6 @@
 require "rexml/document"
 require "rexml/xpath"
-require 'iconv'
+#require 'iconv'
 
 module NodesHelper
 

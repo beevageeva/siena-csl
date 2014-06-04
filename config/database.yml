@@ -2,13 +2,13 @@
 #   gem install sqlite3-ruby (not necessary on OS X Leopard)
 development:
   adapter: postgresql
-  database: dbname
-  username: dbuser
-  password: dbpass
+  database: siena2
+  username: siena	
+  password: eBHHH3DrHR
 
 
 production:
   adapter: postgresql
-  database: dbname
-  username: dbuser
-  password: dbpass
+  database: siena2
+  username: siena
+  password: eBHHH3DrHR

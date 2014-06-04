@@ -2,9 +2,6 @@ class ChatMessage < ActiveRecord::Base
 #TODO polymorphic ?
 
 
-	attr_accessible :from_id, :to_id, :body, :msgtype
-
-
 	belongs_to :test
 
 	belongs_to :from , :class_name => "Student"

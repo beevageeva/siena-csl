@@ -88,8 +88,6 @@ before_filter(:only => [:show] ) { |c| c.auth  [ {:types =>  [User::PROF, User::
 
 
 
-private
-
 
 
 end

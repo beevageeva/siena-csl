@@ -1,5 +1,4 @@
 class Course < ActiveRecord::Base
-attr_accessible :name
 	
 	has_many :student_assigns , :dependent => :delete_all
 	has_many :teacher_assigns , :dependent => :delete_all

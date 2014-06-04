@@ -3,7 +3,6 @@ require 'file_helper'
 
 class RelatedContent < ActiveRecord::Base
 
-	attr_accessible :description, :filename, :recover, :node_id
 
 	belongs_to :node
 

@@ -235,6 +235,7 @@ en:
   teacher_updated_success: "Teacher was successfully updated."
   user_created_success: "User successfully registered."
   user_updated_success: "User was successfully updated."
+  work_updated_success: "Work was successfully updated."
   questionresponse_created_success: "QuestionResponse was successfully created."
   questionresponse_updated_success: "QuestionResponse was successfully updated."
   competencenode_created_success: "CompetenceNode was successfully created."

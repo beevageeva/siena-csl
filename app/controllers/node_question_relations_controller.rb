@@ -44,7 +44,7 @@ layout :green_web
 		prevController = params[:prev]
 		return if (not ["question", "node"].include? nextController	)
 		return if (not ["question", "node"].include? prevController	)
-    @node_question_relation = NodeQuestionRelation.new(params[:node_question_relation])
+    @node_question_relation = NodeQuestionRelation.new(nqr_params)
 		if NodeQuestionRelation.find_by_node_id_and_question_id(@node_question_relation.node_id, @node_question_relation.question_id)	
         flash[:notice] = t('nodequestionrelation_exists')
 		else
@@ -64,7 +64,7 @@ layout :green_web
   def update
     @node_question_relation = NodeQuestionRelation.find(params[:id])
 
-      if @node_question_relation.update_attributes(params[:node_question_relation])
+      if @node_question_relation.update(nqr_params)
         flash[:notice] = t('nodequestionrelation_updated_success')
 				redirect_to @node_question_relation.question.course		
       else
@@ -85,7 +85,7 @@ layout :green_web
 
 
 	def getNodesDep
-		@nodesoptions = Node.find(:all , :conditions => ["course_id = #{params[:course_id]}"] ).collect {|u| [u.content , u.id]}
+		@nodesoptions = Node.where(course_id: params[:course_id]).collect {|u| [u.content , u.id]}
 		ActiveRecord::Base.logger.warn("nodes dep") 
 		ActiveRecord::Base.logger.warn(@nodesoptions) 
 		render :partial => 'getNodesDep' , :layout => false
@@ -93,7 +93,7 @@ layout :green_web
 
 
 	def getQuestionsDep
-		@questionsoptions = Question.find(:all , :conditions => ["course_id = #{params[:course_id]}"] ).collect {|u| [u.content , u.id]} 
+		@questionsoptions = Question.where(course_id: params[:course_id]).collect {|u| [u.content , u.id]}
 		ActiveRecord::Base.logger.warn("quest dep") 
 		ActiveRecord::Base.logger.warn(@questionsoptions) 
 		render :partial => 'getQuestionsDep' , :layout => false
@@ -102,7 +102,18 @@ layout :green_web
 
 private
 	def getCourses
-		TeacherAssign.find(:all, :conditions => ["teacher_assigns.teacher_id = #{session[:useraccount_id]}"] ).collect{|u| [Course.find(u.course_id).name , u.course_id]}
+		if(User.find(session[:userid]).useraccount_type == User::PROF)
+			TeacherAssign.find(:all, :conditions => ["teacher_assigns.teacher_id = #{session[:useraccount_id]}"] ).collect{|u| [Course.find(u.course_id).name , u.course_id]}
+		else
+			Course.pluck(:name, :id)
+		end
 	end
+
+
+	def nqr_params
+			params.require(:node_question_relation).permit(:node_id, :question_id, :dep)
+	end
+
+
 
 end

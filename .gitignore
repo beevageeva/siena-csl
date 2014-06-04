@@ -1,6 +1,7 @@
 /.bundle
 /log/*.log
 /tmp/
+/email.txt
 /public/questions/*
 /public/competenceGroupsFiles/*
 /public/relatedContents/*

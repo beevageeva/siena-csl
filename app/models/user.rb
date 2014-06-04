@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
 
-attr_accessible :username, :email, :name, :useraccount_type, :password 
 
  belongs_to :useraccount, :polymorphic => true , :dependent => :destroy
 

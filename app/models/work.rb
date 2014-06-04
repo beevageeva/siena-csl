@@ -1,7 +1,5 @@
 class Work < ActiveRecord::Base
 
-	attr_accessible  :node_id, :initialpoints, :worktype, :assignedto_type, :assignedto_id 
-
 
 	belongs_to :assignedto, :polymorphic => true
 	belongs_to :node

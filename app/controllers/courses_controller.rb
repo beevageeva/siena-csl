@@ -1,4 +1,6 @@
 require "courses_helper"
+#require "courses_grid"
+
 class CoursesController < ApplicationController
 
  before_filter(:only => [:show , :index] ) { |c| c.auth nil  }
@@ -13,6 +15,16 @@ include CoursesHelper
   # GET /courses
   # GET /courses.xml
   def index
+#		ActiveRecord::Base.logger.warn("REQUEST HEADERS")
+#			request.headers.each do |header|
+#			ActiveRecord::Base.logger.warn 	header	
+#		end
+#
+#		ActiveRecord::Base.logger.warn("REQUEST HEADERS END")
+
+    #@grid = CoursesGrid.new(params[:courses_grid])
+    #@courses = @grid.assets.page(params[:page])
+    #@courses = @grid.assets.paginate(:page => params[:page], :per_page => 20)
 		@courses = initialize_grid(Course, { :order => "created_at" , :order_direction => 'desc' } )
     respond_to do |format|
       format.html # index.html.erb
@@ -61,7 +73,7 @@ include CoursesHelper
   # POST /courses
   # POST /courses.xml
   def create
-    @course = Course.new(params[:course])
+    @course = Course.new(course_params)
 
     respond_to do |format|
       if @course.save
@@ -81,7 +93,7 @@ include CoursesHelper
     @course = Course.find(params[:id])
 
     respond_to do |format|
-      if @course.update_attributes(params[:course])
+      if @course.update(course_params)
         flash[:notice] = t('course_updated_success')
         format.html { redirect_to(@course) }
         format.xml  { head :ok }
@@ -134,5 +146,10 @@ include CoursesHelper
 		redirect_to :action => "index"
 	end
 
+	private
+
+	def course_params
+			params.require(:course).permit(:name)
+	end
 
 end
