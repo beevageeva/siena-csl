@@ -58,7 +58,7 @@ class CompetencesController < ApplicationController
   # POST /competences
   # POST /competences.xml
   def create
-    @competence = Competence.new(params[:competence])
+    @competence = Competence.new(competence_params)
 
     respond_to do |format|
       if @competence.save
@@ -78,7 +78,7 @@ class CompetencesController < ApplicationController
     @competence = Competence.find(params[:id])
 
     respond_to do |format|
-      if @competence.update_attributes(params[:competence])
+      if @competence.update(competence_params)
         flash[:notice] = t('competence_updated_success')
         format.html { redirect_to(@competence) }
         format.xml  { head :ok }
@@ -100,4 +100,14 @@ class CompetencesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+
+
+	private
+
+	def competence_params
+			params.require(:competence).permit(:name, :description)
+	end
+
+
 end

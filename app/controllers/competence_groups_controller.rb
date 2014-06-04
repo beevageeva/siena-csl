@@ -69,7 +69,7 @@ class CompetenceGroupsController < ApplicationController
 				return
 		
 		end
-    @competence_group = CompetenceGroup.new(params[:competence_group])
+    @competence_group = CompetenceGroup.new(cg_params)
 
       if @competence_group.save
 				#assign works to all users of groups		
@@ -106,7 +106,7 @@ class CompetenceGroupsController < ApplicationController
     @competence_group = CompetenceGroup.find(params[:id])
 
     respond_to do |format|
-      if @competence_group.update_attributes(params[:competence_group])
+      if @competence_group.update_attributes(cg_params)
         flash[:notice] = t('competencegroup_updated_success') 
         format.html { redirect_to(@competence_group) }
         format.xml  { head :ok }
@@ -149,5 +149,12 @@ class CompetenceGroupsController < ApplicationController
 				end	
 				return false
 		end
+
+
+	  def cg_params
+	      params.require(:competence_group).permit(:filename, :points, :competence_id, :alu_group_id)
+	  end
+
+
 
 end

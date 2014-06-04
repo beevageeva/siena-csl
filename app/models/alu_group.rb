@@ -1,5 +1,4 @@
 class AluGroup < ActiveRecord::Base
-	attr_accessible :name, :course_id
 
 	has_many   :competences , :through => :competence_groups
 	has_many  	:competence_groups , :dependent => :delete_all

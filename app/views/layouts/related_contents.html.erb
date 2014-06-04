@@ -9,8 +9,8 @@
   <%= javascript_include_tag "application" %>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= csrf_meta_tags %>
-   <script src="/jabberweb/js/chat.js" type="text/javascript"></script >
-   <link type="text/css" rel="stylesheet" media="all" href="/jabberweb/css/chat.css" />
+  <%= stylesheet_link_tag  "chat" , :media => "all" %>
+  <%= javascript_include_tag "chat" %>
   <%= yield(:head) %>
 
         

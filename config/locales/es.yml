@@ -223,6 +223,7 @@ es:
   teacher_updated_success: "Profesor actualizado correctamente."
   user_created_success: "Usuario registrado correctamente."
   user_updated_success: "Usuario actualizado correctamente."
+  work_updated_success: "Trabajo actualizado correctamente."
   questionresponse_created_success: "QuestionResponse creado correctamente."
   questionresponse_updated_success: "QuestionResponse actualizado correctamente."
   competencenode_created_success: "CompetenceNode creado correctamente."

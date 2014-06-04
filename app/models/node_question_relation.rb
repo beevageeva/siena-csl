@@ -1,5 +1,4 @@
 class NodeQuestionRelation < ActiveRecord::Base
-attr_accessible :node_id, :question_id, :dep
 
 	belongs_to :node
 	belongs_to :question

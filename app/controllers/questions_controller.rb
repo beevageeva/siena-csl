@@ -200,7 +200,7 @@ include WorksHelper
 	# POST /questions
 	# POST /questions.xml
 	def create
-	  @question = Question.new(params[:question])
+	  @question = Question.new(question_params)
 	if User.find(session[:userid]).useraccount_type == User::PROF
 		@question.teacher_id = session[:useraccount_id]
 	else
@@ -230,7 +230,7 @@ include WorksHelper
 	# PUT /questions/1.xml
 	def update
 	  @question = Question.find(params[:id])
-	  if @question.update_attributes(params[:question])
+	  if @question.update(question_params)
 	    flash[:notice] = t('question_updated_success')
 	    redirect_to(@question) 
 	  else
@@ -433,5 +433,18 @@ def generate_student_id(test_id)
 	return online_testing_students_ids.min{|s1id,s2id| already_answered_student_ids.find_all{|id| id == s1id}.length - already_answered_student_ids.find_all{|id| id == s2id}.length  }
 
 end
+
+
+	private
+
+	def question_params
+			params.require(:question).permit(:content, :answerTime, :correctAnswer, :difficulty, :luck, :imgFile, :course_id,  :keywords, :img
+)
+	end
+
+
+
+
+
 
 end

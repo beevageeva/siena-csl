@@ -2,7 +2,6 @@ require 'file_helper'
 
 class Question < ActiveRecord::Base
 
-attr_accessible :content, :answerTime, :correctAnswer, :difficulty, :luck, :imgFile, :course_id,  :keywords, :img
 
 	has_many :node_question_relations , :dependent => :delete_all
 	has_many :nodes, :through => :node_question_relations

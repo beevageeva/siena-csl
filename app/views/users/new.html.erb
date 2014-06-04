@@ -34,7 +34,9 @@
     <%= f.text_field :name %>
   </p>
 
-	<%= show_simple_captcha %>
+	<%= raw(get_captcha(:options => {:theme => 'white', :tabindex => 10})) %>
+
+	<!-- %= show_simple_captcha % -->
 
   <p>
     <%= f.submit t("register") %>

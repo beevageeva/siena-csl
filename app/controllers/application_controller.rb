@@ -5,8 +5,9 @@ class ApplicationController < ActionController::Base
 
 	protect_from_forgery
 	#captcha
-	include SimpleCaptcha::ControllerHelpers
-
+	#include SimpleCaptcha::ControllerHelpers
+	#recaptcha
+	include ReCaptcha::AppHelper
 
 
 	layout :green_web

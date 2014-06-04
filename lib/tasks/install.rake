@@ -1,7 +1,7 @@
 namespace :install do
 
 	desc "Activate user"
-	task :activate , :username, :needs => :environment  do |t, args|
+	task :activate , [:username]  => [:environment]  do |t, args|
 		args.with_defaults(:username => "admin")
 		u = User.find_by_username(args.username)
 		if u.nil?

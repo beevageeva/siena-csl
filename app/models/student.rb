@@ -1,6 +1,5 @@
 class Student < ActiveRecord::Base
 
-attr_accessible  :lastcheck
 
  has_one :user, :as => :useraccount
  has_many :student_assigns , :dependent => :delete_all

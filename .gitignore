@@ -11,5 +11,10 @@
 /mongrel.pid
 /Gemfile.lock
 /Gemfile
+/config/initializers/constants.rb
+/config/initializers/secret_token.rb
+/config/initializers/session_store.rb
+/config/initializers/recaptcha.rb
+config/database.yml
 /public/assets/*
 /.hg/*

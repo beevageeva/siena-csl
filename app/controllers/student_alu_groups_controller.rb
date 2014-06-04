@@ -23,7 +23,7 @@ class StudentAluGroupsController < ApplicationController
 				return
 		
 		end
-    @student_alu_group = StudentAluGroup.new(params[:student_alu_group])
+    @student_alu_group = StudentAluGroup.new(sag_params)
 
       if @student_alu_group.save
         flash[:notice] = t('student_alu_group_created_success')
@@ -41,4 +41,9 @@ class StudentAluGroupsController < ApplicationController
     @student_alu_group.destroy
 		redirect_to :controller => 'alu_groups' , :action => 'edit' , :id => @student_alu_group.alu_group_id
   end
+	private
+
+	def sag_params
+			params.require(:student_alu_group).permit(:alu_group_id, :student_id)
+	end
 end

@@ -1,4 +1,13 @@
 SienaCsl::Application.routes.draw do
+
+
+
+#http verbs are:
+#get, post(create new item), put(replace existing item), patch(update existing item), delete(delete existing item)
+#patch default for forms hidden field _method
+
+
+def makeRoutes
   resources :chat_messages
 
   resources :competence_nodes
@@ -43,143 +52,96 @@ SienaCsl::Application.routes.draw do
   resources :questions
 
   resources :users
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
 
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Sample resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Sample resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Sample resource route with more complex sub-resources
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', :on => :collection
-  #     end
-  #   end
-
-  # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
-
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-  # root :to => "welcome#index"
-
-  # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  match ':controller(/:action(/:id))(.:format)'
+  get '/' => "users#getUserHome" 
 
 
-   root :to => "users#getUserHome" 
+  get 'login'  => 'users#login', :as => :login
+  get 'logout'  => 'users#logout', :as => :logout
+  get 'register'  => 'users#new', :as => :register
+  get 'lost_password'  => 'users#get_lost_password', :as => :lost_password
 
+	get 'cambiarEstado/:userid' => 'users#changeActive'
+	get 'entrarComo/:userid' => 'users#loginAs'
+	get 'home' => 'users#getUserHome'
+	get 'ayuda' => 'users#help'
+	get 'matricular_alumno/:course_id' => 'student_assigns#enroll'
+	get 'matricular_profesor/:course_id' => 'teacher_assigns#enroll'
+	get 'cambiar_coordinador/:id/:course_id' => 'teacher_assigns#changeCoordinator'
+	get 'matricular_profesor_admin/:course_id/:teacher_id' => 'teacher_assigns#assign_to_course'
+	get 'matricular_alumnos/:course_id' => 'student_assigns#register_to_course'
+	get 'matricular_profesores/:course_id' => 'teacher_assigns#register_to_course'
+	get 'nuevo_nodo/:course_id' => 'nodes#new'
+	get 'nuevo_comp_grupo/:competence_id' => 'competence_groups#newAluGroup'
+	get 'nuevo_comp_nodo/:competence_id' => 'competence_nodes#newNode'
+	get 'importar_compendium/:course_id' => 'nodes#importFromCompendium'
+	get 'nueva_pregunta/:course_id' => 'questions#new'
+	get 'borrar_imagen/:question_id' => 'questions#deleteImgFile'
+ get 'nueva_respuesta/:question_id' => 'question_responses#new'
+ get 'nuevo_nodo_asoc/:question_id' => 'node_question_relations#newNode'
+ get 'nueva_pregunta_asoc/:node_id' => 'node_question_relations#newQuestion'
+ get 'nuevo_alumno/:alu_group_id' => 'student_alu_groups#newStudent'
+ get 'trabajos_asignatura/:assignedto_type/:assignedto_id/:course_id' => 'works#listByAssignedtoAndCourse'
+ get 'trabajos_asignatura_xml/:assignedto_type/:assignedto_id/:course_id' => 'works#listByAssignedtoAndCourseXML'
+ get 'trabajos/:student_id/course_id' => 'works#listByStudent'
+ get 'nuevo_trabajo/:student_id/:course_id' => 'works#new'
+ get 'nodos/:course_id' => 'nodes#listByCourse' 
+ get 'preguntas/:course_id' => 'questions#listByCourse' 
+ get 'profesores/:course_id' => 'teacher_assigns#listByCourse' 
+ get 'alumnos/:course_id' => 'student_assigns#listByCourse' 
+ get 'grupos/:course_id' => 'alu_groups#listByCourse' 
+ get 'profesores_no_matriculados/:course_id' => 'teacher_assigns#listByCourseNot' 
+ get 'alumnos_no_matriculados/:course_id' => 'student_assigns#listByCourseNot' 
+ get 'nuevo_grupo/:course_id' => 'alu_groups#new' 
+ get 'grupos_de_alumnos/:student_id/:course_id' => 'alu_groups#listByStudentAndCourse' 
+ get 'nuevo_predecesor/:dest_id' => 'edges#new_dest'
+ get 'nuevo_sucesor/:src_id' => 'edges#new_src'
+ get 'editar/:src_id/:dst_id' => 'edges#edit'
+ get 'borrar/:src_id/:dst_id' => 'edges#destroy'
+ get 'nuevo_contenido/:node_id' => 'related_contents#new'
+ get 'html_related/:related_content_id/*filename' => 'related_contents#view_as_html'  , :filename => /.+/
+ get 'asignaturas_mat' => 'courses#indexAssigned'
+ get 'exportar_asignatura/:course_id' => 'courses#export'
+	get 'importar_asignatura' => 'courses#import'
+ get 'cambiar_tema/:theme' => 'users#changeTheme'
+ get 'cambiar_idioma/:locale' => 'users#set_locale'
+ get 'competencias_grupo/:alu_group_id' => 'competences#listByGroup'
+ get 'competencias_grupos' => 'competences#listByGroups'
+ get 'ver_chats/:username' => 'users#listChats'
 
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  match 'login'  => 'users#login', :as => :login
-  match 'logout'  => 'users#logout', :as => :logout
-  match 'register'  => 'users#new', :as => :register
-  match 'lost_password'  => 'users#get_lost_password', :as => :lost_password
+ get 'changePassword/:userid' => 'users#chPw' 
+ get 'usuarios_no_activos' => 'users#indexNotActive'
+ get 'nuevo_test/:work_id' => 'questions#starttest'
+ get 'borrar_image_test/:test_id' => 'tests#deleteTestImage'
+ get 'nuevo_trabajo_asign/:course_id/:assignedtoType' => 'works#newAll'
 
-	match 'cambiarEstado/:userid' => 'users#changeActive'
-	match 'entrarComo/:userid' => 'users#loginAs'
-	match 'home' => 'users#getUserHome'
-	match 'ayuda' => 'users#help'
-	match 'matricular_alumno/:course_id' => 'student_assigns#enroll'
-	match 'matricular_profesor/:course_id' => 'teacher_assigns#enroll'
-	match 'cambiar_coordinador/:id/:course_id' => 'teacher_assigns#changeCoordinator'
-	match 'matricular_profesor_admin/:course_id/:teacher_id' => 'teacher_assigns#assign_to_course'
-	match 'matricular_alumnos/:course_id' => 'student_assigns#register_to_course'
-	match 'matricular_profesores/:course_id' => 'teacher_assigns#register_to_course'
-	match 'nuevo_nodo/:course_id' => 'nodes#new'
-	match 'nuevo_comp_grupo/:competence_id' => 'competence_groups#newAluGroup'
-	match 'nuevo_comp_nodo/:competence_id' => 'competence_nodes#newNode'
-	match 'importar_compendium/:course_id' => 'nodes#importFromCompendium'
-	match 'nueva_pregunta/:course_id' => 'questions#new'
-	match 'borrar_imagen/:question_id' => 'questions#deleteImgFile'
- match 'nueva_respuesta/:question_id' => 'question_responses#new'
- match 'nuevo_nodo_asoc/:question_id' => 'node_question_relations#newNode'
- match 'nueva_pregunta_asoc/:node_id' => 'node_question_relations#newQuestion'
- match 'nuevo_alumno/:alu_group_id' => 'student_alu_groups#newStudent'
- match 'trabajos_asignatura/:assignedto_type/:assignedto_id/:course_id' => 'works#listByAssignedtoAndCourse'
- match 'trabajos_asignatura_xml/:assignedto_type/:assignedto_id/:course_id' => 'works#listByAssignedtoAndCourseXML'
- match 'trabajos/:student_id/course_id' => 'works#listByStudent'
- match 'nuevo_trabajo/:student_id/:course_id' => 'works#new'
- match 'nodos/:course_id' => 'nodes#listByCourse' 
- match 'preguntas/:course_id' => 'questions#listByCourse' 
- match 'profesores/:course_id' => 'teacher_assigns#listByCourse' 
- match 'alumnos/:course_id' => 'student_assigns#listByCourse' 
- match 'grupos/:course_id' => 'alu_groups#listByCourse' 
- match 'profesores_no_matriculados/:course_id' => 'teacher_assigns#listByCourseNot' 
- match 'alumnos_no_matriculados/:course_id' => 'student_assigns#listByCourseNot' 
- match 'nuevo_grupo/:course_id' => 'alu_groups#new' 
- match 'grupos_de_alumnos/:student_id/:course_id' => 'alu_groups#listByStudentAndCourse' 
- match 'nuevo_predecesor/:dest_id' => 'edges#new_dest'
- match 'nuevo_sucesor/:src_id' => 'edges#new_src'
- match 'editar/:src_id/:dst_id' => 'edges#edit'
- match 'borrar/:src_id/:dst_id' => 'edges#destroy'
- match 'nuevo_contenido/:node_id' => 'related_contents#new'
- match 'html_related/:related_content_id/*filename' => 'related_contents#view_as_html'  , :filename => /.+/
- match 'asignaturas_mat' => 'courses#indexAssigned'
- match 'exportar_asignatura/:course_id' => 'courses#export'
-	match 'importar_asignatura' => 'courses#import'
- match 'cambiar_tema/:theme' => 'users#changeTheme'
- match 'cambiar_idioma/:locale' => 'users#set_locale'
- match 'competencias_grupo/:alu_group_id' => 'competences#listByGroup'
- match 'competencias_grupos' => 'competences#listByGroups'
- match 'ver_chats/:username' => 'users#listChats'
-
- match 'changePassword/:userid' => 'users#chPw' 
-	match 'usuarios_no_activos' => 'users#indexNotActive'
- match 'nuevo_test/:work_id' => 'questions#starttest'
- match 'borrar_image_test/:test_id' => 'tests#deleteTestImage'
- match 'nuevo_trabajo_asign/:course_id/:assignedtoType' => 'works#newAll'
-
- match 'test/:test_id' => 'questions#test'
- match 'contestar' => 'questions#answer'
- match 'regenerar_test_alumno/:test_id' => 'questions#regenerate_student_id'
- match 'register_to_test/:test_id' => 'tests#register_to_test'
- match 'leave_test/:test_id' => 'tests#leave_test'
- match 'cambiar_comentario/:grouptest_chatmessage_id' => 'grouptest_chatmessages#changeComment'
+ get 'test/:test_id' => 'questions#test'
+ patch 'contestar' => 'questions#answer'
+ get 'regenerar_test_alumno/:test_id' => 'questions#regenerate_student_id'
+ get 'register_to_test/:test_id' => 'tests#register_to_test'
+ get 'leave_test/:test_id' => 'tests#leave_test'
+ get 'cambiar_comentario/:grouptest_chatmessage_id' => 'grouptest_chatmessages#changeComment'
 
 
 
 
- match 'lista_tests/:work_id' => 'tests#listByWork'
- match 'subir_fichero_contenido/:related_content_id' => 'related_contents#uploadFile'
- match 'borrar_fichero_contenido/:name/:related_content_id' => 'related_contents#deleteFile'
- match 'fichero_principal_contenido/:name/:related_content_id' => 'related_contents#mainFile'
- match 'lista_contenidos/:node_id/:recover' => 'related_contents#listByNodeAndRecover'
- match 'subir_fichero_competencia/:alu_group_id/:competence_id' => 'competence_groups#uploadFile'
- match ':controller(/:action(/:id(.:format)))'
+ get 'lista_tests/:work_id' => 'tests#listByWork'
+ get 'subir_fichero_contenido/:related_content_id' => 'related_contents#uploadFile'
+ get 'borrar_fichero_contenido/:name/:related_content_id' => 'related_contents#deleteFile'
+ get 'fichero_principal_contenido/:name/:related_content_id' => 'related_contents#mainFile'
+ get 'lista_contenidos/:node_id/:recover' => 'related_contents#listByNodeAndRecover'
+ get 'subir_fichero_competencia/:alu_group_id/:competence_id' => 'competence_groups#uploadFile'
+
+ get ':controller(/:action(/:id(.:format)))'
+ post ':controller(/:action(/:id(.:format)))'
+
+end
+
+makeRoutes
+
+#scope  '/siena2' do
+#	makeRoutes
+#end
+
 
 end

@@ -7,10 +7,10 @@
 	<head>
 		
     	<title>Universidad de La Laguna</title>
-			<link rel="stylesheet" href="/greenull/content.css" type="text/css" title="normal" id="css01"/>
-			<link rel="stylesheet" href="/greenull/estilos.css" type="text/css" title="normal" id="css02"/>
-			<link rel="stylesheet" href="/greenull/reticula.css" type="text/css" title="normal" id="css03"/>
-			<link rel="stylesheet" href="/greenull/calendar.css" type="text/css" title="normal" id="css04"/>
+			<link rel="stylesheet" href="<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/greenull/content.css" type="text/css" title="normal" id="css01"/>
+			<link rel="stylesheet" href="<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/greenull/estilos.css" type="text/css" title="normal" id="css02"/>
+			<link rel="stylesheet" href="<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/greenull/reticula.css" type="text/css" title="normal" id="css03"/>
+			<link rel="stylesheet" href="<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/greenull/calendar.css" type="text/css" title="normal" id="css04"/>
 	
 		<%= render :partial => 'layouts/header' %>	
 
@@ -21,7 +21,7 @@
 		<div id="divMain">	
 		<div id="cabecera">
 	<a href="http://www.ull.es">
-		<img src="/greenull/logo.gif" border="0" alt="Universidad de La Laguna"/>
+		<img src="<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/greenull/logo.gif" border="0" alt="Universidad de La Laguna"/>
 	</a>
 			
 
@@ -51,7 +51,7 @@
      <td>
 
 		</td></tr></tbody></table>
-	<img alt="separador" src='/images/separamenu.gif'/>
+	<img alt="separador" src='<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/images/separamenu.gif'/>
  <table class="menu">
     <tbody>
     <tr>
@@ -60,7 +60,7 @@
 
 		</td></tr></tbody></table>
 
-	<img alt="separador" src='/images/separamenu.gif'/>
+	<img alt="separador" src='<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/images/separamenu.gif'/>
 <table class="menu">
     <tbody>
     <tr valign="top">
@@ -71,10 +71,10 @@
 <% if session[:userid] %>
 <!-- logged users -->
 
-	<img alt="separador" src='/images/separamenu.gif'/>
+	<img alt="separador" src='<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/images/separamenu.gif'/>
 		<h2> <center> Opciones para usuarios registrados (<%= User.find(session[:userid]).username  %>)  </center>  </h2>
 	
-	<img alt="separador" src='/images/separamenu.gif'/>
+	<img alt="separador" src='<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/images/separamenu.gif'/>
 <table class="menu">
     <tbody>
     <tr valign="top">
@@ -88,7 +88,7 @@
 
 <% if User.find(session[:userid]).useraccount_type == User::ADMIN  %>
 
-	<img alt="separador" src='/images/separamenu.gif'/>
+	<img alt="separador" src='<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/images/separamenu.gif'/>
 <table class="menu">
     <tbody>
     <tr valign="top">
@@ -96,7 +96,7 @@
 	<%= link_to  link_to t('user_list'), users_path  %>
 		</td></tr></tbody></table>
 
-	<img alt="separador" src='/images/separamenu.gif'/>
+	<img alt="separador" src='<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/images/separamenu.gif'/>
 <table class="menu">
     <tbody>
     <tr valign="top">
@@ -104,7 +104,7 @@
 			<%= link_to  link_to t('course_list'), courses_path  %>
 		</td></tr></tbody></table>
 
-	<img alt="separador" src='/images/separamenu.gif'/>
+	<img alt="separador" src='<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/images/separamenu.gif'/>
 <table class="menu">
     <tbody>
     <tr valign="top">
@@ -112,7 +112,7 @@
 			<%= link_to  link_to t('question_list'), questions_path  %>
 		</td></tr></tbody></table>
 
-	<img alt="separador" src='/images/separamenu.gif'/>
+	<img alt="separador" src='<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/images/separamenu.gif'/>
 <table class="menu">
     <tbody>
     <tr valign="top">
@@ -120,7 +120,7 @@
 		<%= link_to  link_to t('node_list'), nodes_path  %>
 		</td></tr></tbody></table>
 
-	<img alt="separador" src='/images/separamenu.gif'/>
+	<img alt="separador" src='<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/images/separamenu.gif'/>
 <table class="menu">
     <tbody>
     <tr valign="top">
@@ -130,7 +130,7 @@
 
 
 
-	<img alt="separador" src='/images/separamenu.gif'/>
+	<img alt="separador" src='<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/images/separamenu.gif'/>
 <table class="menu">
     <tbody>
     <tr valign="top">
@@ -274,19 +274,9 @@
          </div>
 	</div>	
 </div>
-<script language="JavaScript1.2" type="text/javascript" >
-<!--
-	centrarPage(1024);
--->
-</script>
-
-				<script type="text/javascript"  language="javascript"> 	
-	var style = document.getElementById("adminheader");
-	Drag.init(style);
-</script>
 
 <script type="text/javascript" language="javascript">
-<![CDATA[ 
+
     matchHeight=function(){
          var divs,contDivs,maxHeight,divHeight,d;
          // get all <div> elements in the document
@@ -361,7 +351,6 @@
     }
 
 
-]]>
 </script> 
 
 		<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">

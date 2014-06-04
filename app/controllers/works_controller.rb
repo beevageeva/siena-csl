@@ -94,7 +94,7 @@ before_filter(:only => [:listByAssignedtoAndCourse, :listByAssignedtoAndCourseXM
   # POST /works
   # POST /works.xml
   def create
-    @work = Work.new(params[:work])
+    @work = Work.new(work_params)
 		successave = createWork(@work.assignedto_type, @work.assignedto_id, @work.node_id, @work.initialpoints, @work.worktype )
 		if successave.is_a?(Integer)
         flash[:notice] = 'El nodo ya esta asignado  y tiene tests.'
@@ -153,7 +153,7 @@ before_filter(:only => [:listByAssignedtoAndCourse, :listByAssignedtoAndCourseXM
     @work = Work.find(params[:id])
 
     respond_to do |format|
-      if @work.update_attributes(params[:work])
+			if @work.update(:initialpoints =>params[:work][:initialpoints] , :worktype => params[:work][:worktype] )
         flash[:notice] = t('work_updated_success')
         format.html { redirect_to(@work) }
         format.xml  { head :ok }
@@ -181,6 +181,13 @@ before_filter(:only => [:listByAssignedtoAndCourse, :listByAssignedtoAndCourseXM
 #		`rm -f #{CHATWORKIMAGESDIR}/#{params[:work_id]}.*`
 #		redirect_to :action => 'show' , :id => params[:work_id] 
 #  end
+
+
+	private
+
+	def work_params
+			params.require(:work).permit(:node_id, :initialpoints, :worktype, :assignedto_type, :assignedto_id)
+	end
 
 
 end

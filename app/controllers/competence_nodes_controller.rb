@@ -50,7 +50,7 @@ class CompetenceNodesController < ApplicationController
 				return
 		
 		end
-    @competence_node = CompetenceNode.new(params[:competence_node])
+    @competence_node = CompetenceNode.new(cn_params)
 
       if @competence_node.save
         flash[:notice] = t('competencenode_created_success')
@@ -91,4 +91,12 @@ class CompetenceNodesController < ApplicationController
 		@nodesoptions = Node.find(:all , :conditions => ["course_id = #{params[:course_id]}"] ).collect {|u| [u.content , u.id]} 
 		render :partial => 'getNodesDep' , :layout => false
 	end
+
+	private
+
+	def cn_params
+			params.require(:competence_node).permit(:node_id, :competence_id)
+	end
+
+
 end
