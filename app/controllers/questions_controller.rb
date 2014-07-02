@@ -10,6 +10,7 @@ before_filter(:only => [:new, :create , :listByCourse, :show, :deleteImgFile] ) 
  before_filter(:only => [:starttest] ) { |c| c.auth  [ {:types =>  [User::ALU] , :condition => lambda{|params,session| WorksHelper.studentCanTestWork(params[:work_id],session[:useraccount_id])   }  }]  }
 
 include WorksHelper
+include QuestionsHelper
 
 # after_filter :set_content_type , :only => [:show]  
 	
@@ -330,25 +331,8 @@ private
 
 	def adjustPoints(test) 
 	  lastP = test.points
-		if test.answers.last.correctAnswer?
-			lastQuestion = test.answers.last.question	
-			#	ActiveRecord::Base.logger.info "lastQuestion #{lastQuestion} lastP = #{lastP} "
-	    first = lastQuestion.difficulty * lastP
-	    second = first + (1 - lastP) *  lastQuestion.luck
-	    newLastP = second == 0 ? 0 : (first / second)
-			if newLastP >=1
-				ActiveRecord::Base.logger.info "newLastP >=1 "
-				newLastP = 1
-			end	
-			#if dif < luck points will go down, let points as before
-			if newLastP < lastP
-				ActiveRecord::Base.logger.info "question luck = #{lastQuestion.luck},dif = #{lastQuestion.difficulty}, lastP=#{lastP} , fisrt = #{first}, second = #{second}, newLastP = #{newLastP} "
-				newLastP = lastP
-			end	
-	  else 
-			newLastP = lastP
-	  end
-		test.points = newLastP
+		lastQuestion = test.answers.last.question
+		test.points = getNewPoints(lastP, lastQuestion.difficulty, lastQuestion.luck, test.answers.last.correctAnswer?)
 		test.save
 	end
 

@@ -20,4 +20,6 @@ class Work < ActiveRecord::Base
 	ASSIGNEDTOSTUDENT = "Student"
 	ASSIGNEDTOTYPES = ["AluGroup", "Student"]
 
+
+
 end

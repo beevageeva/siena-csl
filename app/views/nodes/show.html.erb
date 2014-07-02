@@ -15,6 +15,10 @@
 </p>
 
 <p>
+  <b><%= t('keywords') %>:</b>
+  <%=h @node.keywords %>
+</p>
+<p>
   <b><%= t('created_by') %>:</b>
   <%=h @node.teacher.user.name %>
 </p>
