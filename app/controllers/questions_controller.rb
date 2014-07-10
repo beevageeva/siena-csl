@@ -342,6 +342,7 @@ private
 		test = Test.find(test_id)
 		minquest = 5
 		maxpointsvar = 0.01
+		delta = 0.05
 		return false if test.answers.size  < minquest
 #there must have at least 1 question in the last %minquest%  points - points.before > 0.1
 #		a = test.points
@@ -357,14 +358,18 @@ private
 #		return true
 
 #last question points - points before question minquest before > 0.1 , this allow incremental improvement in the last minquest questions
-		
+		#now points change when answer is incorrect		
+		#return 	(test.points - test.answers[test.answers.size - minquest].pointsBefore).abs < maxpointsvar
+
 		ActiveRecord::Base.logger.warn "test  points  #{test.points}"	
-		if test.points >=1.0 - maxpointsvar
-			ActiveRecord::Base.logger.info "test points is 1"
+		if test.points >=1.0 - maxpointsvar ||  test.points <= maxpointsvar
+			ActiveRecord::Base.logger.info "test points is 1 or 0"
 			return true
 		end
-		result = 	(test.points - test.answers[test.answers.size - minquest].pointsBefore).abs < maxpointsvar
-		return result			
+		for i in 1..minquest
+   		return true if  (test.points - test.answers[test.answers.size - i].pointsBefore).abs > delta
+		end	
+		return false
 	end
 
 	def generate_question_id(test_id)

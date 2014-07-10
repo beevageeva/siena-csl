@@ -1,0 +1,1 @@
+rake update:test_points  RAILS_ENV=siena3 --trace
