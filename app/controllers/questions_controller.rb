@@ -367,9 +367,9 @@ private
 			return true
 		end
 		for i in 1..minquest
-   		return true if  (test.points - test.answers[test.answers.size - i].pointsBefore).abs > delta
+   		return false if  (test.points - test.answers[test.answers.size - i].pointsBefore).abs > delta
 		end	
-		return false
+		return true
 	end
 
 	def generate_question_id(test_id)
