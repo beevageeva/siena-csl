@@ -345,7 +345,8 @@ private
 		maxquest = 20
 		maxpointsvar = 0.01
 		delta = 0.05
-		return false if test.answers.size  < minquest || test.answers.size > maxquest
+		return false if test.answers.size  < minquest 
+		return true if test.answers.size > maxquest
 #there must have at least 1 question in the last %minquest%  points - points.before > 0.1
 #		a = test.points
 #		(1..minquest).each do |i|
