@@ -340,10 +340,12 @@ private
 
 	def mustStop(test_id)
 		test = Test.find(test_id)
-		minquest = 5
+		minquest = 10
+		testquest = 5
+		maxquest = 20
 		maxpointsvar = 0.01
 		delta = 0.05
-		return false if test.answers.size  < minquest
+		return false if test.answers.size  < minquest || test.answers.size > maxquest
 #there must have at least 1 question in the last %minquest%  points - points.before > 0.1
 #		a = test.points
 #		(1..minquest).each do |i|
@@ -366,7 +368,7 @@ private
 			ActiveRecord::Base.logger.info "test points is 1 or 0"
 			return true
 		end
-		for i in 1..minquest
+		for i in 1..testquest
    		return false if  (test.points - test.answers[test.answers.size - i].pointsBefore).abs > delta
 		end	
 		return true
