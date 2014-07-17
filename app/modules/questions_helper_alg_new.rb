@@ -10,26 +10,9 @@ module QuestionsHelperAlgNew
     testquest = 5
     maxquest = 20
     maxpointsvar = 0.01
-    delta = 0.05
+    delta = 0.06
     return false if test.answers.size  < minquest
     return true if test.answers.size > maxquest
-#there must have at least 1 question in the last %minquest%  points - points.before > 0.1
-#   a = test.points
-#   (1..minquest).each do |i|
-#     if a - test.answers[test.answers.size - i].pointsBefore).abs  >= maxpointsvar
-#       ActiveRecord::Base.logger.warn "TESTPOINTS:"+a.to_s
-#       ActiveRecord::Base.logger.warn "TESTPOINTSBEFORE:"+test.answers[test.answers.size - i].pointsBefore.to_s
-#       ActiveRecord::Base.logger.warn "abs:"+(a - test.answers[test.answers.size - i].pointsBefore).abs.to_s
-#       return false
-#     end
-#     a = test.answers[test.answers.size - i].pointsBefore
-#   end
-#   return true
-
-#last question points - points before question minquest before > 0.1 , this allow incremental improvement in the last minquest questions
-    #now points change when answer is incorrect   
-    #return   (test.points - test.answers[test.answers.size - minquest].pointsBefore).abs < maxpointsvar
-
     ActiveRecord::Base.logger.warn "test  points  #{test.points}"
     if test.points >=1.0 - maxpointsvar ||  test.points <= maxpointsvar
       ActiveRecord::Base.logger.info "test points is 1 or 0"
@@ -45,9 +28,19 @@ module QuestionsHelperAlgNew
   def generate_question_id(test_id)
 		ActiveRecord::Base.logger.warn("*** CallQuestionsHelperAlgNew.generate_question_id *****")
     test = Test.find(test_id)
-    #TODO sql
+    #TODO sql executed every time test.answers is called?
     w1 = 0.5
-    allQuestions = test.work.node.questions
+		#change by claudia see mail gmail 16.07.2014
+    #allQuestions = test.work.node.questions
+		condMap = {:node_id => test.work.node_id}
+		if(test.answers.size>0)
+			difStr = " and " + ( test.answers.last.correctAnswer? ? "questions.difficulty >= :question_difficulty" : "questions.difficulty <= :question_difficulty"  )
+    	lastQuestDiff = test.answers.last.question.difficulty
+			condMap[:question_difficulty] = lastQuestDiff
+		else
+			difStr = ""
+		end
+		allQuestions = Question.includes(:nodes).where("nodes.id = :node_id and questions.difficulty > questions.luck" + difStr ,condMap )		
     testQuestions = test.answers.map{|a| a.question}
     availQuestions = allQuestions - testQuestions
     if(availQuestions.size >0)
@@ -57,7 +50,6 @@ module QuestionsHelperAlgNew
         pointsarray = test.answers.map{|p| p.pointsBefore}
         lastP = pointsarray.last
         modif = test.answers.last.correctAnswer?  ? 1 : -1
-        lastQuestDiff = test.answers.last.question.difficulty
         maxFunc = 0
         availQuestions.each do |cQuestion|
           diffRes = (modif * (cQuestion.difficulty - lastQuestDiff) * lastP) / (cQuestion.difficulty * lastP + (1 - lastP) * cQuestion.luck)

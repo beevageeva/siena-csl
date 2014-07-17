@@ -15,7 +15,7 @@
     <th><%= t('correct_answer') %></th>
     <th><%= t('timeleft') %></th>
     <th><%= t('question') %></th>
-    <th><%= t('difficulty') %></th>
+    <th><%= t('difficulty') %> / <%= t('luck') %></th>
     <th><%= t('points_before') %></th>
     <th><%= t('points_after') %></th>
   </tr>
@@ -26,7 +26,7 @@
     <td><%=h answer.correctAnswer? %></td>
     <td><%=h answer.timeleft %></td>
     <td><%=h answer.question.content %></td>
-    <td><%=h answer.question.difficulty %></td>
+    <td><%=h answer.question.difficulty %> / <%=h answer.question.luck %></td>
     <td><%=h  "%5.3f" %   (answer.pointsBefore.nil? ? 0.0 :  answer.pointsBefore) %></td>
     <td><%=h  "%5.3f" %   
 						if i < @test.answers.length - 1
