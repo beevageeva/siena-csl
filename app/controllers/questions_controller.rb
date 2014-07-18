@@ -159,7 +159,13 @@ include QuestionsHelperAlg
 		@answer.timeleft = params[:timeleft].to_i
 		if @answer.save
 			flash[:notice] = "Answer saved"
-			adjustPoints(@answer.test)
+			#calculate points of test after the answer
+			lastQuestion = @answer.question
+			test.points = getNewPoints(test.points, lastQuestion.difficulty, lastQuestion.luck, test.answers.last.correctAnswer?)
+			
+			test.save
+			ActiveRecord::Base.logger.warn("questions_controller.answer testId=#{params[:test_id]} ,  test points before = #{ @answer.pointsBefore }, points after getNewPoints #{test.points}")
+
 			if @answer.test.work.assignedto_type == Work::ASSIGNEDTOALUGROUP
 				#insert messages
 				student_id = session[:useraccount_id]
@@ -323,18 +329,6 @@ private
 
 
 
-
-	#This is not needed (new firefox version??)
-	#def set_content_type
-	#   headers['Content-Type'] = 'application/xhtml+xml; charset=utf-8'
-	#end
-
-	def adjustPoints(test) 
-	  lastP = test.points
-		lastQuestion = test.answers.last.question
-		test.points = getNewPoints(lastP, lastQuestion.difficulty, lastQuestion.luck, test.answers.last.correctAnswer?)
-		test.save
-	end
 
 
 

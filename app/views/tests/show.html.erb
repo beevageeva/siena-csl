@@ -27,8 +27,8 @@
     <td><%=h answer.timeleft %></td>
     <td><%=h answer.question.content %></td>
     <td><%=h answer.question.difficulty %> / <%=h answer.question.luck %></td>
-    <td><%=h  "%5.3f" %   (answer.pointsBefore.nil? ? 0.0 :  answer.pointsBefore) %></td>
-    <td><%=h  "%5.3f" %   
+    <td><%=h  "%1.5f" %   (answer.pointsBefore.nil? ? 0.0 :  answer.pointsBefore) %></td>
+    <td><%=h  "%1.5f" %   
 						if i < @test.answers.length - 1
 							@test.answers[i+1].pointsBefore.nil? ? 0.0 :  @test.answers[i+1].pointsBefore	
 						else

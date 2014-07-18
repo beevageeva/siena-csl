@@ -87,18 +87,21 @@ module QuestionsHelperAlgNew
       end
       #if dif < luck -- points will go down
       if newLastP < lastP
-        ActiveRecord::Base.logger.info "question luck = #{lastQLuck},dif = #{lastQDif}, lastP=#{lastP} , fisrt = #{first}, second = #{second}, newLastP = #{newLastP}, correctAnswer=#{correctAnswer}"
+        ActiveRecord::Base.logger.warn "!!! newLastP < lastP,return lastP first = #{first}, second = #{second}, newLastP = #{newLastP}"
         return lastP
       end
+       ActiveRecord::Base.logger.info "in if: newLastP(correctAnswer) = #{newLastP}"
     else
       first = lastQDif * lastP
       second = first + (1 - lastP) *  (1.0-lastQLuck)
       newLastP = second == 0 ? 1 : (first / second)
       if newLastP > lastP
-        ActiveRecord::Base.logger.info "question luck = #{lastQLuck},dif = #{lastQDif}, lastP=#{lastP} , fisrt = #{first}, second = #{second}, newLastP = #{newLastP}, correctAnswer=#{correctAnswer}"
+        ActiveRecord::Base.logger.warn "!!! newLastP > lastP,return lastP first = #{first}, second = #{second}, newLastP = #{newLastP}"
         return lastP
       end
+       ActiveRecord::Base.logger.info "in if(else): newLastP(not correctAnswer) = #{newLastP}"
     end
+    ActiveRecord::Base.logger.info "before return: newLastP = #{newLastP}"
     return newLastP
   end
 
