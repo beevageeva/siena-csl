@@ -12,7 +12,7 @@ module QuestionsHelperAlgNew
     maxpointsvar = 0.01
     delta = 0.06
     return false if test.answers.size  < minquest
-    return true if test.answers.size > maxquest
+    return true if test.answers.size >= maxquest
     ActiveRecord::Base.logger.warn "test  points  #{test.points}"
     if test.points >=1.0 - maxpointsvar ||  test.points <= maxpointsvar
       ActiveRecord::Base.logger.info "test points is 1 or 0"
@@ -40,7 +40,8 @@ module QuestionsHelperAlgNew
 		else
 			difStr = ""
 		end
-		allQuestions = Question.includes(:nodes).where("nodes.id = :node_id and questions.difficulty > questions.luck" + difStr ,condMap )		
+		allQuestions = Question.includes(:nodes).where("nodes.id = :node_id and questions.difficulty > questions.luck" + difStr ,condMap )		 
+		ActiveRecord::Base.logger.warn("all questions to choose from	for node #{test.work.node.content} size = #{allQuestions.size}")
     testQuestions = test.answers.map{|a| a.question}
     availQuestions = allQuestions - testQuestions
     if(availQuestions.size >0)
