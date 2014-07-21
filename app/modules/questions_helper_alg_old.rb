@@ -70,7 +70,7 @@ module QuestionsHelperAlgOld
 		def getNewPoints(lastP, lastQDif, lastQLuck, correctAnswer)
 					ActiveRecord::Base.logger.warn "**** Call QuestionsHelperAlgOld.newPoints question luck = #{lastQLuck},dif = #{lastQDif}, lastP=#{lastP}, correctAnswer=#{correctAnswer}"
 					if correctAnswer
-									first = (1.0-lastQDif) * lastP
+									first = lastQDif * lastP
 									second = first + (1.0 - lastP) *				lastQLuck
 									newLastP = second == 0 ? 1 : (first / second)
 									if newLastP >=1
