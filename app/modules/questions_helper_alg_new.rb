@@ -26,7 +26,7 @@ module QuestionsHelperAlgNew
 
 
   def generate_question_id(test_id)
-		ActiveRecord::Base.logger.warn("*** CallQuestionsHelperAlgNew.generate_question_id *****")
+		ActiveRecord::Base.logger.warn("*** CallQuestionsHelperAlgNew.generate_question_id for test_id #{test_id}*****")
     test = Test.find(test_id)
     #TODO sql executed every time test.answers is called?
     w1 = 0.5
@@ -70,6 +70,7 @@ module QuestionsHelperAlgNew
       ActiveRecord::Base.logger.warn("****next question id *****" + resQuestion.id.to_s)
       return resQuestion.id
     end
+    ActiveRecord::Base.logger.warn("****NO MORE QUESTIONS *****" )
     return false
   end
 

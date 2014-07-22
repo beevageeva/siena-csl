@@ -3,7 +3,8 @@ namespace :update do
 	#TODO execute in the db: why this happens when dependent => destroy in model work????
 	#delete from tests t where not exists (select *  from works w where w.id = t.work_id); 
 	task :test_points => :environment do
-			include QuestionsHelper
+		require_relative "../../app/modules/questions_helper_alg_new.rb"
+		include QuestionsHelperAlgNew
 		 Test.all.each do |t|
 	    points = Work::DEFAULT_INIT_POINTS
 	    if !t.work.initialpoints.nil?
