@@ -1,0 +1,7 @@
+#the following for lib/tasks/update.take
+delete from tests t where not exists (select *  from works w where w.id = t.work_id);
+
+
+update questions set difficulty = 0.6 * difficulty;
+update questions set difficulty = difficulty + 0.1 where difficulty < luck;
+
