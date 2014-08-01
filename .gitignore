@@ -1,7 +1,6 @@
 /.bundle
 /log/*.log
 /tmp/
-/email.txt
 /public/questions/*
 /public/competenceGroupsFiles/*
 /public/relatedContents/*
@@ -16,5 +15,7 @@
 /config/initializers/session_store.rb
 /config/initializers/recaptcha.rb
 /config/database.yml
+/config/environments/*
+!/config/environments/siena.rb
 /public/assets/*
 /.hg/*
