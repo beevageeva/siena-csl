@@ -69,7 +69,7 @@ def makeRoutes
 	get 'matricular_profesor/:course_id' => 'teacher_assigns#enroll'
 	get 'cambiar_coordinador/:id/:course_id' => 'teacher_assigns#changeCoordinator'
 	get 'matricular_profesor_admin/:course_id/:teacher_id' => 'teacher_assigns#assign_to_course'
-	get 'matricular_alumnos/:course_id' => 'student_assigns#register_to_course'
+	post 'matricular_alumnos/:course_id' => 'student_assigns#register_to_course'
 	get 'matricular_profesores/:course_id' => 'teacher_assigns#register_to_course'
 	get 'nuevo_nodo/:course_id' => 'nodes#new'
 	get 'nuevo_comp_grupo/:competence_id' => 'competence_groups#newAluGroup'

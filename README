@@ -7,3 +7,10 @@ config/initializers/session_store.rb.example
 Gemfile.example
 to the same filename without example extension
 
+
+1. You should have installed graphviz in order to generate course nodes graph (it uses dot executable)
+2. Cofigure a mail server(postfix for example) and/or change settings in config/environments/siena.rb
+
+
+
+
