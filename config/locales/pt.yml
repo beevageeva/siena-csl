@@ -228,6 +228,7 @@ pt:
   competencenode_created_success: "CompetenceNode creado correctamente."
   competencenode_updated_success: "CompetenceNode actualizado correctamente."
   competencegroup_created_success: "CompetenceGroup creado correctamente."
+  node_question_relation_add_questions_from_node: "Meter todas las preguntas del nodo"
   competencegroup_updated_success: "CompetenceGroup actualizado correctamente."
   view_assoc_node:        "Ver nodo asociado"
   edit_assoc_node:        "Editar nodo asociado"
