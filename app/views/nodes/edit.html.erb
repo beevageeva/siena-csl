@@ -63,6 +63,8 @@
 
 end %>
 <%= link_to t('node_question_relation_new_question'), :controller => "node_question_relations" , :action => "newQuestion" , :node_id => @node.id %>
+<br/>
+<%= link_to t('node_question_relation_add_questions_from_node'), :controller => "node_question_relations" , :action => "newQuestionsFromNode" , :node_id => @node.id %>
 
 <br />
 <b><%= t('node_succ_list') %></b>

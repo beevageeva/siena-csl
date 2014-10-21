@@ -20,6 +20,36 @@ layout :green_web
 
 
 	
+  def newQuestionsFromNode
+		@coursesoptions =  getCourses
+  end
+
+
+	def createQuestionsFromNode
+		 ActiveRecord::Base.logger.warn("createQuestionsFomNode")	
+		 ActiveRecord::Base.logger.warn(params["dest_node_id"])	
+		 ActiveRecord::Base.logger.warn(params["from_node_id"])
+		 from_node = Node.find(params["from_node_id"])
+		 dest_node = Node.find(params["dest_node_id"])	
+		 output = ""		
+		 from_node.node_question_relations.each do |fnqr|
+				q = fnqr.question
+				if(!dest_node.questions.include?(q))
+			 		nqr = NodeQuestionRelation.new
+					nqr.node = dest_node
+					nqr.question = q
+					nqr.dep = fnqr.dep
+					nqr.save
+					output+="#{q.content} added\n"
+				else
+					output+="#{q.content} already exists\n"
+				end
+				
+			end
+		ActiveRecord::Base.logger.warn("OUTPUT: #{output}")			
+		redirect_to edit_node_path(params["dest_node_id"])
+	end
+
 
 
   def newQuestion
@@ -82,6 +112,14 @@ layout :green_web
 
   end
 
+
+	#TODO the folowing 2 almost duplicate
+	def getFromNodesDep
+		@nodesoptions = Node.where(course_id: params[:course_id]).collect {|u| [u.content , u.id]}
+		ActiveRecord::Base.logger.warn("nodes dep FROM") 
+		ActiveRecord::Base.logger.warn(@nodesoptions) 
+		render :partial => 'getFromNodesDep' , :layout => false
+	end
 
 
 	def getNodesDep

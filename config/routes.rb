@@ -80,6 +80,7 @@ def makeRoutes
  get 'nueva_respuesta/:question_id' => 'question_responses#new'
  get 'nuevo_nodo_asoc/:question_id' => 'node_question_relations#newNode'
  get 'nueva_pregunta_asoc/:node_id' => 'node_question_relations#newQuestion'
+ get 'nuevas_preguntas_delnodo/:node_id' => 'node_question_relations#newQuestionsFromNode'
  get 'nuevo_alumno/:alu_group_id' => 'student_alu_groups#newStudent'
  get 'trabajos_asignatura/:assignedto_type/:assignedto_id/:course_id' => 'works#listByAssignedtoAndCourse'
  get 'trabajos_asignatura_xml/:assignedto_type/:assignedto_id/:course_id' => 'works#listByAssignedtoAndCourseXML'

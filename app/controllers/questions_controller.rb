@@ -10,6 +10,7 @@ before_filter(:only => [:new, :create , :listByCourse, :show, :deleteImgFile] ) 
 include WorksHelper
 
 require_relative "../modules/questions_helper_alg.rb"
+require File.expand_path("app/modules/questions_helper_alg.rb")
 include QuestionsHelperAlg
 
 # after_filter :set_content_type , :only => [:show]  

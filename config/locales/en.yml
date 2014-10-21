@@ -241,6 +241,7 @@ en:
   competencenode_created_success: "CompetenceNode was successfully created."
   competencenode_updated_success: "CompetenceNode was successfully updated."
   competencegroup_created_success: "CompetenceGroup was successfully created."
+  node_question_relation_add_questions_from_node: "Add questions from node"
   competencegroup_updated_success: "CompetenceGroup was successfully updated."
   view_assoc_node:        "Show associated node"
   edit_assoc_node:        "Edit associated node"

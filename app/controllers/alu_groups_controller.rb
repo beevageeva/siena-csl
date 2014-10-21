@@ -38,7 +38,7 @@ class AluGroupsController < ApplicationController
   # POST /alu_groups
   # POST /alu_groups.xml
   def create
-    @alu_group = AluGroup.new(params[:alu_group])
+    @alu_group = AluGroup.new(alu_group_params)
 
     respond_to do |format|
       if @alu_group.save

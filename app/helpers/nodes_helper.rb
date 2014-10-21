@@ -152,7 +152,12 @@ module NodesHelper
 					break
 				end
 			end
-			filecontents = Iconv.conv("UTF-8", fromenc, File.read(filename)) 
+			ActiveRecord::Base.logger.warn("FROM ENCODING = #{fromenc}")
+			#iconv deprecateed since 1.9.3
+			#filecontents = Iconv.conv("UTF-8", fromenc, File.read(filename))
+			ec = Encoding::Converter.new("UTF-16BE", "UTF-8")
+			filecontents = ec.convert( File.read(filename))
+			ActiveRecord::Base.logger.warn("FILECONTENTS ENCODING = #{filecontents.encoding.name}")
 			lines = filecontents.split("\n")
 			contents = ""
 			lines.each do |line|
