@@ -1,0 +1,38 @@
+<h1><%= t('node_question_relation_add_questions_from_node')  %></h1>
+
+  <%= form_tag({:controller => 'node_question_relations' , :action => 'createQuestionsFromNode'}, {:method => :post}) do |f| %>
+    <%= hidden_field_tag("dest_node_id"  , params[:node_id]) %>
+
+
+<p>
+  <b><%= t('course')  %>:</b>
+    <%= select_tag "course_id" , options_for_select(@coursesoptions)  %>
+<p>
+
+
+ <% serializedAttr = "'course_id=' + document.getElementById('course_id').value" %>
+<script>
+$(document).ready(function(){
+  $("#course_id").change(function() {
+    // make a POST call and replace the content
+    $.post("<%= url_for(:action => 'getFromNodesDep') %>", <%= raw serializedAttr %>, function(data) {
+      $("#nodes_div").html(data);
+    });
+  });
+
+    $.post("<%= url_for(:action => 'getFromNodesDep') %>", <%= raw serializedAttr %>, function(data) {
+      $("#nodes_div").html(data);
+    });
+
+})
+</script>
+
+
+  <div id="nodes_div">
+  </div>
+
+    <%= submit_tag t("create") %>
+
+
+<% end %>
+
