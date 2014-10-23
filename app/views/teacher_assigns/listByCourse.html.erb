@@ -10,8 +10,12 @@
     end
 
     st.column  :name => t('coordinator')  do |s|
-      t(s.coordinator.to_s)  + "(" + link_to(t('change'),:action => "changeCoordinator", :id => s.id, :course_id => params[:course_id])  + ")"
+      s.coordinator 
+  	end
+    st.column  :name => t('change')  do |s|
+       link_to(t('change'),:action => "changeCoordinator", :id => s.id, :course_id => params[:course_id]) 
     end
+
 
     st.column  :name => t('delete_from_course')  do |s|
     	link_to t('delete_from_course'), s, :confirm => t('deletion_confirmation'), :method => :delete 
