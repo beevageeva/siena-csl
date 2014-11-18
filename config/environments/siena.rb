@@ -64,4 +64,19 @@ SienaCsl::Application.configure do
   config.log_level = :warn #log file for ActiveRecord::Base.logger is /var/log/apache2/error.log
 
 
+
+#TODO
+#	DEPRECATION WARNING: It looks like you are eager loading table(s) (one of: questions, nodes) that are referenced in a string SQL snippet. For example: 
+#
+#    Post.includes(:comments).where("comments.title = 'foo'")
+#
+#Currently, Active Record recognizes the table in the string, and knows to JOIN the comments table to the query, rather than loading comments in a separate query. However, doing this without writing a full-blown SQL parser is inherently flawed. Since we don't want to write an SQL parser, we are removing this functionality. From now on, you must explicitly tell Active Record when you are referencing a table from a string:
+#
+#    Post.includes(:comments).where("comments.title = 'foo'").references(:comments)
+#
+#If you don't rely on implicit join references you can disable the feature entirely by setting `config.active_record.disable_implicit_join_references = true`.
+
+	#config.active_record.disable_implicit_join_references = true
+
+
 end

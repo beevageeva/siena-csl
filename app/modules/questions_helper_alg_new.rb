@@ -40,7 +40,7 @@ module QuestionsHelperAlgNew
 		else
 			difStr = ""
 		end
-		allQuestions = Question.includes(:nodes).where("nodes.id = :node_id and questions.difficulty > questions.luck" + difStr ,condMap )		 
+		allQuestions = Question.includes(:nodes).where("nodes.id = :node_id and questions.difficulty > questions.luck" + difStr ,condMap ).references(:nodes)		 
 		ActiveRecord::Base.logger.warn("all questions to choose from	for node #{test.work.node.content} size = #{allQuestions.size}")
     testQuestions = test.answers.map{|a| a.question}
     availQuestions = allQuestions - testQuestions

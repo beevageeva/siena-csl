@@ -4,7 +4,7 @@ class Work < ActiveRecord::Base
 	belongs_to :assignedto, :polymorphic => true
 	belongs_to :node
 
-	has_many :tests , :dependent => :destroy, :order => "created_at DESC" 
+	has_many :tests , -> {order "created_at DESC"} , :dependent => :destroy
 
  	VIEW_CONTENTS_TYPE = 0;
   TEST_TYPE = 1;

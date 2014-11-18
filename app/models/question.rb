@@ -5,7 +5,7 @@ class Question < ActiveRecord::Base
 
 	has_many :node_question_relations , :dependent => :delete_all
 	has_many :nodes, :through => :node_question_relations
-	has_many :question_responses, :dependent => :delete_all ,:order => 'id'  
+	has_many :question_responses, -> { order "id" }, dependent: :delete_all 
 	has_many :answers, :dependent => :delete_all
 
 

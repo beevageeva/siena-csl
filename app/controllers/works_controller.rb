@@ -19,7 +19,7 @@ before_filter(:only => [:listByAssignedtoAndCourse, :listByAssignedtoAndCourseXM
 
 
   def listByAssignedtoAndCourse
-    @works = Work.where("assignedto_id  = ? and assignedto_type = ? and nodes.course_id = ?", params[:assignedto_id] , params[:assignedto_type] , params[:course_id]).includes(:node)
+    @works = Work.includes(:node).where("assignedto_id  = ? and assignedto_type = ? and nodes.course_id = ?", params[:assignedto_id] , params[:assignedto_type] , params[:course_id]).references(:node)
 		if params[:assignedto_type] == 'Student'
 			@name = Student.find(params[:assignedto_id]).user.name
 		else
