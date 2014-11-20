@@ -58,7 +58,7 @@ class AluGroupsController < ApplicationController
     @alu_group = AluGroup.find(params[:id])
 
     respond_to do |format|
-      if @alu_group.update_attributes(params[:alu_group])
+      if @alu_group.update(alu_group_params)
         flash[:notice] = t('alugroup_updated_success')
         format.html { redirect_to(@alu_group) }
         format.xml  { head :ok }
