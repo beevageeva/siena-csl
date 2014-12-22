@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20121018000004) do
+ActiveRecord::Schema.define(version: 20141222080734) do
 
   create_table "admins", force: true do |t|
     t.datetime "created_at"
@@ -36,6 +36,15 @@ ActiveRecord::Schema.define(version: 20121018000004) do
     t.datetime "updated_at"
     t.integer  "student_id"
   end
+
+  create_table "chat_message_keywords", force: true do |t|
+    t.integer  "chat_message_id"
+    t.string   "keyword"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "chat_message_keywords", ["chat_message_id"], name: "index_chat_message_keywords_on_chat_message_id", using: :btree
 
   create_table "chat_messages", force: true do |t|
     t.integer  "from_id"
@@ -69,11 +78,6 @@ ActiveRecord::Schema.define(version: 20121018000004) do
     t.text     "description"
   end
 
-  create_table "competences_works", id: false, force: true do |t|
-    t.integer "competence_id"
-    t.integer "work_id"
-  end
-
   create_table "courses", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -85,6 +89,13 @@ ActiveRecord::Schema.define(version: 20121018000004) do
     t.integer  "src_id"
     t.integer  "dest_id"
     t.float    "dep"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "group_keywords", force: true do |t|
+    t.string   "keywords"
+    t.integer  "count"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -120,7 +131,18 @@ ActiveRecord::Schema.define(version: 20121018000004) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "teacher_id"
+    t.string   "keywords"
   end
+
+  create_table "proposed_keywords", force: true do |t|
+    t.integer  "question_id"
+    t.integer  "count"
+    t.string   "keyword"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "proposed_keywords", ["question_id"], name: "index_proposed_keywords_on_question_id", using: :btree
 
   create_table "question_responses", force: true do |t|
     t.text     "response"
@@ -168,6 +190,15 @@ ActiveRecord::Schema.define(version: 20121018000004) do
 
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
+
+  create_table "simple_captcha_data", force: true do |t|
+    t.string   "key",        limit: 40
+    t.string   "value",      limit: 6
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "simple_captcha_data", ["key"], name: "idx_key", using: :btree
 
   create_table "student_alu_groups", force: true do |t|
     t.datetime "created_at",   null: false

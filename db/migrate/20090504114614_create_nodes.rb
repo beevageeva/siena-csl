@@ -3,6 +3,7 @@ class CreateNodes < ActiveRecord::Migration
     create_table :nodes do |t|
       t.text :content
       t.float :minPassPoints
+			t.string :keywords
 			t.references :course
 			t.references :teacher
       t.timestamps

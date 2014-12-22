@@ -309,6 +309,9 @@ private
 		end
 		if finishtest
 			test.finished = true
+			#putting following makes it not find app/modules/alg.... see require_relative above
+			#require 'spelling_corrector'
+			SpellingCorrector.analyzeTest(test)
 			test.save
 			if test.work.assignedto_type == Work::ASSIGNEDTOALUGROUP
 				GrouptestStudent.delete_all(:test_id => test.id) if test.work.assignedto_type = Work::ASSIGNEDTOALUGROUP

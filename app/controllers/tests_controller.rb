@@ -33,6 +33,7 @@ before_filter(:only => [:show] ) { |c| c.auth  [ {:types =>  [User::PROF, User::
 		if @test.work.assignedto_type == "AluGroup"
 			cmall = ChatMessage.joins(:grouptest_chatmessages).where(:grouptest_chatmessages => {:test_id => @test.id}).includes(:grouptest_chatmessages).order("chat_messages.created_at")
 			@chatmessages=[]
+			#only put messages once: messages are delivered to all alugroup members
 			cmall.each do |cm|
 					@chatmessages.push(cm) if @chatmessages.index{|cm1| cm1.grouptest_chatmessages[0].qnumber == cm.grouptest_chatmessages[0].qnumber && cm1.from_id == cm.from_id && cm1.body == cm.body}.nil? 
 			end	
