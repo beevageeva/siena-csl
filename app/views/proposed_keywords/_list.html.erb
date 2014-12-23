@@ -1,0 +1,111 @@
+<script>
+
+var relativeUrl = "<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>";
+function loadListKeywordsDiv(){
+
+			//text="<div id=\"listkeywordsdiv\" style=\"width: 600px;word-break: break-all;\">";
+			//text+="<b> NEW: </b>";
+			text="<b> NEW: </b>";
+			state = 0;
+
+			$.post(relativeUrl + "/proposed_keywords/list", { question_id: <%= @question.id %>}, function(data){
+			  if(data){
+      		$.each(data, function(i,item){
+        		if (item) {
+							if (item.state == 1 && state == 0 ){
+								text+="<b> ACCEPTED: </b>";
+								state = 1;
+							}
+							else if (item.state == 2 && state==1){
+								text+="<b> REJECTED: </b>";
+								state = 2;
+							}
+							text+="<a href=\"#\" class=\"showkeywordlink\" keyword=\"" + item.keyword +  "\" >" + item.keyword + "</a>";
+							text+="(" + item.count + ")";
+
+
+						}
+					});
+					//text+="</div>";
+					$('#listkeywordsdiv').empty().html(text);
+					//alert("DIV");
+					//alert($('#listkeywordsdiv').html());
+
+
+		
+					//PUT NOW TRIGGERS on LINIK class click, every time this loads
+			    $('.showkeywordlink').click(function() {
+							//alert("!!!!!class clicked!!!!!");
+							var keyword = $(this).attr("keyword");
+							$('#showkeyworddiv')
+									.load(relativeUrl +  "/proposed_keywords/show" , { keyword: keyword, question_id: <%= @question.id %> }  )
+		        			.dialog({
+								modal: true,
+								buttons: {
+		                		"New": function() {
+													$.post(relativeUrl +  "/proposed_keywords/setnew", { keyword: keyword, question_id: <%= @question.id %> }  )
+														.done(function(data) {
+															 //alert("ACCPETED");	
+		   												 loadListKeywordsDiv();
+		  											});
+													$( this ).dialog( "close" );
+												},
+		                		"Accept": function() {
+													$.post(relativeUrl +  "/proposed_keywords/accept", { keyword: keyword, question_id: <%= @question.id %> }  )
+														.done(function(data) {
+															 //alert("ACCPETED");	
+		   												 loadListKeywordsDiv();
+		  											});
+													$( this ).dialog( "close" );
+												},
+		                		"Reject": function() {
+															$.post(relativeUrl +  "/proposed_keywords/reject", { keyword: keyword, question_id: <%= @question.id %> }   )
+																.done(function(data) {
+															 		//alert("REJECTED");	
+		   												 		loadListKeywordsDiv();
+		  													});
+		                    			$( this ).dialog( "close" );
+		                		}
+					     					},
+								close: function() {
+									; //do nothing	
+								},
+								position: [10,10]
+							});
+					});	
+		
+
+
+				}
+
+			});
+
+
+
+}
+
+
+
+$(function() {
+
+			loadListKeywordsDiv();
+
+
+});
+</script>
+
+
+
+
+	<b>Proposed keywords:</b>
+			<div id="listkeywordsdiv" style="width: 600px;word-break: break-all;">
+
+			</div><br/>
+
+
+
+
+	<div id="showkeyworddiv" title="Show keyword div title" style="display:none;width: 600px; height: 400px;"  >
+	</div>
+
+

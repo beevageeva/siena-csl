@@ -9,6 +9,7 @@ SienaCsl::Application.routes.draw do
 
 def makeRoutes
   resources :chat_messages
+  resources :proposed_keywords
 
   resources :competence_nodes
 
@@ -132,6 +133,15 @@ def makeRoutes
  get 'fichero_principal_contenido/:name/:related_content_id' => 'related_contents#mainFile'
  get 'lista_contenidos/:node_id/:recover' => 'related_contents#listByNodeAndRecover'
  get 'subir_fichero_competencia/:alu_group_id/:competence_id' => 'competence_groups#uploadFile'
+
+
+	#proposed keywords
+	 post 'ver_keyword/:question_id/:keyword' => 'proposed_keywords#show'
+	 post 'keywords_para/:question_id' => 'proposed_keywords#list'
+	 post 'aceptar_keyword/:question_id/:keyword' => 'proposed_keywords#accept'
+	 post 'rechazar_keyword/:question_id/:keyword' => 'proposed_keywords#reject'
+	 post 'rechazar_keyword/:question_id/:keyword' => 'proposed_keywords#setnew'
+
 
  get ':controller(/:action(/:id(.:format)))'
  post ':controller(/:action(/:id(.:format)))'

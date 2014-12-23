@@ -1,4 +1,4 @@
-RAILS_ENV=siena rails generate model ProposedKeywords question:references count:integer keyword:string
+RAILS_ENV=siena rails generate model ProposedKeywords question:references count:integer keyword:string state:integer
 RAILS_ENV=siena rake db:migrate
 
 rake keywords:create  RAILS_ENV=siena --trace
@@ -7,5 +7,5 @@ rake keywords:create  RAILS_ENV=siena --trace
 
 
 RAILS_ENV=siena rails generate model ChatMessageKeywords chat_message:references  keyword:string
-RAILS_ENV=siena rails generate model GroupKeywords keywords:string  count:integer
+
 

@@ -3,6 +3,7 @@ class CreateProposedKeywords < ActiveRecord::Migration
     create_table :proposed_keywords do |t|
       t.references :question, index: true
       t.integer :count
+      t.integer :state
       t.string :keyword
 
       t.timestamps

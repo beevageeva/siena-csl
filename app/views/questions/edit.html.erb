@@ -46,9 +46,7 @@
 
   <p>
      <%= t('keywords') %> <br />
-			<div style="width: 600px;word-break: break-all;">
-			<%= ProposedKeywords.where("question_id = ?", @question.id ).order("count desc").pluck("keyword", "count").map{|a| "#{a[0]}(#{a[1]})"}.join(",") %>
-			</div><br/>
+			<%= render :partial => 'proposed_keywords/list'    %>
     <%= f.text_field  :keywords %></p>
   </p>
 

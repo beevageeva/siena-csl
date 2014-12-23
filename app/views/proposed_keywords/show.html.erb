@@ -1,0 +1,9 @@
+<b> Keyword <%= params[:keyword] %> </b>:<br/>
+
+<% @chat_messages.each do |cm| %>
+
+<%= cm.chat_message.body %><br/>
+
+<% end %>
+
+

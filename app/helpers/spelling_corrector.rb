@@ -53,95 +53,6 @@ def self.keywords text, listwordstr, locale
 end
 
 
-#START NOT USED
-
-def self.checkWikipedia(pw, locale="es")
-	require 'net/http'
-	require 'json'	
-	pageuri = "http://#{locale}.wikipedia.org/w/api.php?action=opensearch&search=#{pw}"	
-	
-		ActiveRecord::Base.logger.warn "***#{pageuri}"	
-
-	#page = mechanize.get(pageuri)
-	#print("WIKI PAGE IS")
-	#print(page)
-
-	result = Net::HTTP.get(URI.parse(pageuri))
-	r1 = JSON.parse(result)
-	if(r1.kind_of?(Array) && r1.length == 4 )
-		if r1[1].kind_of? Array
-			if r1[1].length > 0
-				return pw
-			end
-		end
-	end
-	return nil
-end
-
-
-def self.proposedKeywords2 text, locale="es"
-
-	#session locale is nil
-	if locale.nil? || locale == ""
-		locale = "es"
-	end
-	
- 
-	require 'lingua/stemmer'
-	stemmer= Lingua::Stemmer.new(:language => locale)
-
-	result=[]
-	text.split(/\W+/).each do |w|
-		wroot = stemmer.stem(w)
-		(edits1(w, locale) | edits1(wroot, locale)).each do |pw|
-			if (r = checkWikipedia(pw, locale)) and result.include?(r)
-				result.push(pw)
-			end
-
-		end
-	end	
-
-end
-
-def self.analyzeTest(test)
-	 ActiveRecord::Base.logger.warn("ANALYZETEST Test is #{test.id}")
-	answers = test.answers
-	puts("answers size = #{answers.size}")
-	ChatMessage.joins(:grouptest_chatmessages).where(:grouptest_chatmessages => {:test_id => test.id}).includes(:grouptest_chatmessages).order("chat_messages.created_at").each do |cm|
-		puts("qnumber = #{cm.grouptest_chatmessages[0].qnumber}")
-		if(cm.grouptest_chatmessages[0].qnumber<answers.size )
-			question_id = answers[cm.grouptest_chatmessages[0].qnumber].question_id
-			messagebody = cm.body.split(":",3)[2]
-			puts("Messagebody is #{messagebody}")
-			messagebody.scan(/[[:word:]]+/u).each do |word|
-				word.downcase! 
-				puts("Word is #{word}")
-				keywords = SpellingCorrector.proposedKeywords(word)
-				#print("keywords is ")
-				#puts(keywords)
-				if keywords
-							fpk = ProposedKeywords.where("question_id = ? and keyword in (?)", question_id, keywords )
-						 if fpk && fpk.size > 0
-							puts("Keyword #{word} found size = #{fpk.size}")
-							fpk[0].count +=1
-							fpk[0].save
-							
-						else
-							puts("Keyword #{word} adding")
-							newfpk = ProposedKeywords.new
-							newfpk.count = 1
-							newfpk.question_id = question_id
-							#newfpk.keyword = SpellingCorrector.stemmedWord(word)
-							newfpk.keyword = word
-							newfpk.save
-						end
-				end
-			end
-		end
-
-	end
-end
-#END NOT USED
 
 
 def self.proposedKeywords word, locale="es"
@@ -184,25 +95,26 @@ def self.stemmedWord(word, locale="es")
 end
 
 
-def self.analyzeTest2(test)
-	 ActiveRecord::Base.logger.warn("ANALYZETEST Test is #{test.id}")
+
+def self.analyzeTest(test)
+	 #ActiveRecord::Base.logger.warn("ANALYZETEST Test is #{test.id}")
+	 puts("ANALYZETEST Test is #{test.id}")
 	answers = test.answers
 	puts("answers size = #{answers.size}")
-	ChatMessage.joins(:grouptest_chatmessages).where(:grouptest_chatmessages => {:test_id => test.id}).includes(:grouptest_chatmessages).order("chat_messages.created_at").each do |cm|
+	ChatMessage.joins(:grouptest_chatmessages).where(:grouptest_chatmessages => {:test_id => test.id}).includes(:grouptest_chatmessages).order("chat_messages.created_at").select("grouptest_chatmessages.qnumber, chat_messages.from_id , chat_messages.body").distinct().each do |cm|
 		puts("qnumber = #{cm.grouptest_chatmessages[0].qnumber}")
 		if(cm.grouptest_chatmessages[0].qnumber<answers.size )
 			question_id = answers[cm.grouptest_chatmessages[0].qnumber].question_id
 			messagebody = cm.body.split(":",3)[2]
 			puts("Messagebody is #{messagebody}")
-			prevKeywords = []
 			messagebody.scan(/[[:word:]]+/u).each do |word|
 				word.downcase! 
 				puts("Word is #{word}")
-				keywords = SpellingCorrector.proposedKeywords(word)
+				pkeywords = SpellingCorrector.proposedKeywords(word)
 				#print("keywords is ")
 				#puts(keywords)
-				if keywords
-							fpk = ProposedKeywords.where("question_id = ? and keyword in (?)", question_id, keywords )
+				if pkeywords
+							fpk = ProposedKeywords.where("question_id = ? and keyword in (?)", question_id, pkeywords )
 						 if fpk && fpk.size > 0
 							puts("Keyword #{word} found size = #{fpk.size}")
 							fpk[0].count +=1
@@ -215,16 +127,14 @@ def self.analyzeTest2(test)
 							newfpk.question_id = question_id
 							#newfpk.keyword = SpellingCorrector.stemmedWord(word)
 							newfpk.keyword = word
+							newfpk.state = ProposedKeyword::NEW_STATE
 							newfpk.save
 						end
 						#group of keywords
-						chmids = ChatMessageKeyword.where("keyword = ?", word).pluck("chat_message_id")
-						ChatMessageKeyword.where("keyword  in ? and chat_message_id in ?", prevKeywords, chmids).each do |cmk|
-							orderedKG = (cmk.heyword<=>word) < 0 ? "|#{cmk.keyword}|#{word}|" : "|#{word}|#{cmk.keyword}|" 
-						end
-								
-						prevKeywords.push(word) if ! prevKeywords.include?(word)			
-
+						cmk = ChatMessageKeywords.new
+						cmk.keyword = word
+						cmk.chat_message_id = cm.id
+						cmk.save
 
 				end
 			end
