@@ -3,6 +3,10 @@
     question.column :name => t(:name) , :attribute => 'content' do |q|
 			q.content
 		end
+    question.column :name => t(:username) , model: User, :attribute => 'username' do |q|
+			q.teacher.user.username
+		end
+
     question.column :name => t('view') do |q|
     	link_to t('view') , q
 		end

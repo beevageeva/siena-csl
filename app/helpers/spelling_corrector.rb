@@ -52,33 +52,36 @@ def self.keywords text, listwordstr, locale
 	return res
 end
 
+def self.listWithRootAndMispelled(word, locale="es")
+	require 'lingua/stemmer'
+	stemmer= Lingua::Stemmer.new(:language => locale)
 
+	wroot = stemmer.stem(word)
+	return [word, wroot] | edits1(word, locale) | edits1(wroot, locale)
+	
+end
 
+def self.isStopWord(listkeywords)
+	stopWordsFile="/var/www/siena-csl/stemmer/stop-spanish-snowball-tartarus.txt.utf8-oneline"
+	File.foreach(stopWordsFile) do |ww|
+		if listkeywords.include?(ww.strip)
+			return true		
+		end
+
+	end
+	return false
+end
 
 def self.proposedKeywords word, locale="es"
 
-	stopWordsFile="/var/www/siena-csl/stemmer/stop-spanish-snowball-tartarus.txt.utf8-oneline"
 
 	#session locale is nil
 	if locale.nil? || locale == ""
 		locale = "es"
 	end
 	
-	require 'lingua/stemmer'
-	stemmer= Lingua::Stemmer.new(:language => locale)
-
-	result=[]
-	wroot = stemmer.stem(word)
-	listkeywords = [word, wroot] | edits1(word, locale) | edits1(wroot, locale)
-		
-	res = false	
-	File.foreach(stopWordsFile) do |ww|
-		if listkeywords.include?(ww.strip)
-			res = true		
-			break
-		end
-
-	end
+	listkeywords = listWithRootAndMispelled(word)
+	res = isStopWord(listkeywords)	
 	#res = open(stopWordsFile){|f| f.grep(/#{listkeywords.join("|")}/)}
 	puts("Result grep is #{res}")	
 	if res	
@@ -101,12 +104,16 @@ def self.analyzeTest(test)
 	 puts("ANALYZETEST Test is #{test.id}")
 	answers = test.answers
 	puts("answers size = #{answers.size}")
-	ChatMessage.joins(:grouptest_chatmessages).where(:grouptest_chatmessages => {:test_id => test.id}).includes(:grouptest_chatmessages).order("chat_messages.created_at").select("grouptest_chatmessages.qnumber, chat_messages.from_id , chat_messages.body").distinct().each do |cm|
+	#TODO DEPRECATION WARNING: uniq_by is deprecated. Use Array#uniq instead. (called from irb_binding at (irb):56)
+	#BUT UNIQ is not WORKING!!!!!!
+	ChatMessage.joins(:grouptest_chatmessages).includes(:grouptest_chatmessages).where(:grouptest_chatmessages => {:test_id => test.id}).order("chat_messages.created_at").uniq_by {|c| [c.body, c.from_id, c.grouptest_chatmessages[0].qnumber]}.each do |cm|
+
 		puts("qnumber = #{cm.grouptest_chatmessages[0].qnumber}")
 		if(cm.grouptest_chatmessages[0].qnumber<answers.size )
 			question_id = answers[cm.grouptest_chatmessages[0].qnumber].question_id
 			messagebody = cm.body.split(":",3)[2]
 			puts("Messagebody is #{messagebody}")
+			previous = nil
 			messagebody.scan(/[[:word:]]+/u).each do |word|
 				word.downcase! 
 				puts("Word is #{word}")
@@ -127,12 +134,15 @@ def self.analyzeTest(test)
 							newfpk.question_id = question_id
 							#newfpk.keyword = SpellingCorrector.stemmedWord(word)
 							newfpk.keyword = word
-							newfpk.state = ProposedKeyword::NEW_STATE
+							newfpk.state = ProposedKeywords::NEW_STATE
 							newfpk.save
 						end
 						#group of keywords
 						cmk = ChatMessageKeywords.new
 						cmk.keyword = word
+						cmk.previous = previous
+						cmk.question_id = question_id
+						previous = word
 						cmk.chat_message_id = cm.id
 						cmk.save
 
@@ -141,6 +151,91 @@ def self.analyzeTest(test)
 		end
 
 	end
+end
+
+def self.searchDBpedia(content, indexFile)
+
+	ActiveRecord::Base.logger.warn "**************CONTENT= #{content}"	
+	require 'sparql/client'
+
+
+	words = content.split(/\W+/u)
+
+	#TODO do I need to include stemmed?
+	#I already know that these are not MISPELLED
+
+	queryTemp = "
+	select * where { 
+  	?s dbpedia-owl:abstract ?abstract .
+  	?abstract bif:contains \"SEARCHTERM\" .
+  	filter langMatches(lang(?abstract),\"es\")
+	}
+	limit 10
+	"
+
+	require 'ferret'  
+	include Ferret  
+  
+	# get or create an index on the filesystem  
+	index = Index::Index.new(:path => indexFile)  
+
+	client = SPARQL::Client.new("http://dbpedia.org/sparql")
+
+	#TODO do I really need to define these here?
+	uri = ""
+	abstract = ""
+
+	words.each do |word|
+		next if word.strip == "" or word.length<3
+		#for group of words I must enclose them in '' for example :  'word1 word2'
+		query = queryTemp.gsub("SEARCHTERM", word)	
+		ActiveRecord::Base.logger.warn "search #{word} , query = #{query}"	
+		result = client.query(query)
+		result.each_solution do |solution|
+  		solution.each_binding  do |name, value| 
+				if(name == :s)
+					uri = value
+				elsif(name==:abstract)
+					abstract = value
+				end
+			end
+			foundUri = (index.search("uri: \"#{uri}\"").hits.size > 0) 
+			ActiveRecord::Base.logger.warn "DB pedia URI #{uri} , found = #{foundUri.to_s}"	
+			if(!foundUri)
+				index << {  
+  				:uri => uri,  
+  				:abstract => abstract  
+				}
+			end  
+		end  #each_solution
+
+	end #each word
+
+end
+
+def self.searchIndex(keyword, indexFile)
+		require 'ferret'  
+
+		listkeywords = listWithRootAndMispelled(keyword)
+
+		query = "abstract:("
+		for index in 0..listkeywords.size - 1
+			query+=listkeywords[index] + " OR "
+		end
+		query+=listkeywords[listkeywords.size - 1] + ")"
+
+		index = Ferret::Index::Index.new(:path => indexFile)  
+		highlights = []	
+		ActiveRecord::Base.logger.info "SEARCH INDEX"
+		index.search_each(query) do |id, score|
+    	highlight = index.highlight(query, id,
+                                 :field => :abstract,
+                                 :pre_tag => "<b>",
+                                 :post_tag => "</b>")
+			#ActiveRecord::Base.logger.warn "FOUND HIGHLIGHT #{highlight}"
+			highlights.push({:score=>score , :uri=>index[id][:uri], :highlight=>highlight})
+  	end
+		return highlights
 end
 
 end

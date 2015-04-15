@@ -89,6 +89,8 @@ def makeRoutes
  get 'nuevo_trabajo/:student_id/:course_id' => 'works#new'
  get 'nodos/:course_id' => 'nodes#listByCourse' 
  get 'preguntas/:course_id' => 'questions#listByCourse' 
+ get 'createIndex/:question_id' => 'questions#createIndexDbPedia' 
+ get 'deleteIndex/:question_id' => 'questions#deleteIndexDbPedia' 
  get 'profesores/:course_id' => 'teacher_assigns#listByCourse' 
  get 'alumnos/:course_id' => 'student_assigns#listByCourse' 
  get 'grupos/:course_id' => 'alu_groups#listByCourse' 

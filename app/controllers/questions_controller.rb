@@ -13,6 +13,9 @@ require_relative "../modules/questions_helper_alg.rb"
 require File.expand_path("app/modules/questions_helper_alg.rb")
 include QuestionsHelperAlg
 
+FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
+
+
 # after_filter :set_content_type , :only => [:show]  
 	
 
@@ -32,7 +35,7 @@ include QuestionsHelperAlg
 	end
 
 	def listByCourse
-		@questions = initialize_grid(Question , {:conditions => ["course_id = #{params[:course_id]}"]})
+		@questions = initialize_grid(Question , {:conditions => ["course_id = #{params[:course_id]}"], :include => [:teacher => :user]  })
 	end
 
 	# GET /questions/1
@@ -47,6 +50,26 @@ include QuestionsHelperAlg
 	  end
 	end
 
+
+	def createIndexDbPedia
+	  question = Question.find(params[:question_id])
+		content = question.content
+		question.question_responses.each do |qr|
+			content +=  qr.response 
+		end 
+		question.nodes.each do |n|
+			content += n.content 
+		end
+
+		SpellingCorrector.searchDBpedia(content , File.join(FERRET_INDEX_DIR, params[:question_id]))
+		redirect_to  :action => "edit" , :id =>  params[:question_id]
+
+	end
+
+	def deleteIndexDbPedia
+		 File.delete(File.join(FERRET_INDEX_DIR, params[:question_id]))
+		redirect_to  :action => "edit" , :id =>  params[:question_id]
+	end
 	
 	def test
 		test_id = params[:test_id]
@@ -277,6 +300,9 @@ include QuestionsHelperAlg
 		redirect_to :action => "test", :test_id => params[:test_id]
 		
 	end
+
+
+	
 
 
 private

@@ -1,9 +1,33 @@
 <b> Keyword <%= params[:keyword] %> </b>:<br/>
 
+<h2>En grupos de 3 palabras:</h2>
 <% @chat_messages.each do |cm| %>
 
-<%= cm.chat_message.body %><br/>
+<%= cm.c1 %>
+<%= cm.c2 %>
+<%= cm.c3 %>
+<br/>
+
+<% end %>
+<h2>En grupos de 2 palabras:</h2>
+<% @chat_messages2.each do |cm| %>
+
+<%= cm.c1 %>
+<%= cm.c2 %>
+<br/>
 
 <% end %>
 
+<h2> Highlights: </h2>
+<table>
+<% @highlights.each do |h| %>
+<tr>
+<td><%= h[:score] %></td>
+<td><%= h[:uri] %></td>
+<td><%=raw h[:highlight] %></td>
+</tr>
+
+<% end %>
+
+</table>
 

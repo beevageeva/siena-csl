@@ -16,7 +16,7 @@ function loadListKeywordsDiv(){
 								text+="<b> ACCEPTED: </b>";
 								state = 1;
 							}
-							else if (item.state == 2 && state==1){
+							else if (item.state == 2 && (state==1 || state == 0)){
 								text+="<b> REJECTED: </b>";
 								state = 2;
 							}
@@ -41,6 +41,8 @@ function loadListKeywordsDiv(){
 									.load(relativeUrl +  "/proposed_keywords/show" , { keyword: keyword, question_id: <%= @question.id %> }  )
 		        			.dialog({
 								modal: true,
+								width: 800,
+        				height: 600,
 								buttons: {
 		                		"New": function() {
 													$.post(relativeUrl +  "/proposed_keywords/setnew", { keyword: keyword, question_id: <%= @question.id %> }  )

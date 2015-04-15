@@ -161,6 +161,7 @@ class UsersController < ApplicationController
 			if @user and @user.password_is? params[:password]
 				#TODO user should not be kept in the session because it can be modified (when user changes the profile session user should be loaded again)
 				 session[:userid] = @user.id
+				#TODO eliminate useraccount_id see eliminateUseraccount_session
 				session[:useraccount_id] = @user.useraccount_id
 					session[:mvis] = true
 				 flash[:notice] = t('user_login_ok')
@@ -171,7 +172,7 @@ class UsersController < ApplicationController
 
  	end			
  	def loginAs
-				 session[:userid] = params[:userid]
+				 session[:userid] = params[:userid].to_i
 				session[:useraccount_id] = User.find(params[:userid]).useraccount_id
 				 flash[:notice] = t('user_login_ok')
 			 redirect_to :controller => 'users' ,	:action => "getUserHome"

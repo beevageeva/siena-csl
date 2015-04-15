@@ -39,12 +39,15 @@ ActiveRecord::Schema.define(version: 20141222080734) do
 
   create_table "chat_message_keywords", force: true do |t|
     t.integer  "chat_message_id"
+    t.integer  "question_id"
     t.string   "keyword"
+    t.string   "previous"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "chat_message_keywords", ["chat_message_id"], name: "index_chat_message_keywords_on_chat_message_id", using: :btree
+  add_index "chat_message_keywords", ["question_id"], name: "index_chat_message_keywords_on_question_id", using: :btree
 
   create_table "chat_messages", force: true do |t|
     t.integer  "from_id"
@@ -93,13 +96,6 @@ ActiveRecord::Schema.define(version: 20141222080734) do
     t.datetime "updated_at"
   end
 
-  create_table "group_keywords", force: true do |t|
-    t.string   "keywords"
-    t.integer  "count"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "grouptest_chatmessages", force: true do |t|
     t.integer  "test_id"
     t.integer  "chat_message_id"
@@ -140,6 +136,7 @@ ActiveRecord::Schema.define(version: 20141222080734) do
     t.string   "keyword"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "state"
   end
 
   add_index "proposed_keywords", ["question_id"], name: "index_proposed_keywords_on_question_id", using: :btree
