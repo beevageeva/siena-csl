@@ -9,13 +9,20 @@ layout :green_web
 		ActiveRecord::Base.logger.warn "**SHOW KEYWORD AJAX**** question_id=#{params[:question_id]},  keyword = #{params[:keyword]}"
 		#@chat_messages = ChatMessageKeywords.where({:keyword => params[:keyword], :question_id => params[:question_id] })
 
-		@chat_messages = ChatMessageKeywords.find_by_sql(["select cm1.previous  as c1, cm1.keyword as c2, cm2.keyword as c3 from chat_message_keywords cm1 INNER JOIN chat_message_keywords cm2 ON cm1.keyword = cm2.previous WHERE cm1.chat_message_id = cm2.chat_message_id AND (cm2.keyword = :keyword OR cm2.previous = :keyword OR cm1.previous = :keyword ) and cm1.question_id = :question_id", {:question_id => params[:question_id], :keyword => params[:keyword] }])
+		@chat_messages = ChatMessageKeywords.find_by_sql(["select distinct cm1.previous  as c1, cm1.keyword as c2, cm2.keyword as c3 from chat_message_keywords cm1 INNER JOIN chat_message_keywords cm2 ON cm1.keyword = cm2.previous WHERE cm1.chat_message_id = cm2.chat_message_id AND (cm2.keyword = :keyword OR cm2.previous = :keyword OR cm1.previous = :keyword ) and cm1.question_id = :question_id and cm1.previous is not null", {:question_id => params[:question_id], :keyword => params[:keyword] }])
 
+		@chat_messages2 = ChatMessageKeywords.find_by_sql(["select distinct cm.previous  as c1, cm.keyword as c2  from chat_message_keywords cm WHERE (cm.keyword = :keyword OR cm.previous = :keyword ) and cm.question_id = :question_id and cm.previous is not null", {:question_id => params[:question_id], :keyword => params[:keyword] }])
+	
+		@highlights = []
 		indexFile = File.join(QuestionsController::FERRET_INDEX_DIR, params[:question_id])
-		@highlights = SpellingCorrector.searchIndex(params[:keyword], indexFile)	
-
-		@chat_messages2 = ChatMessageKeywords.find_by_sql(["select cm.previous  as c1, cm.keyword as c2  from chat_message_keywords cm WHERE (cm.keyword = :keyword OR cm.previous = :keyword ) and cm.question_id = :question_id", {:question_id => params[:question_id], :keyword => params[:keyword] }])
-
+		@chat_messages.each do |cm|
+			@highlights = @highlights | SpellingCorrector.searchIndex([cm.c1,cm.c2,cm.c3], indexFile)
+		end	
+		@chat_messages2.each do |cm|
+			@highlights = @highlights | SpellingCorrector.searchIndex([cm.c1,cm.c2], indexFile)
+		end	
+		@highlights = @highlights | SpellingCorrector.searchIndex(params[:keyword], indexFile)
+		ActiveRecord::Base.logger.warn("-----------------HIGHLIGHTS SIZE  #{@highlights.size}")	
 		render :action => 'show' , layout: false
   end
 

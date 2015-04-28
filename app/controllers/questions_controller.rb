@@ -67,7 +67,8 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 	end
 
 	def deleteIndexDbPedia
-		 File.delete(File.join(FERRET_INDEX_DIR, params[:question_id]))
+		 #File.delete(File.join(FERRET_INDEX_DIR, params[:question_id]))
+		 system("rm -rf %s"  % (File.join(FERRET_INDEX_DIR, params[:question_id])))
 		redirect_to  :action => "edit" , :id =>  params[:question_id]
 	end
 	

@@ -213,20 +213,40 @@ def self.searchDBpedia(content, indexFile)
 
 end
 
+def self.getQueryFor(keyword)
+		query=""
+		listkeywords = listWithRootAndMispelled(keyword)
+		for index in 0..listkeywords.size - 1
+			query+=listkeywords[index] + "|"
+		end
+		query+=listkeywords[listkeywords.size - 1]
+		return query 
+end
+
+
 def self.searchIndex(keyword, indexFile)
 		require 'ferret'  
+		#ActiveRecord::Base.logger.warn("**********************KEYWORD #{keyword}")	
+		query = "abstract:(\""
 
-		listkeywords = listWithRootAndMispelled(keyword)
+		if keyword.is_a? String
+			query+=self.getQueryFor(keyword)
+		elsif keyword.is_a? Array
+			for i in 0..keyword.size - 1
+				kwterm = keyword[i]
+				query+=self.getQueryFor(kwterm)+ " "	
 
-		query = "abstract:("
-		for index in 0..listkeywords.size - 1
-			query+=listkeywords[index] + " OR "
+			end
+			query+=self.getQueryFor(keyword[keyword.size - 1])
+			
 		end
-		query+=listkeywords[listkeywords.size - 1] + ")"
+
+		query+="\")"	
+
 
 		index = Ferret::Index::Index.new(:path => indexFile)  
 		highlights = []	
-		ActiveRecord::Base.logger.info "SEARCH INDEX"
+		#ActiveRecord::Base.logger.warn "-------------------SEARCH INDEX query: #{query} "
 		index.search_each(query) do |id, score|
     	highlight = index.highlight(query, id,
                                  :field => :abstract,

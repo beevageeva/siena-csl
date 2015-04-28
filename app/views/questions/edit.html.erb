@@ -49,6 +49,11 @@
     	<%= f.text_field  :keywords %></p>
 			<%= render :partial => 'proposed_keywords/list'    %>
 
+			<% if File.exists?(File.join(QuestionsController::FERRET_INDEX_DIR, @question.id.to_s)) %>
+	      <%= link_to t('delete_index') , :action => 'deleteIndexDbPedia' , :question_id => @question.id %>
+			<% else %>
+	      <%= link_to t('create_index') , :action => 'createIndexDbPedia' , :question_id => @question.id %>
+			<% end %>
 
   </p>
 
@@ -93,4 +98,5 @@ end %>
 <br />
 
 <%= link_to t('view'), @question %> |
-<%= link_to t(:back), @question.course %>
+<%= link_to t('view_course'), @question.course %>|
+ <%= link_to t('course_question_list'), :controller => "questions" , :action => "listByCourse" , :course_id => @question.course_id %> <br/>
