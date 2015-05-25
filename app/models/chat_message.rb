@@ -2,7 +2,7 @@ class ChatMessage < ActiveRecord::Base
 #TODO polymorphic ?
 
 
-	belongs_to :test
+	#belongs_to :test
 
 	belongs_to :from , :class_name => "Student"
         belongs_to :to , :class_name => "Student"

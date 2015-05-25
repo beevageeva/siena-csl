@@ -10,6 +10,7 @@ class Test < ActiveRecord::Base
  has_many :viewed_test_questions , :dependent => :delete_all	
 
  #chat messages
-	has_many :chat_messages	
+	#has_many :chat_messages	
+	has_many :grouptest_chatmessages	
 
 end

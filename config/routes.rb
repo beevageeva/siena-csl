@@ -126,10 +126,9 @@ def makeRoutes
  get 'leave_test/:test_id' => 'tests#leave_test'
  get 'cambiar_comentario/:grouptest_chatmessage_id' => 'grouptest_chatmessages#changeComment'
 
-
-
-
  get 'lista_tests/:work_id' => 'tests#listByWork'
+ get 'test_xml/:test_id' => 'tests#showXML'	
+
  get 'subir_fichero_contenido/:related_content_id' => 'related_contents#uploadFile'
  get 'borrar_fichero_contenido/:name/:related_content_id' => 'related_contents#deleteFile'
  get 'fichero_principal_contenido/:name/:related_content_id' => 'related_contents#mainFile'

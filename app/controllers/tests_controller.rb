@@ -52,6 +52,17 @@ before_filter(:only => [:show] ) { |c| c.auth  [ {:types =>  [User::PROF, User::
   end
 
 
+	def showXML
+		test = Test.find(params[:test_id])
+		render :xml => (test.to_xml :include => {:grouptest_chatmessages => {:include => :chat_message}, :answers => {:include => :question}} , :dasherize => false , :except => [:created_at, :updated_at])
+	end
+
+
+
+
+
+
+
 #  def deleteTestImage
 #		`rm -f #{CHATTESTIMAGESDIR}/#{params[:test_id]}.*`
 #		redirect_to :action => 'show' , :id => params[:test_id] 

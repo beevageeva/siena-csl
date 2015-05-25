@@ -4,7 +4,8 @@ RAILS_ENV=siena rake db:migrate
 rake keywords:create  RAILS_ENV=siena --trace
 
 rake keywords_index:create_index  RAILS_ENV=siena --trace
-
+#para buscar secuencias de 3 o 2 keywords en el index ferret
+rake search_keywords:search  RAILS_ENV=siena --trace
 
 RAILS_ENV=siena rails generate model ChatMessageKeywords chat_message:references  keyword:string question:references previous:string
 

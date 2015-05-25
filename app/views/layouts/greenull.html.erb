@@ -69,10 +69,11 @@
 		</td></tr></tbody></table>
 
 <% if session[:userid] %>
+	<% user = User.find(session[:userid]) %>
 <!-- logged users -->
 
 	<img alt="separador" src='<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/images/separamenu.gif'/>
-		<h2> <center> Opciones para usuarios registrados (<%= User.find(session[:userid]).username  %>)  </center>  </h2>
+		<h2> <center> Opciones para usuarios registrados (<%= t("userType#{user.useraccount_type}") + " " + user.username  %>)  </center>  </h2>
 	
 	<img alt="separador" src='<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/images/separamenu.gif'/>
 <table class="menu">
@@ -86,7 +87,7 @@
 
 
 
-<% if User.find(session[:userid]).useraccount_type == User::ADMIN  %>
+<% if user.useraccount_type == User::ADMIN  %>
 
 	<img alt="separador" src='<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>/images/separamenu.gif'/>
 <table class="menu">
@@ -141,7 +142,7 @@
 
 
 
-<% if User.find(session[:userid]).useraccount_type == User::PROF %>
+<% if user.useraccount_type == User::PROF %>
 	<img alt="separador" src='/images/separamenu.gif'/>
 <table class="menu">
     <tbody>
@@ -159,7 +160,7 @@
 			<%= link_to  link_to t('competence_list'), competences_path  %>
 		</td></tr></tbody></table>
 <% end %>
-<% if User.find(session[:userid]).useraccount_type == User::ALU %>
+<% if user.useraccount_type == User::ALU %>
 
 
 	<img alt="separador" src='/images/separamenu.gif'/>
