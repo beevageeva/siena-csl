@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141222080734) do
+ActiveRecord::Schema.define(version: 20150602141712) do
 
   create_table "admins", force: true do |t|
     t.datetime "created_at"
@@ -133,10 +133,10 @@ ActiveRecord::Schema.define(version: 20141222080734) do
   create_table "proposed_keywords", force: true do |t|
     t.integer  "question_id"
     t.integer  "count"
+    t.integer  "state"
     t.string   "keyword"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "state"
   end
 
   add_index "proposed_keywords", ["question_id"], name: "index_proposed_keywords_on_question_id", using: :btree
@@ -196,6 +196,14 @@ ActiveRecord::Schema.define(version: 20141222080734) do
   end
 
   add_index "simple_captcha_data", ["key"], name: "idx_key", using: :btree
+
+  create_table "stopwords", force: true do |t|
+    t.string   "word"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stopwords", ["word"], name: "index_stopwords_on_word", using: :btree
 
   create_table "student_alu_groups", force: true do |t|
     t.datetime "created_at",   null: false

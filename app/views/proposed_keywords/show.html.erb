@@ -22,9 +22,11 @@
 <table>
 <% @highlights.each do |h| %>
 <tr>
-<td><%= h[:score] %></td>
-<td><%= h[:uri] %></td>
-<td><%=raw h[:highlight] %></td>
+<td style="color: red"><%= h[:score] %></td>
+<td style="color: green"> <%= h[:uri] %></td>
+</tr>
+<tr>
+<td colspan="2"><%=raw h[:highlight].join("\n") %></td>
 </tr>
 
 <% end %>

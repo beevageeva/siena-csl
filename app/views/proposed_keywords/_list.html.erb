@@ -67,6 +67,14 @@ function loadListKeywordsDiv(){
 		   												 		loadListKeywordsDiv();
 		  													});
 		                    			$( this ).dialog( "close" );
+		                		},
+		                		"Stopword": function() {
+															$.post(relativeUrl +  "/proposed_keywords/setStopword", { keyword: keyword }   )
+																.done(function(data) {
+															 		//alert("REJECTED");	
+		   												 		loadListKeywordsDiv();
+		  													});
+		                    			$( this ).dialog( "close" );
 		                		}
 					     					},
 								close: function() {

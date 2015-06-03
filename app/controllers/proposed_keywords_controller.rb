@@ -48,7 +48,7 @@ layout :green_web
 		question_id =  params[:question_id]
 		if(!keyword.nil? && !question_id.nil?)
 			ActiveRecord::Base.logger.warn "**REJECT KEYWORD AJAX**** question_id=#{question_id},  keyword = #{keyword}"	
-			res = ProposedKeywords.where("question_id = ? and keyword in (?)", question_id, keyword ).limit(1)
+			res = ProposedKeywords.where("question_id = ? and keyword = ?", question_id, keyword ).limit(1)
 			if(res && res.size>0)
 				pk = res[0]
 				pk.state = ProposedKeywords::REJECTED_STATE
@@ -64,7 +64,7 @@ layout :green_web
 		question_id =  params[:question_id]
 		if(!keyword.nil? && !question_id.nil?)
 			ActiveRecord::Base.logger.warn "**ACCEPT KEYWORD AJAX**** question_id=#{question_id},  keyword = #{keyword}"	
-			res = ProposedKeywords.where("question_id = ? and keyword in (?)", question_id, keyword ).limit(1)
+			res = ProposedKeywords.where("question_id = ? and keyword = ?", question_id, keyword ).limit(1)
 			if(res && res.size>0)
 				pk = res[0]
 				pk.state = ProposedKeywords::ACCEPTED_STATE
@@ -80,7 +80,7 @@ layout :green_web
 		question_id =  params[:question_id]
 		if(!keyword.nil? && !question_id.nil?)
 			ActiveRecord::Base.logger.warn "**ACCEPT KEYWORD AJAX**** question_id=#{question_id},  keyword = #{keyword}"	
-			res = ProposedKeywords.where("question_id = ? and keyword in (?)", question_id, keyword ).limit(1)
+			res = ProposedKeywords.where("question_id = ? and keyword = ?", question_id, keyword ).limit(1)
 			if(res && res.size>0)
 				pk = res[0]
 				pk.state = ProposedKeywords::NEW_STATE
@@ -90,5 +90,18 @@ layout :green_web
 		render :json => {:error =>  false}
 
 	end
+
+
+  def setStopword
+		keyword =  params[:keyword]
+		if(!keyword.nil?)
+			ActiveRecord::Base.logger.warn "**SET STOPWORD KEYWORD AJAX****  keyword = #{keyword}"	
+			ProposedKeywords.destroy_all(keyword: keyword)
+			Stopword.create(word: keyword)
+		end
+		render :json => {:error =>  false}
+
+	end
+
 
 end

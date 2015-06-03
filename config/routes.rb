@@ -142,6 +142,7 @@ def makeRoutes
 	 post 'aceptar_keyword/:question_id/:keyword' => 'proposed_keywords#accept'
 	 post 'rechazar_keyword/:question_id/:keyword' => 'proposed_keywords#reject'
 	 post 'rechazar_keyword/:question_id/:keyword' => 'proposed_keywords#setnew'
+	 post 'stopword_keyword/:keyword' => 'proposed_keywords#setStopword'
 
 
  get ':controller(/:action(/:id(.:format)))'

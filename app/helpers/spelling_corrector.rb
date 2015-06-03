@@ -61,14 +61,23 @@ def self.listWithRootAndMispelled(word, locale="es")
 	
 end
 
+#now the stopwords are in the database
+#def self.isStopWord(listkeywords)
+#	stopWordsFile="/var/www/siena-csl/stemmer/stop-spanish-snowball-tartarus.txt.utf8-oneline"
+#	File.foreach(stopWordsFile) do |ww|
+#		if listkeywords.include?(ww.strip)
+#			return true		
+#		end
+#
+#	end
+#	return false
+#end
+
 def self.isStopWord(listkeywords)
-	stopWordsFile="/var/www/siena-csl/stemmer/stop-spanish-snowball-tartarus.txt.utf8-oneline"
-	File.foreach(stopWordsFile) do |ww|
-		if listkeywords.include?(ww.strip)
+		if Stopword.find_by word: ww.strip
 			return true		
 		end
 
-	end
 	return false
 end
 
@@ -209,69 +218,8 @@ def self.searchDBpedia(content, indexFile)
 				}
 			end  
 		end  #each_solution
-	#TODO !!!!! search by number of cvommon occurences!
-	#question.flatten.group_by{|x| x}.sort_by{|k, v| -v.size}.map(&:first)	
-	end #each word
-
-end
-def self.searchDBpediaOld(content, indexFile)
-
-	ActiveRecord::Base.logger.warn "**************CONTENT= #{content}"	
-	require 'sparql/client'
-
-
-	words = content.split(/\W+/u)
-
-	#TODO do I need to include stemmed?
-	#I already know that these are not MISPELLED
-
-	queryTemp = "
-	select * where { 
-  	?s dbpedia-owl:abstract ?abstract .
-  	?abstract bif:contains \"SEARCHTERM\" .
-  	filter langMatches(lang(?abstract),\"es\")
-	}
-	limit 10
-	"
-
-	require 'ferret'  
-	include Ferret  
-  
-	# get or create an index on the filesystem  
-	index = Index::Index.new(:path => indexFile)  
-
-	client = SPARQL::Client.new("http://dbpedia.org/sparql")
-
-	#TODO do I really need to define these here?
-	uri = ""
-	abstract = ""
-
-	words.each do |word|
-		next if word.strip == "" or word.length<3
-		#for group of words I must enclose them in '' for example :  'word1 word2'
-		query = queryTemp.gsub("SEARCHTERM", word)	
-		ActiveRecord::Base.logger.warn "search #{word} , query = #{query}"	
-		result = client.query(query)
-		result.each_solution do |solution|
-  		solution.each_binding  do |name, value| 
-				if(name == :s)
-					uri = value
-				elsif(name==:abstract)
-					abstract = value
-				end
-			end
-			
-			foundUri = (index.search("uri: \"#{uri}\"").hits.size > 0) 
-			ActiveRecord::Base.logger.warn "DB pedia URI #{uri} , found = #{foundUri.to_s}"	
-			if(!foundUri)
-				index << {  
-  				:uri => uri,  
-  				:abstract => abstract  
-				}
-			end  
-		end  #each_solution
-	#TODO !!!!! search by number of cvommon occurences!
-	#question.flatten.group_by{|x| x}.sort_by{|k, v| -v.size}.map(&:first)	
+	#TODO !!!!! search by number of common occurences!
+	#uris.flatten.group_by{|x| x}.sort_by{|k, v| -v.size}.map(&:first)	
 	end #each word
 
 end
@@ -315,6 +263,10 @@ def self.searchIndex(keyword, indexFile)
                                  :field => :abstract,
                                  :pre_tag => "<b>",
                                  :post_tag => "</b>")
+      highlight.each do |h|
+        h.force_encoding('UTF-8')
+      end
+
 			#ActiveRecord::Base.logger.warn "FOUND HIGHLIGHT #{highlight}"
 			highlights.push({:score=>score , :uri=>index[id][:uri], :highlight=>highlight})
   	end
