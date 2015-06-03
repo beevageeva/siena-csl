@@ -1,0 +1,15 @@
+<h1><%= t :stopword_list %></h1>
+
+<%= grid(@stopwords, :show_filters => :always) do |stopword|
+    stopword.column  :name => t('word') , :attribute => "word"  do |c|
+			c.word
+		end
+    	stopword.column  :name => t('delete')  do |c|
+    		link_to t('delete'), c, :confirm => t('deletion_confirmation'), :method => :delete
+			end
+
+end %>
+
+<br />
+
+	<%= link_to t('new_stopword'), new_stopword_path %>

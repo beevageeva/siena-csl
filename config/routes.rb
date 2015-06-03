@@ -45,6 +45,7 @@ def makeRoutes
   resources :students
 
   resources :courses
+  resources :stopwords
 
   resources :works
 

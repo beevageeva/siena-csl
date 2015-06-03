@@ -1,0 +1,25 @@
+<h1><%= t('new_stopword') %></h1>
+
+<%= form_for(@stopword) do |f| %>
+  	  <% if @stopword.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_save, :count => @stopword.errors.count %></h2>	
+	      <ul>
+	      <% @stopword.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+
+  <p>
+    <%= t :word %><br />
+    <%= f.text_field :word %>
+  </p>
+  <p>
+    <%= f.submit t(:crear) %>
+  </p>
+<% end %>
+
+<%= link_to t(:back), stopwords_path %>

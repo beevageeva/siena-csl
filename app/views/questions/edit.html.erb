@@ -45,7 +45,7 @@
 
 
   <p>
-     <%= t('keywords') %> <br />
+     <%= t('keywords') %> | <%= link_to   t('stopwords'),  stopwords_url   %> <br />
     	<%= f.text_field  :keywords %></p>
 			<%= render :partial => 'proposed_keywords/list'    %>
 
