@@ -74,8 +74,10 @@ end
 #end
 
 def self.isStopWord(listkeywords)
-		if Stopword.find_by word: ww.strip
-			return true		
+		listkeywords.each do |ww|
+			if Stopword.find_by word: ww
+				return true		
+			end
 		end
 
 	return false
