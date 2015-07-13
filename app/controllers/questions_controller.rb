@@ -6,6 +6,7 @@ before_filter(:only => [:new, :create , :listByCourse, :show, :deleteImgFile] ) 
  before_filter(:only => [:index] ) { |c| c.auth  [ {:types =>  [User::ADMIN]  }]  }
  before_filter(:only => [:test,:answer, :regenerate_student_id] ) { |c| c.auth  [ {:types =>  [User::ALU] , :condition => lambda{|params,session| WorksHelper.studentCanTestWork(Test.find(params[:test_id]).work_id,session[:useraccount_id])   }  }]  }
  before_filter(:only => [:starttest] ) { |c| c.auth  [ {:types =>  [User::ALU] , :condition => lambda{|params,session| WorksHelper.studentCanTestWork(params[:work_id],session[:useraccount_id])   }  }]  }
+before_filter(:only => [:showAlu] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN] } , {:types =>  [User::ALU] , :condition =>  lambda{|params,session| authShowQuestionAlu(params, session)} } ]  }
 
 include WorksHelper
 
@@ -50,6 +51,11 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 	  end
 	end
 
+	def showAlu
+	  @question = Question.find(params[:question_id])
+		render :action => 'showAlu' , layout: false
+
+	end
 
 	def createIndexDbPedia
 	  question = Question.find(params[:question_id])
@@ -78,7 +84,11 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 		#TODO now we create the answers before , so continuiing old tests which do not have any answers  will not work 
 		if test.answers.size ==0
 			test.finished = true
-			test.save
+			if(test.save)
+				 ActiveRecord::Base.logger.warn "in function test TEst saved"
+			else
+				 ActiveRecord::Base.logger.warn "!!!!!!!!!!in function test TEst NOT saved"
+			end	
 		end
 		if test.finished
 			flash[:notice] = "Test finished"
@@ -149,18 +159,19 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 			if check_finish_test_and_create_answer(test.id)
 				if work.assignedto_type == Work::ASSIGNEDTOALUGROUP
 					work.assignedto.onlinestudents.each do |s|
-					if s.id != student_id
-						ChatMessage.create(:from_id => student_id, :to_id => s.id, :msgtype => ChatMessage::MSGTYPE_STARTTEST, :body => test.id )
-					end
-						
+						if s.id != student_id
+							ChatMessage.create(:from_id => student_id, :to_id => s.id, :msgtype => ChatMessage::MSGTYPE_STARTTEST, :body => test.id )
+						end
 					end
 					
 				end
 				redirect_to :controller => "questions" , :action => "test" , :test_id => test.id	
 				return
 			end
-		end	
-	  	end
+		else
+			 ActiveRecord::Base.logger.warn "!!!! test not saved in startttest"
+		end
+	 end
 	flash[:notice] = "Error empezando el test"
 	redirect_to :controller => "works" , :action => "listByAssignedtoAndCourse" , :course_id => work.node.course_id , :assignedto_id => work.assignedto_id, :assignedto_type => work.assignedto_type
 	end
@@ -186,7 +197,7 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 			flash[:notice] = "Answer saved"
 			#calculate points of test after the answer
 			lastQuestion = @answer.question
-			test.points = getNewPoints(test.points, lastQuestion.difficulty, lastQuestion.luck, test.answers.last.correctAnswer?)
+			test.points = getNewPoints(test.points, lastQuestion.difficulty, lastQuestion.luck, @answer.correctAnswer?)
 			
 			test.save
 			ActiveRecord::Base.logger.warn("questions_controller.answer testId=#{params[:test_id]} ,  test points before = #{ @answer.pointsBefore }, points after getNewPoints #{test.points}")
@@ -340,9 +351,7 @@ private
 			#require 'spelling_corrector'
 			SpellingCorrector.analyzeTest(test)
 			test.save
-			if test.work.assignedto_type == Work::ASSIGNEDTOALUGROUP
-				GrouptestStudent.delete_all(:test_id => test.id) if test.work.assignedto_type = Work::ASSIGNEDTOALUGROUP
-			end	
+			GrouptestStudent.delete_all(:test_id => test.id) if test.work.assignedto_type = Work::ASSIGNEDTOALUGROUP
 			return false			
 		else
 			answer = Answer.new
@@ -351,7 +360,11 @@ private
 			answer.test_id = test_id
 			#TODO pointsbefore set here, there is no need  for checking it !=nil in tests.show view
 			answer.pointsBefore = test.points
-			answer.save
+			if(answer.save)
+				 ActiveRecord::Base.logger.warn "Answer saved"
+			else
+				 ActiveRecord::Base.logger.warn "***********!!!!! ANSWER NOT SAVED !!!!"
+			end		
 			return true
 		end
 
@@ -379,7 +392,6 @@ def generate_student_id(test_id)
 end
 
 
-	private
 
 	def question_params
 			params.require(:question).permit(:content, :answerTime, :correctAnswer, :difficulty, :luck, :imgFile, :course_id,  :keywords, :img
@@ -388,6 +400,12 @@ end
 
 
 
+	def authShowQuestionAlu(params, session)
+		t = Test.find(params[:test_id])
+		 #ActiveRecord::Base.logger.warn "*************AUTH RES*********************"  + (WorksHelper.studentCanViewWork(t.work_id, session[:useraccount_id]) && t.answers.pluck(:question_id).include?(params[:question_id].to_i).to_s)
+		return WorksHelper.studentCanViewWork(t.work_id, session[:useraccount_id]) && t.answers.pluck(:question_id).include?(params[:question_id].to_i)
+	
+	end
 
 
 

@@ -6,7 +6,7 @@ class CoursesController < ApplicationController
  before_filter(:only => [:show , :index] ) { |c| c.auth nil  }
  before_filter(:only => [:new, :create,:edit, :update , :destroy, :export, :import, :saveImport ] ) { |c| c.auth  [ {:types =>  [User::ADMIN]  }]  }
  before_filter(:only => [:indexAssigned] ) { |c| c.auth  [ {:types =>  [User::ALU, User::PROF]  }]  }
- before_filter(:only => [:createPng ] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN]  }]  }
+ before_filter(:only => [:createPng, :allStudents ] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN]  }]  }
 
 layout :green_web
 
@@ -35,6 +35,11 @@ include CoursesHelper
   def indexAssigned
 		accounttype = underscore(User.find(session[:userid]).useraccount_type)
 		@courses = initialize_grid(Course, {:conditions => ["#{accounttype}_assigns.#{accounttype}_id = #{session[:useraccount_id]}"]  , :include => ["#{accounttype}_assigns".to_sym] , :order => "name"  } )
+		render
+  end
+
+  def allStudents
+		@students = Course.find(params[:course_id]).students
 		render
   end
 

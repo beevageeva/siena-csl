@@ -106,6 +106,7 @@ def makeRoutes
  get 'nuevo_contenido/:node_id' => 'related_contents#new'
  get 'html_related/:related_content_id/*filename' => 'related_contents#view_as_html'  , :filename => /.+/
  get 'asignaturas_mat' => 'courses#indexAssigned'
+ get 'alumnos_en/:course_id' => 'courses#allStudents'
  get 'exportar_asignatura/:course_id' => 'courses#export'
 	get 'importar_asignatura' => 'courses#import'
  get 'cambiar_tema/:theme' => 'users#changeTheme'
@@ -113,6 +114,7 @@ def makeRoutes
  get 'competencias_grupo/:alu_group_id' => 'competences#listByGroup'
  get 'competencias_grupos' => 'competences#listByGroups'
  get 'ver_chats/:username' => 'users#listChats'
+ post 'ver_pregunta_alu/:question_id/:test_id' => 'questions#showAlu'
 
  get 'changePassword/:userid' => 'users#chPw' 
  get 'usuarios_no_activos' => 'users#indexNotActive'

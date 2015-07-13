@@ -1,3 +1,7 @@
+<script>
+
+
+</script>
 <p>
   <b><%= t('finished') %>:</b>
   <%=h @test.finished %>
@@ -25,7 +29,7 @@
     <td><%=h answer.number %></td>
     <td><%=h answer.correctAnswer? %></td>
     <td><%=h answer.timeleft %></td>
-    <td><%=h answer.question.content %></td>
+    <td><a data-question-id="<%=answer.question_id %>" class="tdclick"><%=h answer.question.content %></a></td>
     <td><%=h answer.question.difficulty %> / <%=h answer.question.luck %></td>
     <td><%=h  "%1.5f" %   (answer.pointsBefore.nil? ? 0.0 :  answer.pointsBefore) %></td>
     <td><%=h  "%1.5f" %   
@@ -59,6 +63,22 @@
 <script>
 	$(function() {
 		$( "#tabs" ).tabs();
+		var relativeUrl = "<%= ENV['RAILS_RELATIVE_URL_ROOT'] %>";
+		$('.tdclick').click(function() {
+			var question_id = $(this).attr("data-question-id");
+			//alert(question_id);
+			$('#showquestion')
+				.load(relativeUrl +  "/questions/showAlu" , {question_id: question_id, test_id: <%= @test.id %> }  )
+		 		.dialog({
+								modal: true,
+								width: 800,
+        				height: 600,
+								close: function() {
+									; //do nothing	
+								},
+								position: [10,10]
+							});
+		});
 	});
 	</script>
 
@@ -101,4 +121,6 @@
 <p>Click tabs to swap between content that is broken into logical sections.</p>
 </div><!-- End demo-description -->
 
+<div id="showquestion" title="Show question" style="display:none;width: 600px; height: 400px;"  >
+</div>
 
