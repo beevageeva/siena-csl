@@ -4,6 +4,8 @@ class Student < ActiveRecord::Base
  has_one :user, :as => :useraccount
  has_many :student_assigns , :dependent => :delete_all
  has_many :courses, :through => :student_assigns
+ #grades of messages quality for every student and test	
+ has_many :test_alu_msgqualifs , :dependent => :delete_all
 
  has_many :works , :as => :assignedto, :dependent => :delete_all
  has_many :answers 

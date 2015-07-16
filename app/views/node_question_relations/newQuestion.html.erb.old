@@ -1,8 +1,21 @@
 <h1><%= t('node_question_relation_new_question')  %></h1>
 
-<%= form_tag({:action => 'createQuestion'} , {:method => :post}) do  %>
+<%= form_for(@node_question_relation) do |f| %>
+  	  <% if @node_question_relation.errors.any? %>
+	    <div id="error_explanation">
+		<h2><%= t :error_save, :count => @node_question_relation.errors.count %></h2>	
+	      <ul>
+	      <% @node_question_relation.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
 
-		<%= hidden_field_tag :node_id , params[:node_id] %>
+
+		<%= f.hidden_field :node_id %>
+		<%= hidden_field_tag :next , "node" %>
+		<%= hidden_field_tag :prev , "question" %>
 
 <p>
   <b><%= t('course') %>:</b>
@@ -10,6 +23,7 @@
 <p>
 
  <% serializedAttr = "'course_id=' + document.getElementById('course_id').value" %>
+
 <script>
 $(document).ready(function(){
   $("#course_id").change(function() {
@@ -29,13 +43,12 @@ $(document).ready(function(){
 
   <div id="questions_div">
   </div>
-
 <p>
   <b><%= t('dependency') %>:</b>
-    <%= text_field_tag :dep %>
+    <%= f.text_field :dep %>
   </p>
   <p>
-    <%= submit_tag t('create') %>
+    <%= f.submit t('create') %>
   </p>
 <% end %>
 

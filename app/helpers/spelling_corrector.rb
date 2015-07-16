@@ -111,10 +111,18 @@ end
 
 
 def self.analyzeTest(test)
-	 #ActiveRecord::Base.logger.warn("ANALYZETEST Test is #{test.id}")
-	 puts("ANALYZETEST Test is #{test.id}")
+	#ActiveRecord::Base.logger.warn("ANALYZETEST Test is #{test.id}")
+  puts("ANALYZETEST Test is #{test.id}")
 	answers = test.answers
 	puts("answers size = #{answers.size}")
+	#TODO
+	#I make here TestAluMsgqualif objects		
+#	test.assignedto.students.each do |s|
+#		TestAluMsgqualif.create({test_id: test.id, student_id: s.id, grade1: 0, grade2: 0, grade3: 0, grade4: 0, grade_total: 0 })
+#	end
+
+
+
 	#TODO DEPRECATION WARNING: uniq_by is deprecated. Use Array#uniq instead. (called from irb_binding at (irb):56)
 	#BUT UNIQ is not WORKING!!!!!!
 	ChatMessage.joins(:grouptest_chatmessages).includes(:grouptest_chatmessages).where(:grouptest_chatmessages => {:test_id => test.id}).order("chat_messages.created_at").uniq_by {|c| [c.body, c.from_id, c.grouptest_chatmessages[0].qnumber]}.each do |cm|

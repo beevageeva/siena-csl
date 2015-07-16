@@ -1,6 +1,6 @@
 <h2><%= t('user_list') %> </h2>
 
-<%= link_to 'Not active', :controller => 'users' , :action => 'indexNotActive'%>
+<%= link_to t('users_not_active'), :controller => 'users' , :action => 'indexNotActive'%>
 <br/>
 
 <%= grid(@users, :show_filters => :always) do |user|

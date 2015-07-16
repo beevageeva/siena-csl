@@ -53,7 +53,7 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 
 	def showAlu
 	  @question = Question.find(params[:question_id])
-		render :action => 'showAlu' , layout: false
+		render :action => 'showAlu' , layout: false 
 
 	end
 
@@ -349,9 +349,12 @@ private
 			test.finished = true
 			#putting following makes it not find app/modules/alg.... see require_relative above
 			#require 'spelling_corrector'
-			SpellingCorrector.analyzeTest(test)
 			test.save
-			GrouptestStudent.delete_all(:test_id => test.id) if test.work.assignedto_type = Work::ASSIGNEDTOALUGROUP
+			if test.work.assignedto_type = Work::ASSIGNEDTOALUGROUP
+				SpellingCorrector.analyzeTest(test)
+				GrouptestStudent.delete_all(:test_id => test.id) 
+			end
+			SpellingCorrector.analyzeTest(test)
 			return false			
 		else
 			answer = Answer.new

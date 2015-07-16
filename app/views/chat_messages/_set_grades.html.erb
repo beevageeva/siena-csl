@@ -1,0 +1,38 @@
+Notas de los mensajes ( <%= alu_group.name %> )
+
+
+<div id="messagediv"></div>
+<%= form_tag({:controller => 'test_alu_msgqualifs', :action => 'setGrades'} , {:method => :post, :remote => true}) do  %>
+
+
+
+<%= hidden_field_tag 'test_id', test_id %>
+<%= hidden_field_tag 'alu_group_id', alu_group.id %>
+
+
+
+<table>
+	<thead>
+  <tr>
+    <th>user</th>
+    <th>grade</th>
+  </tr>
+	</thead>
+	<tbody>
+		<% alu_group.students.each do |s| %>
+			<tr>
+				<td><%= s.user.name %> ( <%= s.user.username %> ) </td>
+				<% tag = TestAluMsgqualif.find_by_test_id_and_student_id(test_id, s.id)
+					 val = (tag.nil? ? 0 : tag.grade4 )	%>
+				<td><%= text_field_tag "rel[#{s.id}]" , val   %> </td>
+			</tr>
+				
+
+
+		<% end %>	
+	</tbody>
+
+</table>
+
+<%= submit_tag t('submit') %>
+<% end %>

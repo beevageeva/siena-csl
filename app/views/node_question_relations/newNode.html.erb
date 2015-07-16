@@ -1,57 +1,35 @@
 <h1><%= t('node_question_relation_new_node')  %></h1>
 
-<%= form_for(@node_question_relation) do |f| %>
-  	  <% if @node_question_relation.errors.any? %>
-	    <div id="error_explanation">
-		<h2><%= t :error_save, :count => @node_question_relation.errors.count %></h2>	
-	
-	      <ul>
-	      <% @node_question_relation.errors.full_messages.each do |msg| %>
-	        <li><%= msg %></li>
-	      <% end %>
-	      </ul>
-	    </div>
-	  <% end %>
+<%= form_tag({:action => 'createNode'} , {:method => :post}) do  %>
 
-		
-		<%= f.hidden_field :question_id %>
-		<%= hidden_field_tag :next , "question" %>
-		<%= hidden_field_tag :prev , "node" %>
+		<%= hidden_field_tag :question_id , params[:question_id] %>
 
 <p>
-  <b><%= t('course')  %>:</b>
-    <%= select_tag "course_id" , options_for_select(@coursesoptions)  %>
+  <b><%= t('node') %>:</b>
+</p>
+<%= grid(@nodes, :show_filters => :always) do |node|
+
+   node.action_column :param_name => "nodeids"	
+
+
+		node.column :name => t('course'), :model => Course , :attribute => 'name', :custom_filter => :auto  do |n|
+       n.course.name
+    end
+    node.column :name => t('content'), :attribute => 'content' do |n|
+       n.content
+    end
+
+end %>
+
+
 <p>
-
-
- <% serializedAttr = "'course_id=' + document.getElementById('course_id').value" %>
-<script>
-$(document).ready(function(){
-  $("#course_id").change(function() {
-    // make a POST call and replace the content
-    $.post("<%= url_for(:action => 'getNodesDep') %>", <%= raw serializedAttr %>, function(data) {
-      $("#nodes_div").html(data);
-    });
-  });
-
-    $.post("<%= url_for(:action => 'getNodesDep') %>", <%= raw serializedAttr %>, function(data) {
-      $("#nodes_div").html(data);
-    });
-
-})
-</script>
-
-
-  <div id="nodes_div">
-  </div>
-
-
-  <b><%= t('dependency')  %>:</b>
-    <%= f.text_field :dep %>
+  <b><%= t('dependency') %>:</b>
+    <%= text_field_tag :dep %>
   </p>
-
   <p>
-    <%= f.submit t('create') %>
+    <%= submit_tag t('create') %>
   </p>
 <% end %>
+
+
 

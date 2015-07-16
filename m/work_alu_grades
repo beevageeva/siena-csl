@@ -1,0 +1,5 @@
+RAILS_ENV=siena rails generate model test_alu_msgqualif test:references  grade:float student:references 
+RAILS_ENV=siena rake db:migrate 
+RAILS_ENV=siena2 rake db:migrate 
+RAILS_ENV=siena3 rake db:migrate 
+

@@ -1,0 +1,5 @@
+
+<p>
+  <b><%= t('question') %>:</b>
+    <%= select  :node_question_relation ,  :question_id , @questionsoptions  %>
+<p>

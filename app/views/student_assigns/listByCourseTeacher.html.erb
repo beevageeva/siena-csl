@@ -39,4 +39,4 @@ end %>
 		<br/>
     <%= link_to t('back'), :controller => "courses" , :action => "show" , :id => params[:course_id]%>
 		<hr/>
-    <%= link_to 'Notas', :controller => "courses" , :action => "allStudents" , :course_id => params[:course_id]%>
+    <%= link_to t('grades_all'), :controller => "courses" , :action => "allStudents" , :course_id => params[:course_id]%>

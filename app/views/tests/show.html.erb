@@ -1,7 +1,7 @@
-<script>
+<!-- style>
+	.main-dialog-class{ white-space: pre;}
+</style -->
 
-
-</script>
 <p>
   <b><%= t('finished') %>:</b>
   <%=h @test.finished %>
@@ -71,6 +71,7 @@
 				.load(relativeUrl +  "/questions/showAlu" , {question_id: question_id, test_id: <%= @test.id %> }  )
 		 		.dialog({
 								modal: true,
+								//dialogClass: 'main-dialog-class',
 								width: 800,
         				height: 600,
 								close: function() {
@@ -95,6 +96,7 @@
   <% if @test.work.assignedto_type == Work::ASSIGNEDTOALUGROUP%> 	
 		<!-- li><a href="#tabs-1">Info</a></li -->
 		<li><a href="#tabs-2">Messages</a></li>
+		<li><a href="#tabs-4">Notas mensajes</a></li>
  <% end %>	
 		<li><a href="#tabs-3">vtq</a></li>
 	</ul>
@@ -106,6 +108,9 @@
 	</div -->
 	<div id="tabs-2">
 		<%= render 'chat_messages/list' %>
+	</div>
+	<div id="tabs-4">
+		<%= render :partial => 'chat_messages/set_grades' , :locals => {:alu_group => @test.work.assignedto, :test_id => @test.id} %>
 	</div>
  <% end %>	
 	<div id="tabs-3">

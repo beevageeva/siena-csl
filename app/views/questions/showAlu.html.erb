@@ -1,0 +1,22 @@
+<p>
+<h2><%= raw @question.content %></h2>
+ <% if @question.img && @question.img != "" %>
+	 <img src="/questions/<%= @question.img %>" width="360" />
+  <% end %>
+
+</p>
+<p>
+Respuestas:
+<% @question.question_responses.each_with_index do |qr, index| %>
+	<% if index == @question.correctAnswer %>
+		<div style="color:red">
+	<% else %>
+		<div>
+	<% end %>
+
+	<%= raw qr.response %>	
+	</div>
+
+<% end %>
+</p>
+

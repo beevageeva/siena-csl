@@ -55,7 +55,7 @@
 			link_to t("edit") , edit_node_question_relation_path(s.node_question_relations[0])
 		end
     st.column :name => t('delete_node_question_relation') do |s|
-			link_to t("delete") , s.node_question_relations[0], :confirm => t("deletion_confirmation"), :method => :delete
+    	link_to t('delete'),url_for(:controller => 'node_question_relations',  :action => "destroy" , :id =>s.node_question_relations[0].id,  :from => 'nodes') ,{ :confirm => t(:deletion_node_question_relation_confirmation), :method => :delete }
 		end
     st.column :name => t('edit_question') do |s|
 			link_to t("edit") , edit_question_path(s.id)  if adminQN(s)

@@ -1,5 +1,72 @@
-
 <p>
   <b><%= t('question') %>:</b>
-    <%= select  :node_question_relation ,  :question_id , @questionsoptions  %>
-<p>
+</p>
+
+<table id="example" class="display" cellspacing="0" width="100%">
+	<thead>
+		<tr>
+			<th>Content</th>
+		</tr>
+	</thead>
+	<tbody>		
+	<% @questions.each do |q| %>
+		<tr>
+			<td><input type="checkbox" name="questionids[]" value="<%= q.id %>"/> 
+			<%= q.content %> </td>
+		</tr>
+	
+	<% end %>
+	</tbody>
+</table>
+			
+
+
+<!-- script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script -->
+<script>
+$(document).ready(function() {
+		$('th').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find("tr:not(:has('th'))").toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).html() }
+
+// additional code to apply a filter
+$('table').each(function(){
+    var table = $(this)
+    var headers = table.find('th').length
+    var filterrow = $('<tr>').insertAfter($(this).find('th:last()').parent())
+    for (var i = 0; i < headers; i++){
+        filterrow.append($('<th>').append($('<input>').attr('type','text').keyup(function(){
+	        table.find('tr').show()
+            filterrow.find('input[type=text]').each(function(){
+	            var index = $(this).parent().index() + 1
+	            var filter = $(this).val() != ''
+	            $(this).toggleClass('filtered', filter)
+	            if (filter){
+	                var el = 'td:nth-child('+index+')'
+	                var criteria = ":contains('"+$(this).val()+"')"
+	                table.find(el+':not('+criteria+')').parent().hide()
+	            }
+            })
+        })))
+    }
+    filterrow.append($('<th>').append($('<input>').attr('type','button').val('Clear Filter').click(function(){
+        $(this).parent().parent().find('input[type=text]').val('').toggleClass('filtered', false)
+        table.find('tr').show()
+    })))
+})
+
+
+
+  //  $('#example').DataTable();
+} );
+</script>
