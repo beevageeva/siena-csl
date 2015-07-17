@@ -44,7 +44,7 @@
 				</div>
 		</td>
 		<td>
-  		  <%= link_to t('delete'),chat_message.grouptest_chatmessages[0] , :confirm => 'Are you sure?', :method => :delete %>
+  		  <%= link_to t('delete'),chat_message.grouptest_chatmessages[0] , :data => {:confirm => 'Are you sure?'}, :method => :delete %>
 		</td>
 			<% end %> 
 

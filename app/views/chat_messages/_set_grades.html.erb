@@ -1,7 +1,9 @@
 Notas de los mensajes ( <%= alu_group.name %> )
 
 
-<div id="messagediv"></div>
+<div id="messagediv">
+ <%= render :partial => 'chat_messages/list_grades' , :locals => {:test_alu_msgqualifs => test_alu_msgqualifs, :message => ''} %>
+</div>
 <%= form_tag({:controller => 'test_alu_msgqualifs', :action => 'setGrades'} , {:method => :post, :remote => true}) do  %>
 
 
@@ -14,8 +16,8 @@ Notas de los mensajes ( <%= alu_group.name %> )
 <table>
 	<thead>
   <tr>
-    <th>user</th>
-    <th>grade</th>
+    <th>Usuario</th>
+    <th>Nota4</th>
   </tr>
 	</thead>
 	<tbody>

@@ -110,7 +110,7 @@
 		<%= render 'chat_messages/list' %>
 	</div>
 	<div id="tabs-4">
-		<%= render :partial => 'chat_messages/set_grades' , :locals => {:alu_group => @test.work.assignedto, :test_id => @test.id} %>
+		<%= render :partial => 'chat_messages/set_grades' , :locals => {:alu_group => @test.work.assignedto, :test_id => @test.id, :test_alu_msgqualifs => TestAluMsgqualif.where(test_id: @test.id)} %>
 	</div>
  <% end %>	
 	<div id="tabs-3">

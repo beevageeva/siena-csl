@@ -35,7 +35,7 @@
   </script>
 
 
-
+Notas de todos los alumnos. En paréntesis se muestra número de preguntas con respuesta incorrecta / número total de preguntas
 
 <div class="accordion-expand-holder">
     <button type="button" class="open">Expand all</button>
@@ -51,13 +51,22 @@
 			<% if tests[:students].size > 0 %>
 				<h4> Individuales </h4>
 				<% tests[:students].each do |t| %>	
-					<b> <%= t[:node] %>: </b><%= t[:tests].join(" ") %><br/>
+					<b> <%= t[:node] %>: </b>
+						<% t[:tests].each do |t| %>
+							<%= t[:points] %> (<%= t[:answ] %>)
+						<% end %>
+				<br/>
 				<% end %>
 			<% end %>
 			<% if tests[:alu_groups].size > 0 %>
 				<h4> En grupo </h4>
 				<% tests[:alu_groups].each do |t| %>
-					<b> <%= t[:node] %>: </b><%= t[:tests].join(" ") %></br>
+					<b> <%= t[:node] %>: </b>
+						<% t[:tests].each do |t| %>
+							<%= t[:points] %> (<%= t[:answ] %>)
+						<% end %>
+
+				</br>
 				<% end %>
 			<% end %>
 		</div>

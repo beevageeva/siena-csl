@@ -1,1 +1,1 @@
-$("#messagediv").html("<%= raw escape_javascript(@message) %>")
+$('#messagediv').html("<%= escape_javascript(render(:partial => 'chat_messages/list_grades' ,  :locals => {:test_alu_msgqualifs => @test_alu_msgqualifs , :message => @message })) %>");

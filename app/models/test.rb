@@ -15,4 +15,15 @@ class Test < ActiveRecord::Base
 	#has_many :chat_messages	
 	has_many :grouptest_chatmessages	
 
+
+	def correctAnswers
+		n = 0
+		answers.each do |a|
+			n+=1 if a.correctAnswer?
+		end
+		return n
+	end
+
+
+
 end
