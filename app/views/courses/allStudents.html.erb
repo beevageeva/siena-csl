@@ -36,6 +36,7 @@
 
 
 Notas de todos los alumnos. En paréntesis se muestra número de preguntas con respuesta incorrecta / número total de preguntas
+; nota1, nota2, nota3, nota4 | nota total si se ha rellenado por el profeosr nota4 (la calidad de los mensajes)
 
 <div class="accordion-expand-holder">
     <button type="button" class="open">Expand all</button>
@@ -60,10 +61,15 @@ Notas de todos los alumnos. En paréntesis se muestra número de preguntas con r
 			<% end %>
 			<% if tests[:alu_groups].size > 0 %>
 				<h4> En grupo </h4>
+				<% if tests[:gradeFromTag]!=0 %>
+					<p><b><%= t('grade_total') %></b>:
+					<%=  tests[:gradeFromTag] %>
+					</p>
+				<% end %>
 				<% tests[:alu_groups].each do |t| %>
 					<b> <%= t[:node] %>: </b>
 						<% t[:tests].each do |t| %>
-							<%= t[:points] %> (<%= t[:answ] %>)
+							<%= t[:points] %> (<%= t[:answ] %>; <%= "#{t[:tag].grade1}, #{t[:tag].grade2}, #{t[:tag].grade3}, #{t[:tag].grade4} | #{t[:tag].grade_total}" if t.has_key?(:tag) %>)
 						<% end %>
 
 				</br>

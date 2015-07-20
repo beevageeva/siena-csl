@@ -182,6 +182,7 @@ en:
   finished:        "Finished"
   answer:        "Answer"
   correct_answer:        "Correct answer"
+  correct_answers:        "Number of correct answers / Total number of answers"
   points_before:        "Points before"
   points_after:        "Points after"
   timeleft:        "Time left"

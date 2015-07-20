@@ -8,5 +8,9 @@ module QuestionsHelper
 	end
 
 
+	def getNumberOfCorrectAnswers(question_id, question_correctAnswer)
+		return Answer.where({question_id: question_id, number: question_correctAnswer}).count
+	end
+
 	
 end

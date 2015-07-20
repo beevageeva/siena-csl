@@ -35,6 +35,13 @@
     <%= f.text_field :luck %>
   </p>
 
+	<p>
+		<b><%= t('correct_answers') %></b>:
+			<%= getNumberOfCorrectAnswers(@question.id, @question.correctAnswer) %> / <%= @question.answers.size %>
+	</p>
+
+
+
   <p>
    <%=  t('image') %> <br /> <%= @question.img %>
     <%= f.file_field  :imgFile %></p>

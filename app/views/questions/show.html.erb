@@ -82,4 +82,12 @@
 
 end %>
 
+<p>
+<b><%= t('correct_answers') %></b>:
+<%= getNumberOfCorrectAnswers(@question.id, @question.correctAnswer) %> / <%= @question.answers.size %>
+</p>
+
+
+
+
 <%= link_to  t(:back), :controller => "questions" , :action => "listByCourse" , :course_id => @question.course_id %>
