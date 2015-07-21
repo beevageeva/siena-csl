@@ -3,6 +3,17 @@
 </style -->
 
 <p>
+  <b><%= t('node') %>:</b>
+ <%= @test.work.node.content %>
+</p>
+<% if @test.work.assignedto_type == Work::ASSIGNEDTOALUGROUP%>
+	<p>
+  <b><%= t('group') %>:</b> 
+	 <%= @test.work.assignedto.name %>
+	</p>
+<% end %>
+
+<p>
   <b><%= t('finished') %>:</b>
   <%=h @test.finished %>
 </p>
