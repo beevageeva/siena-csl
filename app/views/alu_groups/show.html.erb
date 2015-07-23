@@ -14,8 +14,11 @@
     st.column :name => t('username') do |s|
            s.user.username
     end
-
+		st.column :name => t('grade_total') do |s|
+			 "%1.3f" % getStudentGrade(s.id, @alu_group.course_id) 
+		end
 
 end %>
+
 
 <%= link_to t('edit'), edit_alu_group_path(@alu_group)  %>

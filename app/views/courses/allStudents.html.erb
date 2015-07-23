@@ -63,13 +63,13 @@ Notas de todos los alumnos. En paréntesis se muestra número de preguntas con r
 				<h4> En grupo </h4>
 				<% if tests[:gradeFromTag]!=0 %>
 					<p><b><%= t('grade_total') %></b>:
-					<%=  tests[:gradeFromTag] %>
+					<%= "%1.3f" % tests[:gradeFromTag] %>
 					</p>
 				<% end %>
 				<% tests[:alu_groups].each do |t| %>
 					<b> <%= t[:node] %>: </b>
 						<% t[:tests].each do |t| %>
-							<%= t[:points] %> (<%= t[:answ] %>; <%= "#{t[:tag].grade1}, #{t[:tag].grade2}, #{t[:tag].grade3}, #{t[:tag].grade4} | #{t[:tag].grade_total}" if t.has_key?(:tag) %>)
+							<%= t[:points] %> (<%= t[:answ] %><%= " ;#{t[:tag].grade1}, #{t[:tag].grade2}, #{t[:tag].grade3}, #{t[:tag].grade4} | #{t[:tag].grade_total}" if t.has_key?(:tag) %>)
 						<% end %>
 
 				</br>
