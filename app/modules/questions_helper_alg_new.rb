@@ -3,7 +3,7 @@ module QuestionsHelperAlgNew
   ActiveRecord::Base.logger.warn "****************Loading module QuestionsHelperAlgNew"
 
   def mustStop(test_id)
-		ActiveRecord::Base.logger.warn("*** CallQuestionsHelperAlgNew.mustStop *****")
+		ActiveRecord::Base.logger.warn("*** CallQuestionsHelperAlgNew.mustStop test_id = #{test_id}*****")
 
     test = Test.find(test_id)
     minquest = 10

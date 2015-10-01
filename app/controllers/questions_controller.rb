@@ -182,7 +182,11 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 
 	def answer
 		test = Test.find(params[:test_id])
-		return if test.finished	
+		if test.finished
+			ActiveRecord::Base.logger.warn("answer called but test finished")
+			redirect_to :controller => "works" , :action => "listByAssignedtoAndCourse" , :course_id => work.node.course_id , :assignedto_id => work.assignedto_id, :assignedto_type => work.assignedto_type
+			return
+		end	
 		@answer = test.answers.last
 		if @answer.student_id != session[:useraccount_id]
 			flash[:notice] = "Answer user changed, you are not allowed to answer"
@@ -345,6 +349,7 @@ private
 				finishtest = true
 			end	
 		end
+		ActiveRecord::Base.logger.warn "check_finish_test_and_create_answer finishtest = #{finishtest}"
 		if finishtest
 			test.finished = true
 			#putting following makes it not find app/modules/alg.... see require_relative above
