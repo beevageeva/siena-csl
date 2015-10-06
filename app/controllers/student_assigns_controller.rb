@@ -39,10 +39,14 @@ layout :green_web
 
 
   def register_to_course
-	params[:grid][:studentids].each do |sid|
-		StudentAssign.find_or_create_by_student_id_and_course_id(sid,  params[:course_id] )
-	end	
-	redirect_to :controller => 'student_assigns' , :action => 'listByCourse', :course_id => params[:course_id]	
+		if params[:grid].nil? || params[:grid][:studentids].nil?
+        flash[:notice] = 'Ninguno seleccionado'
+		else
+			params[:grid][:studentids].each do |sid|
+				StudentAssign.find_or_create_by_student_id_and_course_id(sid,  params[:course_id] )
+			end	
+		end
+		redirect_to :controller => 'student_assigns' , :action => 'listByCourse', :course_id => params[:course_id]	
   end
 
   def unregister_from_course
