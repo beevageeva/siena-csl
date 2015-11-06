@@ -5,6 +5,7 @@
 	<p><b> <%= t('recuperation') %>  </b></p>
 <% end %>
 
+<% if @related_contents.size() > 0 %>
 <table>
   <tr>
     <th><%= t('filename') %></th>
@@ -19,6 +20,10 @@
   </tr>
 <% end %>
 </table>
+
+<% else %>
+	<b> No hay contenidos </b>
+<% end %>
 
 <br />
 
