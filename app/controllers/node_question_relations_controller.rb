@@ -83,16 +83,21 @@ layout :green_web
   def createQuestion
 		nCreated = 0
 		ActiveRecord::Base.logger.warn (" craeteQuestion params questionids #{params[:questionids]}")
-		params[:questionids].each do |qid|	
-			if not NodeQuestionRelation.find_by_node_id_and_question_id(params[:node_id], qid)	
-			#no tiene que haber mas dependencias null porque esta puesto en el modelo que compruebe la dep float entre 0..1
-	     if NodeQuestionRelation.create({node_id: params[:node_id], question_id: qid, dep: params[:dep]})
-				nCreated+=1
-			 end
+		if params[:questionids]
+			pdep = params[:dep].to_f
+			params[:questionids].each do |qid|	
+				if not NodeQuestionRelation.find_by_node_id_and_question_id(params[:node_id], qid)	
+				#no tiene que haber mas dependencias null porque esta puesto en el modelo que compruebe la dep float entre 0..1
+				#TODO  if condition true	always, setting params[:dep]
+		     if NodeQuestionRelation.create({node_id: params[:node_id], question_id: qid, dep: pdep})
+					nCreated+=1
+				 end
+				end
 			end
 		end
 		flash[:notice] = "#{nCreated} relations created"	
 		redirect_to :controller => 'nodes', :action => "edit" , :id =>  params[:node_id] 
+		
   end
 
   def createNode
