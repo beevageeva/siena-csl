@@ -184,6 +184,7 @@ def self.searchDBpedia(content, indexFile)
 	#I already know that these are not MISPELLED
 
 	queryTemp = "
+	PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
 	select * where { 
   	?s dbpedia-owl:abstract ?abstract .
   	?abstract bif:contains \"SEARCHTERM\" .
