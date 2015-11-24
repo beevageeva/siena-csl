@@ -41,9 +41,10 @@ module QuestionsHelperAlgNew
 			difStr = ""
 		end
 		allQuestions = Question.includes(:nodes).where("nodes.id = :node_id and questions.difficulty > questions.luck" + difStr ,condMap ).references(:nodes)		 
-		ActiveRecord::Base.logger.warn("all questions to choose from	for node #{test.work.node.content} size = #{allQuestions.size}")
+		ActiveRecord::Base.logger.warn("test #{test_id} all questions to choose from	for node #{test.work.node.content} size = #{allQuestions.size}")
     testQuestions = test.answers.map{|a| a.question}
     availQuestions = allQuestions - testQuestions
+		ActiveRecord::Base.logger.warn("#{test_id} avail (all - test) questions size = #{availQuestions.size}")
     if(availQuestions.size >0)
       toChooseQuestions = []
       resQuestion = nil
@@ -67,10 +68,10 @@ module QuestionsHelperAlgNew
         end
       end
       resQuestion = availQuestions[rand(availQuestions.size)] if ! resQuestion
-      ActiveRecord::Base.logger.warn("****next question id *****" + resQuestion.id.to_s)
+      ActiveRecord::Base.logger.warn("**#{test_id}***next question id *****" + resQuestion.id.to_s)
       return resQuestion.id
     end
-    ActiveRecord::Base.logger.warn("****NO MORE QUESTIONS *****" )
+    ActiveRecord::Base.logger.warn("*#{test_id}*******NO MORE QUESTIONS *****" )
     return false
   end
 

@@ -7,7 +7,7 @@ before_filter(:only => [:new, :create , :listByCourse, :show, :deleteImgFile] ) 
  before_filter(:only => [:test,:answer, :regenerate_student_id] ) { |c| c.auth  [ {:types =>  [User::ALU] , :condition => lambda{|params,session| WorksHelper.studentCanTestWork(Test.find(params[:test_id]).work_id,session[:useraccount_id])   }  }]  }
  before_filter(:only => [:starttest] ) { |c| c.auth  [ {:types =>  [User::ALU] , :condition => lambda{|params,session| WorksHelper.studentCanTestWork(params[:work_id],session[:useraccount_id])   }  }]  }
 before_filter(:only => [:showAlu] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN] } , {:types =>  [User::ALU] , :condition =>  lambda{|params,session| authShowQuestionAlu(params, session)} } ]  }
-
+before_filter(:only => [:createIndexDbPedia, :deleteIndexDbPedia] ) { |c| c.auth  [ {:types =>  [User::PROF, User::ADMIN] } ]  }
 include WorksHelper
 
 require_relative "../modules/questions_helper_alg.rb"
