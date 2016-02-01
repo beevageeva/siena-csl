@@ -332,11 +332,13 @@ private
 		ActiveRecord::Base.logger.warn "Finish test and create answer"	
 		if mustStop(test_id)
 			flash[:notice] = "Test must stop"
+			ActiveRecord::Base.logger.warn "check_finish_test.. mustStop = true testid =  #{test_id}"
 			finishtest = true
 		else
 			nqid = generate_question_id(test_id)
 			if ! nqid
 				flash[:notice] = "No more questions"
+				ActiveRecord::Base.logger.warn "check_finish_test.. no more questions = true testid =  #{test_id}"
 				finishtest = true
 			end
 			if test.work.assignedto_type == Work::ASSIGNEDTOSTUDENT
@@ -345,8 +347,11 @@ private
 				student_id = generate_student_id(test_id)	
 			end
 			if ! student_id 
+				ActiveRecord::Base.logger.warn "check_finish_test WILL RETURN false but test.finished = False.. no more online = true testid =  #{test_id}"
 				flash[:notice] = "No more online"
-				finishtest = true
+				#finishtest = true
+				#I don't want to mark the test as finished
+				return false
 			end	
 		end
 		ActiveRecord::Base.logger.warn "check_finish_test_and_create_answer finishtest = #{finishtest}"

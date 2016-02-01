@@ -121,7 +121,12 @@
 		<%= render 'chat_messages/list' %>
 	</div>
 	<div id="tabs-4">
-		<%= render :partial => 'chat_messages/set_grades' , :locals => {:alu_group => @test.work.assignedto, :test_id => @test.id, :test_alu_msgqualifs => TestAluMsgqualif.where(test_id: @test.id)} %>
+	Notas de los mensajes ( <%= @test.work.assignedto.name %> )
+	<div id="messagediv">
+	<% tmq =  TestAluMsgqualif.where(test_id: @test.id) %>
+	 <%= render :partial => 'chat_messages/list_grades' , :locals => {:test_alu_msgqualifs =>  tmq, :message => ''} %>
+	</div>
+		<%= render :partial => 'chat_messages/set_grades' , :locals => {:alu_group => @test.work.assignedto, :test_id => @test.id, :test_alu_msgqualifs => tmq } %>
 	</div>
  <% end %>	
 	<div id="tabs-3">
