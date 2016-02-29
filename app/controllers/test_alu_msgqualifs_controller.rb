@@ -49,6 +49,10 @@ class TestAluMsgqualifsController < ApplicationController
 						grade1 =  ((res[sid][:firstAnsQ].to_f/test.answers.size)*3.0).ceil
 						grade2 = ((res[sid][:respQ].to_f/test.answers.size)*3.0).ceil
 					end
+					#the student may have never answered
+					grade1=1 if grade1=0
+					grade2=1 if grade2=0
+		
 		 			#ActiveRecord::Base.logger.warn("grade3 = #{grade3}")
 					tam = TestAluMsgqualif.new({test_id: params[:test_id], student_id: sid, grade1: grade1, grade2: grade2, grade3: grade3} )
 				end	
