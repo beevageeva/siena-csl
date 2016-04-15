@@ -156,7 +156,9 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 			if work.assignedto_type == Work::ASSIGNEDTOALUGROUP
 				GrouptestStudent.create({:test_id => test.id , :student_id => student_id})
 			end
-			if check_finish_test_and_create_answer(test.id)
+			cont, an = check_finish_test_and_create_answer(test.id)
+
+			if cont				
 				if work.assignedto_type == Work::ASSIGNEDTOALUGROUP
 					work.assignedto.onlinestudents.each do |s|
 						if s.id != student_id
@@ -204,6 +206,7 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 			test.points = getNewPoints(test.points, lastQuestion.difficulty, lastQuestion.luck, @answer.correctAnswer?)
 			
 			test.save
+			an = false
 			ActiveRecord::Base.logger.warn("questions_controller.answer testId=#{params[:test_id]} ,  test points before = #{ @answer.pointsBefore }, points after getNewPoints #{test.points}")
 
 			if @answer.test.work.assignedto_type == Work::ASSIGNEDTOALUGROUP
@@ -215,13 +218,18 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 					end
 				end	
 			end
-			if check_finish_test_and_create_answer(params[:test_id])
+			cont, an = check_finish_test_and_create_answer(params[:test_id])
+			if cont
 				redirect_to :action => "test" , :test_id => params[:test_id]
 				return
 			end
 		end	
 		work = @answer.test.work
 		redirect_to :controller => "works" , :action => "listByAssignedtoAndCourse" , :course_id => work.node.course_id , :assignedto_id => work.assignedto_id, :assignedto_type => work.assignedto_type
+		#this is done after response is rendered when the test is finished
+		if an
+				SpellingCorrector.analyzeTest(test)
+		end 
 	end
 
 
@@ -351,7 +359,7 @@ private
 				flash[:notice] = "No more online"
 				#finishtest = true
 				#I don't want to mark the test as finished
-				return false
+				return false,false
 			end	
 		end
 		ActiveRecord::Base.logger.warn "check_finish_test_and_create_answer finishtest = #{finishtest}"
@@ -361,11 +369,9 @@ private
 			#require 'spelling_corrector'
 			test.save
 			if test.work.assignedto_type = Work::ASSIGNEDTOALUGROUP
-				SpellingCorrector.analyzeTest(test)
 				GrouptestStudent.delete_all(:test_id => test.id) 
 			end
-			SpellingCorrector.analyzeTest(test)
-			return false			
+			return false,true			
 		else
 			answer = Answer.new
 			answer.student_id = student_id
@@ -378,7 +384,7 @@ private
 			else
 				 ActiveRecord::Base.logger.warn "***********!!!!! ANSWER NOT SAVED !!!!"
 			end		
-			return true
+			return true,false
 		end
 
 	end
