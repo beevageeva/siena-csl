@@ -186,6 +186,7 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 		test = Test.find(params[:test_id])
 		if test.finished
 			ActiveRecord::Base.logger.warn("answer called but test finished")
+			work = test.work
 			redirect_to :controller => "works" , :action => "listByAssignedtoAndCourse" , :course_id => work.node.course_id , :assignedto_id => work.assignedto_id, :assignedto_type => work.assignedto_type
 			return
 		end	
