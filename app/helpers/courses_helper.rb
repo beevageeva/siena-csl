@@ -63,8 +63,8 @@ def importFromXML(file)
 			if user.nil?
 				user = User.new(:username => u.elements["username"].text , :email => u.elements["email"].text, :useraccount_type => User::PROF, :name => u.elements["name"].text)
 				#these are not amss assigned: password_hash, useraccount_id, active, password_salt
-				user.password_hash=u.elements["password-hash"].text
-				user.password_salt=u.elements["password-salt"].text
+				user.password_hash=u.elements["password_hash"].text
+				user.password_salt=u.elements["password_salt"].text
 				user.active = u.elements["active"].text
 				teacher = Teacher.create
 				user.useraccount_id =  teacher.id
@@ -74,7 +74,7 @@ def importFromXML(file)
 				teacher = user.useraccount
 				#msg << "teacher #{teacher.id} inserted in course\n"
 			else
-				ActiveRecord::Base.warn("!!!WARNING!!!want to insert teacher, but a user with username = #{u.elements["username"].text} with type #{user.useraccount_type} already exists")
+				ActiveRecord::Base.logger.warn("!!!WARNING!!!want to insert teacher, but a user with username = #{u.elements["username"].text} with type #{user.useraccount_type} already exists")
 			end	
 			usermap[u.elements["id"].text] = user.id
 			if teacher
@@ -86,7 +86,7 @@ def importFromXML(file)
 		if teachermap.size > 0
 			defaultteacherid = teachermap.first[1]
 		else
-			ActiveRecord::Base.warn("no teacher matr")
+			ActiveRecord::Base.logger.warn("no teacher matr")
 			defaultteacherid = nil
 		end
 
@@ -98,8 +98,8 @@ def importFromXML(file)
 			if user.nil?
 				user = User.new(:username => u.elements["username"].text , :email => u.elements["email"].text, :useraccount_type => User::ALU, :name => u.elements["name"].text)
 				#these are not amss assigned: password_hash, useraccount_id, active, password_salt
-				user.password_hash=u.elements["password-hash"].text
-				user.password_salt=u.elements["password-salt"].text
+				user.password_hash=u.elements["password_hash"].text
+				user.password_salt=u.elements["password_salt"].text
 				user.active = u.elements["active"].text
 				student = Student.create
 				user.useraccount_id =  student.id
@@ -109,7 +109,7 @@ def importFromXML(file)
 				student = user.useraccount
 				#msg << "student #{student.id} inserted in course\n"
 			else
-				ActiveRecord::Base.warn("!!!WARNING!!!want to insert student, but a user with username = #{u.elements["username"].text} with type #{user.useraccount_type} already exists")
+				ActiveRecord::Base.logger.warn("!!!WARNING!!!want to insert student, but a user with username = #{u.elements["username"].text} with type #{user.useraccount_type} already exists")
 			end	
 			usermap[u.elements["id"].text] = user.id
 			if student
@@ -120,14 +120,14 @@ def importFromXML(file)
 		if studentmap.size > 0
 			defaultstudentid = studentmap.first[1]
 		else
-			ActiveRecord::Base.warn("no student matr")
+			ActiveRecord::Base.logger.warn("no student matr")
 			defaultstudentid = nil
 		end
 
 
 
 		#alu_groups
-		doc.elements.each("course/alu_groups/alu-group")  do |sa|
+		doc.elements.each("course/alu_groups/alu_group")  do |sa|
 				alu_group = AluGroup.create(:name => sa.elements["name"].text, :course_id => course.id)
 				alugroupmap[sa.elements["id"].text] = alu_group.id
 				tlist = sa.elements.each("students/student") do |t|
@@ -141,9 +141,9 @@ def importFromXML(file)
 		#nodes and works
 		doc.elements.each("course/nodes/node")  do |ne|
 			content = ne.elements["content"].text
-			if !(teacher_id = teachermap[ne.elements["teacher-id"].text])
+			if !(teacher_id = teachermap[ne.elements["teacher_id"].text])
 				teacher_id = defaultteacherid
-				ActiveRecord::Base.warn("add node teacher not  matr using default")
+				ActiveRecord::Base.logger.warn("add node teacher not  matr using default")
 			end
 			if teacher_id	
 				#msg << "create node: teacher_id #{ne.elements["teacher_id"].text} not in map set to null\n"
@@ -156,14 +156,14 @@ def importFromXML(file)
 				nodemap[ne.elements["id"].text] = node.id
 				#works
 				ne.elements["works"].elements.each("work") do |we|
-					assignedto_type = we.elements["assignedto-type"].text
+					assignedto_type = we.elements["assignedto_type"].text
 					if assignedto_type == 'Student'
 					#assigned to student
-						assignedto_id = studentmap[we.elements["assignedto-id"].text]
+						assignedto_id = studentmap[we.elements["assignedto_id"].text]
 						assignedto_id = defaultstudentid if assignedto_id.nil?
 					else
 						#assigned to alu_group
-						assignedto_id = alugroupmap[we.elements["assignedto-id"].text]
+						assignedto_id = alugroupmap[we.elements["assignedto_id"].text]
 					end
 	
 					if assignedto_id.nil?
@@ -179,22 +179,22 @@ def importFromXML(file)
 		doc.elements.each("course/questions")  do |qes|
 			qes.elements.each("question") do |qe|
 				content = qe.elements["content"].text
-				if !(teacher_id = teachermap[qe.elements["teacher-id"].text])
+				if !(teacher_id = teachermap[qe.elements["teacher_id"].text])
 					teacher_id = defaultteacherid
-					ActiveRecord::Base.warn("add question teacher not  matr using default")
+					ActiveRecord::Base.logger.warn("add question teacher not  matr using default")
 				end
 				if teacher_id	
 					question = Question.new(:content => content, :course_id => course.id , :answerTime => qe.elements["answerTime"].text , :correctAnswer => qe.elements["correctAnswer"].text , :difficulty => qe.elements["difficulty"].text , :img => qe.elements["img"].text , :luck => qe.elements["luck"].text )
 					question.teacher_id = teacher_id
 					question.save
 				else
-					ActiveRecord::Base.logger.warn("!!!WARNING!!! teacher with #{qe.elements["teacher-id"].text} not matriculated in original course")
+					ActiveRecord::Base.logger.warn("!!!WARNING!!! teacher with #{qe.elements["teacher_id"].text} not matriculated in original course")
 				end
 					#msg << "question #{content} created\n"
 				if question
 					#nqr
-					qe.elements["node-question-relations"].elements.each("node-question-relation") do |nqre|
-						node_id = nodemap[nqre.elements["node-id"].text]
+					qe.elements["node_question_relations"].elements.each("node_question_relation") do |nqre|
+						node_id = nodemap[nqre.elements["node_id"].text]
 						if node_id.nil?
 							#msg << "node_id #{nqre.elements['node_id'].text} not in map\n"
 						else
@@ -203,7 +203,7 @@ def importFromXML(file)
 						end
 					end
 					#quest_resp
-					qe.elements["question-responses"].elements.each("question-response") do |qre|
+					qe.elements["question_responses"].elements.each("question_response") do |qre|
 						qrtext = qre.elements["response"].text
 						QuestionResponse.create(:response => qrtext , :question_id => question.id )
 							#msg << "QuestionResponse #{qrtext} for question_id #{question.id} created\n"

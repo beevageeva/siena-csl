@@ -3,7 +3,7 @@ namespace :get_messages do
 	#TODO execute in the db: why this happens when dependent => destroy in model work????
 	#delete from tests t where not exists (select *  from works w where w.id = t.work_id); 
 	task :test => :environment do
-		test_id = 34172
+		test_id = 32428
 		
 		test = Test.find(test_id)
 		
