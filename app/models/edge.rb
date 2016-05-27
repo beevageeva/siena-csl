@@ -1,5 +1,10 @@
 class Edge < ActiveRecord::Base
 
+	def self.primary_key
+    'id'
+  end
+
+
 	belongs_to :src , :class_name => "Node"
 	belongs_to :dest , :class_name => "Node"
 

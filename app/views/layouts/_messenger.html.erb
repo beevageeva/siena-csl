@@ -103,6 +103,7 @@
 	<ul>
 <% 
 	User.find(session[:userid]).useraccount.registered_tests.each do |test|
+		if(test.work)
 %>
 		<li><%= test.work.node.content %> &#160; &#160; 
 		<b>created by:</b><%= test.work.assignedto.name %> &#160; &#160;
@@ -114,6 +115,7 @@
 		</li>
 
 <% 
+		end
 	end 
 %>
 	

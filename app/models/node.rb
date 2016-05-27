@@ -4,8 +4,8 @@ class Node < ActiveRecord::Base
 	#changed because has_many_and_belongs_to deprecated edges deleted here, no need for before_destroy
 	has_many :successors , :through => :edges_as_source, :source => :dest
 	has_many :predecessors , :through => :edges_as_dest, :source => :src
-	has_many :edges_as_source ,:foreign_key => 'src_id', :class_name => 'Edge',  :dependent => :delete_all	
-	has_many :edges_as_dest ,:foreign_key => 'dest_id', :class_name => 'Edge', :dependent => :delete_all	
+	has_many :edges_as_source ,:foreign_key => 'src_id', :class_name => 'Edge',  :dependent => :delete_all, inverse_of: :src	
+	has_many :edges_as_dest ,:foreign_key => 'dest_id', :class_name => 'Edge', :dependent => :delete_all, inverse_of: :dest	
 	def edges
 		edges_as_source + edges_as_dest
 	end
