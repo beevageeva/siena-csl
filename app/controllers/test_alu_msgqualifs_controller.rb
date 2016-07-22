@@ -87,7 +87,7 @@ private
 		n = 0
 		sum = 0.0
 		FuzzyRule.where(g1: fuzzyZone(g1), g2: fuzzyZone(g2), g3: fuzzyZone(g3), g4: fuzzyZone(g4)).each do |fr|
-			details << "#{fr.g1}, #{fr.g1},#{fr.g1},#{fr.g1} -> #{fr.gres} | "
+			details << "#{fr.g1}, #{fr.g2},#{fr.g3},#{fr.g4} -> #{fr.gres} | "
 			sum+=fr.gres
 			n+=1
 		end
