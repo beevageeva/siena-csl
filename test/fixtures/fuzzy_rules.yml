@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  g1: 1
+  g2: 1
+  g3: 1
+  g4: 1
+  gres: 1
+
+two:
+  g1: 1
+  g2: 1
+  g3: 1
+  g4: 1
+  gres: 1

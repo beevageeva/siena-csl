@@ -33,6 +33,7 @@
 			<% if user.useraccount_type == User::PROF  %>
 				<li><%= link_to t('course_list'), courses_path  %></li>
 				<li><%= link_to t('competence_list'), competences_path  %></li>
+				<li><%= link_to 'Reglas fuzzy', fuzzy_rules_path  %></li>
 			<% end %>
 			<% if user.useraccount_type == User::ALU  %>
 				<li><%= link_to t('course_list'), courses_path  %></li>

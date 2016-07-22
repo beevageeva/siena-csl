@@ -30,34 +30,29 @@ class TestAluMsgqualifsController < ApplicationController
 			
 		end  #cms.each
 		test = Test.find(params[:test_id])
-		grade3 = ((test.correctAnswers.to_f / test.answers.size)*3.0).ceil
+		grade3 = (test.correctAnswers.to_f / test.answers.size)
 		#ActiveRecord::Base.logger.warn("WHY? ca = #{test.correctAnswers}  , ta = #{test.answers.size} , mult3 = #{(test.correctAnswers.to_f / test.answers.size)*3.0}, ceil is = #{grade3}")
-		#TODO is 1 the min?
-		grade3=1 if grade3==0	
 		#ActiveRecord::Base.logger.warn("res = #{res.to_s}")
+		@message = ""
 		params[:rel] and params[:rel].each do |sid , gr|
 			if gr
 				tam = TestAluMsgqualif.find_by_test_id_and_student_id(params[:test_id], sid)
 				if tam.nil?
 					#ActiveRecord::Base.logger.warn("!!!!!!!!!!!!!!from_id = #{sid}")
-					#TODO is 1 the min ?
-					grade1 = 1
-					grade2 = 1
 					sid = sid.to_i
 					if(res.has_key?(sid))
 						#ActiveRecord::Base.logger.warn("!!!!!!!!!!!!!WHY? firstAnsQ = #{res[sid][:firstAnsQ]}  ,ta = #{test.answers.size} , respQ = #{res[sid][:respQ]} ")
-						grade1 =  ((res[sid][:firstAnsQ].to_f/test.answers.size)*3.0).ceil
-						grade2 = ((res[sid][:respQ].to_f/test.answers.size)*3.0).ceil
+						grade1 =  res[sid][:firstAnsQ].to_f/test.answers.size
+						grade2 = res[sid][:respQ].to_f/test.answers.size
 					end
-					#the student may have never answered
-					grade1=1 if grade1=0
-					grade2=1 if grade2=0
 		
 		 			#ActiveRecord::Base.logger.warn("grade3 = #{grade3}")
 					tam = TestAluMsgqualif.new({test_id: params[:test_id], student_id: sid, grade1: grade1, grade2: grade2, grade3: grade3} )
 				end	
 				tam.grade4 = gr
-				tam.grade_total = calculateFuzzyTotalGrade(tam.grade1, tam.grade2, tam.grade3, tam.grade4)
+				res = calculateFuzzyTotalGrade(tam.grade1, tam.grade2, tam.grade3, tam.grade4)
+				tam.grade_total = res[0]
+				@message<<res[1]
 				#ActiveRecord::Base.logger.warn("before saving  gr1=#{tam.grade1}, gr2=#{tam.grade2}, gr3=#{tam.grade3}, gr4=#{tam.grade4},grTotal=#{tam.grade_total}" ) 
 				if tam.save
 					nCreated+=1
@@ -65,22 +60,46 @@ class TestAluMsgqualifsController < ApplicationController
 					
 					ActiveRecord::Base.logger.warn("errors saving  #{tam.errors.full_messages}" ) if tam.errors
 				end
-			end
-		end			
-		@message = "#{nCreated} updated at #{Time.now.strftime("%Y-%d-%m %H:%M:%S")}"
+			end #gr not nil
+		end	#each end		
+		@message << "\n#{nCreated} updated at #{Time.now.strftime("%Y-%d-%m %H:%M:%S")}"
 		@test_alu_msgqualifs = TestAluMsgqualif.where(test_id: params[:test_id])	
 	end
 
 
 private
-	#TODO now it is in a file, move it to db?
 	def calculateFuzzyTotalGrade(g1,g2,g3,g4)
-		regexp = /\s*#{g1}\s+#{g2}\s+#{g3}\s+#{g4}\s+(\d)\s*/
-		File.open(Rails.root.join('files','fuzzy_list')).each do |li|
-  		return $1 if regexp.match(li)
+		def fuzzyZone(n)
+			res = []
+			if n < 0.34
+				res.push(1)
+			end
+			if 0.1 < n && n < 0.9
+				res.push(2)
+			end	
+			if n > 0.66
+				res.push(3)
+			end
+			return res
 		end
-		return 0
+		#TODO maybe make an sql avg
+		details = ""
+		n = 0
+		sum = 0.0
+		FuzzyRule.where(g1: fuzzyZone(g1), g2: fuzzyZone(g2), g3: fuzzyZone(g3), g4: fuzzyZone(g4)).each do |fr|
+			details << "#{fr.g1}, #{fr.g1},#{fr.g1},#{fr.g1} -> #{fr.gres} | "
+			sum+=fr.gres
+			n+=1
+		end
+		r1 = 0.0
+		if n == 0
+			ActiveRecord::Base.logger.warn("No fuzzy rule for input:  #{g1}, #{g2}, #{g3}, #{g4}" )
+		else
+			r1 = sum/(n*3) #the grades in fuzzy rules are 1 to 3 and we need in [0,1] interval
+		end
+		details<<"*#{"%5.3f" % r1}*"
+		return [r1, details]
 	end
-
+		
 
 end

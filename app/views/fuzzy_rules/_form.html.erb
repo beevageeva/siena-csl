@@ -1,0 +1,37 @@
+<%= form_for(@fuzzy_rule) do |f| %>
+  <% if @fuzzy_rule.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@fuzzy_rule.errors.count, "error") %> prohibited this fuzzy_rule from being saved:</h2>
+
+      <ul>
+      <% @fuzzy_rule.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :g1 %><br>
+    <%= f.number_field :g1 %>
+  </div>
+  <div class="field">
+    <%= f.label :g2 %><br>
+    <%= f.number_field :g2 %>
+  </div>
+  <div class="field">
+    <%= f.label :g3 %><br>
+    <%= f.number_field :g3 %>
+  </div>
+  <div class="field">
+    <%= f.label :g4 %><br>
+    <%= f.number_field :g4 %>
+  </div>
+  <div class="field">
+    <%= f.label :gres %><br>
+    <%= f.number_field :gres %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

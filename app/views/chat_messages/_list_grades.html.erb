@@ -15,11 +15,11 @@
 	<% test_alu_msgqualifs.each do |tam| %>
 		<tr>
 			<td><%= tam.student.user.username %></td>
-			<td><%= tam.grade1 %></td>
-			<td><%= tam.grade2 %></td>
-			<td><%= tam.grade3 %></td>
-			<td><%= tam.grade4 %></td>
-			<td><%= tam.grade_total %></td>
+			<td><%="%5.3f" % tam.grade1 %></td>
+			<td><%="%5.3f" % tam.grade2 %></td>
+			<td><%="%5.3f" % tam.grade3 %></td>
+			<td><%="%5.3f" % tam.grade4 %></td>
+			<td><%="%5.3f" % tam.grade_total %></td>
 		</tr>
 
 	<% end %>

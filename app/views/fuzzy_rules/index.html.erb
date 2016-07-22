@@ -1,0 +1,35 @@
+<h1>Listing fuzzy_rules</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>G1</th>
+      <th>G2</th>
+      <th>G3</th>
+      <th>G4</th>
+      <th>Gres</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @fuzzy_rules.each do |fuzzy_rule| %>
+      <tr>
+        <td><%= fuzzy_rule.g1 %></td>
+        <td><%= fuzzy_rule.g2 %></td>
+        <td><%= fuzzy_rule.g3 %></td>
+        <td><%= fuzzy_rule.g4 %></td>
+        <td><%= fuzzy_rule.gres %></td>
+        <td><%= link_to 'Show', fuzzy_rule %></td>
+        <td><%= link_to 'Edit', edit_fuzzy_rule_path(fuzzy_rule) %></td>
+        <td><%= link_to 'Destroy', fuzzy_rule, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Fuzzy rule', new_fuzzy_rule_path %>

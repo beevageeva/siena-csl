@@ -159,7 +159,20 @@
      <td>
 			<%= link_to  link_to t('competence_list'), competences_path  %>
 		</td></tr></tbody></table>
+
+	<img alt="separador" src='/images/separamenu.gif'/>
+<table class="menu">
+    <tbody>
+    <tr valign="top">
+     <td>
+
+<%= link_to 'Reglas fuzzy', fuzzy_rules_path  %>
+		</td></tr></tbody></table>
 <% end %>
+
+
+
+<!-- ALU section -->
 <% if user.useraccount_type == User::ALU %>
 
 
@@ -178,7 +191,7 @@
     <tr valign="top">
      <td>
 
-<%= link_to  link_to t('competence_list'), :controller => 'competences' , :action => 'listByGroups'  %>
+<%= link_to t('competence_list'), :controller => 'competences' , :action => 'listByGroups'  %>
 		</td></tr></tbody></table>
 
 

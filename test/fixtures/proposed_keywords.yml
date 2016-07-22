@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  question_id: 
+  count: 1
+  keyword: MyString
+
+two:
+  question_id: 
+  count: 1
+  keyword: MyString

@@ -1,0 +1,35 @@
+RAILS_ENV=siena rails g migration change_data_type_for_test_alu_msgqualifs_grade_total
+rake fuzzyListToDb:insert RAILS_ENV=siena --trace
+
+siena=> update test_alu_msgqualifs set grade1 = 0.33 where grade1 = 1;
+UPDATE 34
+siena=> update test_alu_msgqualifs set grade1 = 0.66 where grade1 = 2;
+UPDATE 15
+siena=> update test_alu_msgqualifs set grade1 = 0.99 where grade1 = 3;
+UPDATE 3
+siena=> update test_alu_msgqualifs set grade2 = 0.33 where grade2 = 1;
+UPDATE 17
+siena=> update test_alu_msgqualifs set grade2 = 0.66 where grade2 = 2;
+UPDATE 5
+siena=> update test_alu_msgqualifs set grade2 = 0.99 where grade2 = 3;
+UPDATE 30
+siena=> update test_alu_msgqualifs set grade3 = 0.99 where grade3 = 3;
+UPDATE 39
+siena=> update test_alu_msgqualifs set grade3 = 0.66 where grade3 = 2;
+UPDATE 13
+siena=> update test_alu_msgqualifs set grade3 = 0.33 where grade3 = 1;
+UPDATE 0
+siena=> update test_alu_msgqualifs set grade4 = 0.33 where grade4 = 1;
+UPDATE 6
+siena=> update test_alu_msgqualifs set grade4 = 0.66 where grade4 = 0.55;
+UPDATE 35
+siena=> update test_alu_msgqualifs set grade4 = 0.99 where grade4 = 3;
+UPDATE 11
+siena=> update test_alu_msgqualifs set grade_total = 0.99 where grade_total = 3;
+UPDATE 15
+siena=> update test_alu_msgqualifs set grade_total = 0.66 where grade_total = 2;
+UPDATE 33
+siena=> update test_alu_msgqualifs set grade_total = 0.33 where grade_total = 1;
+UPDATE 1
+
+

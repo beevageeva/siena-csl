@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715134844) do
+ActiveRecord::Schema.define(version: 20160722104914) do
 
   create_table "admins", force: true do |t|
     t.datetime "created_at"
@@ -96,6 +96,16 @@ ActiveRecord::Schema.define(version: 20150715134844) do
     t.datetime "updated_at"
   end
 
+  create_table "fuzzy_rules", force: true do |t|
+    t.integer  "g1"
+    t.integer  "g2"
+    t.integer  "g3"
+    t.integer  "g4"
+    t.integer  "gres"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "grouptest_chatmessages", force: true do |t|
     t.integer  "test_id"
     t.integer  "chat_message_id"
@@ -133,10 +143,10 @@ ActiveRecord::Schema.define(version: 20150715134844) do
   create_table "proposed_keywords", force: true do |t|
     t.integer  "question_id"
     t.integer  "count"
-    t.integer  "state"
     t.string   "keyword"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "state"
   end
 
   add_index "proposed_keywords", ["question_id"], name: "index_proposed_keywords_on_question_id", using: :btree
@@ -240,11 +250,11 @@ ActiveRecord::Schema.define(version: 20150715134844) do
 
   create_table "test_alu_msgqualifs", force: true do |t|
     t.integer  "test_id"
-    t.integer  "grade1"
-    t.integer  "grade2"
-    t.integer  "grade3"
-    t.integer  "grade4"
-    t.integer  "grade_total"
+    t.float    "grade1"
+    t.float    "grade2"
+    t.float    "grade3"
+    t.float    "grade4"
+    t.float    "grade_total"
     t.integer  "student_id"
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -45,6 +45,7 @@ Description: A two-column web design, best for your personal and business bloggi
 			<% end %>
 			<% if User.find(session[:userid]).useraccount_type == User::PROF  %>
 				<li><%= link_to t('course_list'), courses_path  %></li>
+				<li><%= link_to 'Reglas fuzzy', fuzzy_rules_path  %></li>
 				<li><%= link_to t('competence_list'), competences_path  %></li>
 			<% end %>
 			<% if User.find(session[:userid]).useraccount_type == User::ALU  %>

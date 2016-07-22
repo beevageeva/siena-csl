@@ -2,12 +2,15 @@ SienaCsl::Application.routes.draw do
 
 
 
+
+
 #http verbs are:
 #get, post(create new item), put(replace existing item), patch(update existing item), delete(delete existing item)
 #patch default for forms hidden field _method
 
 
 def makeRoutes
+  resources :fuzzy_rules
   resources :chat_messages
   resources :proposed_keywords
 
