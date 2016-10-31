@@ -2,6 +2,7 @@ Copy
 config/database.yml.example
 config/initializers/constants.rb.example  
 config/initializers/secret_token.rb.example
+config/secret.yml.example config/secret.yml
 config/initializers/recaptcha.rb.example  
 config/initializers/session_store.rb.example
 Gemfile.example

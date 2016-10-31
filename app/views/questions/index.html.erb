@@ -1,23 +1,48 @@
 <h1><%= t('question_list') %> </h1>
-<%= grid(@questions, :show_filters => :always) do |question|
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+   		<th>Id</th>
+   		<th><%= t('course') %></th>
+   		<th><%= t('content') %></th>
+   		<th><%= t(:view) %></th>
+   		<th><%= t(:edit) %></th>
+   		<th><%= t(:delete) %></th>
 
-   question.column :name => 'Id', :attribute => 'id'  do |n|
-           n.id
-    end
-   question.column :name => t('course'), :model => Course , :attribute => 'name', :custom_filter => :auto do |n|
-           n.course.name
-    end
-   question.column :name => t(:content), :attribute => 'content' do |n|
-            n.content
-    end
-    question.column :name => t(:view) do |n|
-    	link_to t(:view), n
-		end
-    question.column :name => t(:edit) do |n|
-    	link_to t(:edit)  , edit_question_path(n)
-		end
-    question.column :name => t(:delete) do |n|
-    	link_to t(:delete) , n, :confirm => t(:deletion_confirmation) , :method => :delete
-		end
+		</tr>	
+    <tr>		
+		<%= form_tag({}, method: :get) do %>
+   		<th><%= text_field_tag :id, params[:id] %></th>
+   		<th><%= select_tag :course_id, options_for_select( Course.all.map{|o| [o.name , o.id ]}, params[:course_id] ) ,:include_blank => true%></th>
+   		<th><%= text_field_tag :content, params[:content] %></th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th class="submit" ><%= submit_tag 'Search'%></th>
+		<% end %>
+		</tr>
+  </thead>
+  <tbody>
 
-end %>
+ <% for q in @questions %>
+    <tr>
+			<td><%= q.id%></td>
+			<td><%= q.course.name%></td>
+			<td><%= q.content %></td>
+			<td><%= link_to t(:view), q %></td>
+			<td><%= link_to t(:edit)  , edit_question_path(q)%></td>
+			<td><%= link_to t(:delete) , q, :confirm => t(:deletion_confirmation) , :method => :delete %></td>
+    </tr>       
+ <% end %>
+
+
+  </tbody>
+</table>
+
+<%= will_paginate @questions %>
+
+</div>
+
+
+
+
+

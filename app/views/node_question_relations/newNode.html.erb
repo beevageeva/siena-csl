@@ -1,26 +1,55 @@
 <h1><%= t('node_question_relation_new_node')  %></h1>
 
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+			<th> <%= t('create') %> </th>
+			<th> <%= t('course') %> </th>	
+			<th> <%= t('content') %> </th>	
+			<th> &nbsp;</th>
+
+
+</tr>
+    <tr>		
+			<th> &nbsp;</th>
+		<%= form_tag({action: :newNode, question_id: params[:question_id]}, method: :get) do %>
+   		<th><%= select_tag :course_id, options_for_select( Course.all.map{|o| [o.name , o.id ]}, params[:course_id] ) ,:include_blank => true%></th>
+   		<th><%= text_field_tag :content, params[:content] %></th>
+	
+   		<th class="submit" ><%= submit_tag 'Search' %></th>
+		<% end %>
+		</tr>
+
+  </thead>
+  <tbody>
+
+
+
+
+
 <%= form_tag({:action => 'createNode'} , {:method => :post}) do  %>
 
 		<%= hidden_field_tag :question_id , params[:question_id] %>
-
-<p>
-  <b><%= t('node') %>:</b>
-</p>
-<%= grid(@nodes, :show_filters => :always) do |node|
-
-   node.action_column :param_name => "nodeids"	
+ <% for node in @nodes %>
 
 
-		node.column :name => t('course'), :model => Course , :attribute => 'name', :custom_filter => :auto  do |n|
-       n.course.name
-    end
-    node.column :name => t('content'), :attribute => 'content' do |n|
-       n.content
-    end
+ <tr>		
+	<td>
+		<%= check_box_tag 'nodeids[]' , node.id%>
+	</td>	
 
-end %>
+	<td>
+		<%= node.course.name %>
+	</td>	
 
+	<td>
+		<%= node.content %>
+	</td>	
+</tr>
+
+<% end %>
+
+  </tbody>
+</table>
 
 <p>
   <b><%= t('dependency') %>:</b>
@@ -32,4 +61,6 @@ end %>
 <% end %>
 
 
+<%= will_paginate @nodes %>
 
+</div>

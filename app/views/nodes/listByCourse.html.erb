@@ -1,21 +1,47 @@
-
 <h1><%=  t('node_list_course' , :name =>Course.find(params[:course_id]).name) %> </h1>
-<%= grid(@nodes, :show_filters => :always) do |node|
-    node.column :name => t(:name) , :attribute => 'content' do |n|
-			n.content
-		end
-    node.column :name => t('view') do |n|
-    	link_to t('view'), n
-		end
-    node.column :name => t('edit') do |n|
-    	link_to t('edit'), edit_node_path(n) if adminNode(n)
-		end
-    node.column :name => t('delete') do |n|
-    	link_to t('delete'), n, :confirm => 'Are you sure?', :method => :delete, :class => :destroy if adminNode(n)
-		end
+
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+
+			<th> <%= t('content') %> </th>	
+			<th> <%= t('minPassPoints') %> </th>	
+			<th> <%= t(:view) %> </th>	
+			<th> <%= t(:edit) %> </th>	
+			<th> <%= t(:delete) %> </th>	
+		</tr>	
+    <tr>		
+		<%= form_tag({}, method: :get) do %>
+   		<th><%= text_field_tag :content, params[:content] %></th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th class="submit" ><%= submit_tag 'Search', name: nil%></th>
+		<% end %>
+		</tr>
+
+  </thead>
+  <tbody>
+
+ <% for n in @nodes %>
+    <tr>
+			<td><%= n.content  %></td>	
+			<td><%= n.minPassPoints  %></td>	
+			<td><%= link_to t('view'), n %></td>	
+			<td><%= link_to t('edit'), edit_node_path(n) if adminNode(n) %></td>	
+			<td><%= link_to t('delete'), n, :confirm => t('deletion_confirmation'), :method => :delete, class: :destroy if adminNode(n) %></td>	
+    </tr>       
+ <% end %>
 
 
-end %>
+  </tbody>
+</table>
+
+<%= will_paginate @nodes %>
+
+</div>
+
+
     <%= link_to t('course_new_node'), :controller => "nodes", :action => "new" , :course_id => params[:course_id] %>
 		<br/>
     <%= link_to t('back'), :controller => "courses" , :action => "show" , :id => params[:course_id]%>

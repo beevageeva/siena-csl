@@ -1,14 +1,50 @@
 <h1><%= t :stopword_list %></h1>
 
-<%= grid(@stopwords, :show_filters => :always) do |stopword|
-    stopword.column  :name => t('word') , :attribute => "word"  do |c|
-			c.word
-		end
-    	stopword.column  :name => t('delete')  do |c|
-    		link_to t('delete'), c, :confirm => t('deletion_confirmation'), :method => :delete
-			end
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
 
-end %>
+			<th>
+			<% if params[:word_order] && params['word_order']=="desc" %>
+				<a class="desc" href="<%= url_for(url_permit_params(params.except(:word_order,:page))) %>">
+			<% else %>
+				<a class="asc" href="<%= url_for(url_permit_params(params.merge(word_order: :desc).except(:page))) %>">
+			<% end %>
+ 				<%= t('word') %> 
+			</a>
+			</th>	
+			<th> <%= t(:delete) %> </th>	
+		</tr>	
+    <tr>		
+		<%= form_tag(stopwords_path, method: :get) do %>
+   		<th><%= text_field_tag :word, params[:word] %></th>
+   		<th>&nbsp;</th>
+   		<th class="submit" ><%= submit_tag 'Search', name: nil%></th>
+		<% end %>
+		</tr>
+
+  </thead>
+  <tbody>
+
+ <% for stopword in @stopwords %>
+    <tr>
+	<td>
+ 		<%= stopword.word %> 	
+	</td>	
+	<td>
+ 		<%=  link_to t('delete'), stopword, :confirm => t('deletion_confirmation'), :method => :delete %> 	
+	</td>	
+     </tr>       
+ <% end %>
+
+
+  </tbody>
+</table>
+
+<%= will_paginate @stopwords %>
+
+</div>
+
+
 
 <br />
 

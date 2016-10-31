@@ -1,33 +1,71 @@
 <h1><%= t('teacher_assign_list' , :coursename => Course.find(params[:course_id]).name   ) %></h1>
-<%= grid(@teacher_assigns, :show_filters => :always) do |st|
-
-    st.column :name => t(:name) do |s|
-            s.teacher.user.name
-    end
-
-    st.column  :name => t('username')  do |s|
-      s.teacher.user.username
-    end
-
-    st.column  :name => t('coordinator')  do |s|
-      s.coordinator 
-  	end
-    st.column  :name => t('change')  do |s|
-       link_to(t('change'),:action => "changeCoordinator", :id => s.id, :course_id => params[:course_id]) 
-    end
 
 
-    st.column  :name => t('delete_from_course')  do |s|
-    	link_to t('delete_from_course'), s, :confirm => t('deletion_confirmation'), :method => :delete 
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
 
-		end
-end %>
+			<th> <%= t('name') %> </th>	
+			<th> <%= t('username') %> </th>	
+			<th> <%= t('coordinator')  %> </th>
+			<th> <%= t('change')  %> </th>
+			<th> <%= t('delete_from_course')  %> </th>
+			
+		</tr>	
+    <tr>		
+  </thead>
+  <tbody>
 
+ <% for s in @teacher_assigns %>
+<tr>
+	<td>
+		<%= s.teacher.user.name  %>
+	</td>
+	<td>
+    <%= s.teacher.user.username  %>
+	</td>
+	<td>
+    <%= s.coordinator  %>
+	</td>
+	<td>
+    <%= link_to(t('change'),:action => "changeCoordinator", :id => s.id, :course_id => params[:course_id])  %>
+	</td>
+	<td>
+    <%= link_to t('delete_from_course'), s, :confirm => t('deletion_confirmation'), :method => :delete  %>
+	</td>
+
+
+
+</tr>       
+ <% end %>
+
+
+  </tbody>
+</table>
+
+<%= will_paginate @teacher_assigns %>
+
+</div>
+
+<table cellspacing="5">
+	<tr> 
+		<th> Teacher </th>
+		<th> Coord </th>
+		<th> <%= t("add_to_course") %></th>
+	</tr>
   <%= form_tag({:controller => 'teacher_assigns' , :action => 'assign_to_course'}, {:method => :post}) do |f| %>
+		<tr>
     <%= hidden_field_tag("course_id"  , params[:course_id]) %>
-    <%= select_tag("teacher_id" , options_for_select(Teacher.find(:all , :include => 'user' , :order => 'users.name ASC' ).collect {|u| [u.user.name , u.id]}) ) %>
+    <td>
+			<%= select_tag("teacher_id" , options_for_select(Teacher.includes(:user).order("users.name asc").references(:user).collect {|u| [u.user.name , u.id]}) ) %>
+		</td>	
+    <td>
 		<%= check_box_tag :coord %>
+		</td>	
+    <td>
     <%= submit_tag t("add_to_course") %>
-
+		</td>	
+		</tr>
   <% end %>
+
+</table>
 

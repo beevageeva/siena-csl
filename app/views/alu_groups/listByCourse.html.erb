@@ -1,28 +1,42 @@
 
 <h1><%= t('alu_group_list_by_course' , :coursename => Course.find(params[:course_id]).name   ) %></h1>
 		
-<%= grid(@alu_groups, :show_filters => :always) do |st|
 
-    st.column :name => t('name') do |s|
-            s.name
-    end
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
 
-    st.column  :name => t('edit')  do |s|
-    	link_to t('view'), s
-		end
+			<th> <%= t('name') %> </th>	
+			<th> <%= t(:view) %> </th>	
+			<th> <%= t(:edit)  %> </th>
+			<th> <%= t(:delete)  %> </th>
+			<th> <%= t('work_list')  %> </th>
+			
+		</tr>	
+    <tr>		
+  </thead>
+  <tbody>
 
-    st.column  :name => t('edit')  do |s|
-    	link_to t('edit'), :action => 'edit' , :id => s.id 
-		end
+ <% for s in @alu_groups %>
+<tr>
+	<td><%= s.name %></td>
+	<td><%= link_to t('view'), s%></td>
+	<td><%= link_to t('edit'), :action => 'edit' , :id => s.id%></td>
+	<td><%= link_to t('delete'), s, :confirm => t('deletion_confirmation'), :method => :delete%></td>
+	<td><%= link_to t('work_list'), :controller => "works", :action => 'listByAssignedtoAndCourse', :assignedto_id => s.id, :assignedto_type => 'AluGroup', :course_id => params[:course_id]%></td>
+     </tr>       
+ <% end %>
 
-    st.column  :name => t('delete')  do |s|
-    	link_to t('delete'), s, :confirm => t('deletion_confirmation'), :method => :delete 
-		end
 
-    st.column  :name => t('work_list')  do |s|
-    	link_to t('work_list'), :controller => "works", :action => 'listByAssignedtoAndCourse', :assignedto_id => s.id, :assignedto_type => 'AluGroup', :course_id => params[:course_id] 
-		end
-end %>
+  </tbody>
+</table>
+
+<%= will_paginate @alu_groups %>
+
+</div>
+
+
+
+
 	<br/>
 	<%= link_to t('assign_work_all_groups') ,:controller => 'works' ,:action => 'newAll', :course_id => params[:course_id], :assignedtoType => Work::ASSIGNEDTOALUGROUP %> <br/>
 	<br/>

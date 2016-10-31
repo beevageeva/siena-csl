@@ -4,29 +4,65 @@
 </p>
 
 <b> <%= t('alu_group_list') %></b>
-<%= grid(@alu_groups, :show_filters => :always) do |st|
-    st.column :name => t('name')  do |s|
-            s.name
-    end
-    st.column :name => 'Nota' do |s|
-			link_to t("points") , s.competence_groups[0]
-		end
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+			<th> <%= t('name') %> </th>	
+			<th> <%= t('points') %> </th>	
+		</tr>
+
+  </thead>
+  <tbody>
+ <% for ag in @alu_groups %>
+    <tr>
+	<td>
+		<%=	ag.name %>
+	</td>	
+	<td>
+		<%=	link_to t("points") , ag.competence_groups[0] %>
+	</td>	
+     </tr>       
+ <% end %>
 
 
-end %>
+  </tbody>
+</table>
+
+<%= will_paginate @alu_groups %>
+
+</div>
+
+
 
 <br/>
 
 <br/>
 <br/>
 <b> <%= t('node_list') %></b>
-<%= grid(@nodes, :show_filters => :always) do |st|
-    st.column :name => t('name')  do |s|
-            s.content
-    end
+
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+			<th> <%= t('name') %> </th>	
+		</tr>
+
+  </thead>
+  <tbody>
+ <% for node in @nodes %>
+    <tr>
+	<td>
+		<%=	node.content %>
+	</td>	
+     </tr>       
+ <% end %>
 
 
-end %>
+  </tbody>
+</table>
+
+<%= will_paginate @nodes %>
+
+</div>
+
+
 
 
 <%= link_to t('edit'), edit_competence_path(@competence)  %>

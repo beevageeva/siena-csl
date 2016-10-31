@@ -1,35 +1,72 @@
 <h1><%= t :course_list %></h1>
 
-<%= grid(@courses, :show_filters => :always) do |course|
-    course.column  :name => t('name') , :attribute => "name"  do |c|
-			c.name
-		end
-    	course.column  :name => t('view')  do |c|
-			if User.find(session[:userid]).useraccount_type == User::ALU or User.find(session[:userid]).useraccount_type == User::PROF
-				s = eval("#{User.find(session[:userid]).useraccount_type}Assign.find_by_#{underscore(User.find(session[:userid]).useraccount_type)}_id_and_course_id(session[:useraccount_id] , c.id)")
-			end
-	  	link_to t('view'), c  if User.find(session[:userid]).useraccount_type == User::ADMIN or s
-		end
-		if User.find(session[:userid]).useraccount_type == User::ADMIN 
-    	course.column  :name => t('edit')  do |c|
-    		link_to t('edit'), edit_course_path(c)
-			end
-    	course.column  :name => t('delete')  do |c|
-    		link_to t('delete'), c, :confirm => t('deletion_confirmation'), :method => :delete
-			end
-		end
-		if User.find(session[:userid]).useraccount_type == User::ALU or User.find(session[:userid]).useraccount_type == User::PROF
-    	course.column  :name => t('state')  do |c|
-				s = eval("#{User.find(session[:userid]).useraccount_type}Assign.find_by_#{underscore(User.find(session[:userid]).useraccount_type)}_id_and_course_id(session[:useraccount_id] , c.id)")
-				if not s
-    			link_to t('add_to_course'), :controller => "#{underscore(User.find(session[:userid]).useraccount_type)}_assigns" , :action => 'enroll' , :course_id => c.id 
-				else
-    			link_to t('delete_from_course'), s, :confirm => 'Are you sure?', :method => :delete 
-				end 
-			end
-		end
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+			<th> <%= t('name') %> </th>	
+			<th> <%= t('view') %> </th>	
+				<% if User.find(session[:userid]).useraccount_type == User::ADMIN  %>
+			<th>
+					<%= t('edit') %> 
+			</th>
+			<th>
+					<%= t('delete') %> 
+			</th>
+		<% elsif User.find(session[:userid]).useraccount_type == User::ALU or User.find(session[:userid]).useraccount_type == User::PROF  %>
+			<th>
+					<%= t('state') %> 
+			</th>
+		<% end %>
+		
 
-end %>
+		</tr>	
+    <tr>		
+		<%= form_tag(courses_path, method: :get) do %>
+   		<th><%= text_field_tag :name, params[:name] %></th>
+   		<th>&nbsp;</th>
+		<% if User.find(session[:userid]).useraccount_type == User::ADMIN  %>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+		<% elsif User.find(session[:userid]).useraccount_type == User::ALU or User.find(session[:userid]).useraccount_type == User::PROF  %>
+   		<th>&nbsp;</th>
+		<% end %>
+   		<th class="submit" ><%= submit_tag 'Search', name: nil%></th>
+		<% end %>
+		</tr>
+
+  </thead>
+  <tbody>
+
+
+ <% for c in @courses %>
+    <tr>
+	<td><%=   c.name %> </td>
+
+	<td><%= link_to t('view'), c  if User.find(session[:userid]).useraccount_type == User::ADMIN ||  ((User.find(session[:userid]).useraccount_type == User::ALU || User.find(session[:userid]).useraccount_type == User::PROF ) && (eval("#{User.find(session[:userid]).useraccount_type}Assign.find_by_#{underscore(User.find(session[:userid]).useraccount_type)}_id_and_course_id(session[:useraccount_id] , c.id)" )))
+ %> </td>
+	<%	if User.find(session[:userid]).useraccount_type == User::ADMIN  %>
+		<td><%= link_to t('edit'), edit_course_path(c)  %> </td>
+		<td><%= link_to t('delete'), c, :confirm => t('deletion_confirmation'), :method => :delete %> </td>
+	<% elsif User.find(session[:userid]).useraccount_type == User::ALU or User.find(session[:userid]).useraccount_type == User::PROF %>
+	
+		 <% s = eval("#{User.find(session[:userid]).useraccount_type}Assign.find_by_#{underscore(User.find(session[:userid]).useraccount_type)}_id_and_course_id(session[:useraccount_id] , c.id)") %>
+		<td><%= s ? (link_to t('delete_from_course'), s, :confirm => 'Are you sure?', :method => :delete) : (link_to t('add_to_course'), :controller => "#{underscore(User.find(session[:userid]).useraccount_type)}_assigns" , :action => 'enroll' , :course_id => c.id)  %> </td>
+	<%end %> 
+     </tr>       
+		<% end %>
+
+
+  </tbody>
+</table>
+
+<%= will_paginate @courses %>
+
+</div>
+
+
+
+
+
+
 
 <br />
 

@@ -1,17 +1,39 @@
 <h1><%= t('course_list_assigned') %></h1>
 
-<%= grid(@courses, :show_filters => :always) do |course|
-    course.column  :name => t('name') , :attribute => "name"  do |c|
-			c.name
-		end
-    	course.column  :name => t('view')  do |c|
-	  		link_to t('view'), c  
-			end
-    	course.column  :name => t('state')  do |c|
-				s = eval("#{User.find(session[:userid]).useraccount_type}Assign.find_by_#{underscore(User.find(session[:userid]).useraccount_type)}_id_and_course_id(session[:useraccount_id] , c.id)")
-    		link_to t('delete_from_course'), s, :confirm => t('deletion_confirmation'), :method => :delete 
-			end
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+			<th> <%= t('name') %> </th>	
+			<th> <%= t('view') %> </th>	
+			<th> <%= t('state') %> </th>	
 
-end %>
+		</tr>	
+    <tr>		
+		<%= form_tag({}, method: :get) do %>
+   		<th><%= text_field_tag :name, params[:name] %></th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th class="submit" ><%= submit_tag 'Search', name: nil%></th>
+		<% end %>
+		</tr>
+
+  </thead>
+  <tbody>
+
+
+ <% for c in @courses %>
+    <tr>
+	<td><%=   c.name %> </td>
+	<td><%=   link_to t('view'), c  %> </td>
+	<td><%=  link_to t('delete_from_course'), eval("#{User.find(session[:userid]).useraccount_type}Assign.find_by_#{underscore(User.find(session[:userid]).useraccount_type)}_id_and_course_id(session[:useraccount_id] , c.id)"), :confirm => t('deletion_confirmation'), :method => :delete  %> </td>
+
+     </tr>       
+		<% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @courses %>
+
+</div>
+
 
 

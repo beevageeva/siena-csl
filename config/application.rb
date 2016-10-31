@@ -1,9 +1,9 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 require 'rails/all'
 
 if defined?(Bundler)
-   Bundler.require(:default,  Rails.env)
+   Bundler.require(*Rails.groups)
 end
 
 module SienaCsl

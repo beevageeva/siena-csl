@@ -36,32 +36,64 @@
 <% end %>
 
 <b><%= t('assoc_questions') %></b>
-<%= grid(@questions, :show_filters => :always) do |st|
-    st.column :name => t('course') do |s|
-            s.course.name
-    end
-    st.column :name => t('name') do |s|
-            s.content
-    end
-    st.column :name => t('dependency') do |s|
-           s.node_question_relations[0].dep
-    end
 
-#    st.column :name => 't('view') dependencia' do |s|
-#			link_to "t('view')" , s.node_question_relations[0]
-#		end
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
 
-    st.column :name => t('edit_node_question_relation') do |s|
-			link_to t("edit") , edit_node_question_relation_path(s.node_question_relations[0])
-		end
-    st.column :name => t('delete_node_question_relation') do |s|
-    	link_to t('delete'),url_for(:controller => 'node_question_relations',  :action => "destroy" , :id =>s.node_question_relations[0].id,  :from => 'nodes') ,{ :confirm => t(:deletion_node_question_relation_confirmation), :method => :delete }
-		end
-    st.column :name => t('edit_question') do |s|
-			link_to t("edit") , edit_question_path(s.id)  if adminQN(s)
-		end
+			<th> <%= t('course') %> </th>	
+			<th> <%= t('name') %> </th>	
+			<th> <%= t(:edit_node_question_relation) %> </th>
+			<th> <%= t(:delete_node_question_relation) %> </th>
+			<th> <%= t('edit_question')  %> </th>
+			<th> <%= t('dependency')  %> </th>
+			
+		</tr>	
+    <tr>		
+  </thead>
+  <tbody>
 
-end %>
+ <% for question in @questions %>
+<tr>
+	<td>
+		<%=  question.course.name %>
+	</td>
+	<td>
+    <%=  question.content %>
+	</td>
+
+	<td>
+			<%= link_to "Editar" , edit_node_question_relation_path(question.node_question_relations[0]) %>
+	</td>
+
+	<td>
+    	<%= link_to t('delete'),url_for(:controller => 'node_question_relations',  :action => "destroy" , :id =>question.node_question_relations[0].id,  :from => 'nodes') ,{ :confirm => t(:deletion_node_question_relation_confirmation), :method => :delete }%>
+
+	</td>
+
+	<td>
+		<%= 	link_to t("edit") , edit_question_path(question.id)  if adminQN(question)%>
+
+	</td>
+
+	<td>
+         <%=   question.node_question_relations[0].dep %>
+
+	</td>
+     </tr>       
+ <% end %>
+
+
+  </tbody>
+</table>
+
+<%= will_paginate @questions %>
+
+</div>
+
+
+
+
+
 <%= link_to t('node_question_relation_new_question'), :controller => "node_question_relations" , :action => "newQuestion" , :node_id => @node.id %>
 <br/>
 <%= link_to t('node_question_relation_add_questions_from_node'), :controller => "node_question_relations" , :action => "newQuestionsFromNode" , :node_id => @node.id %>

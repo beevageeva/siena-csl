@@ -24,22 +24,53 @@
 </p>
 
 <b><%= t('assoc_questions') %></b>
-<%= grid(@questions, :show_filters => :always) do |st|
-    st.column :name => t('course') do |s|
-            s.course.name
-    end
-    st.column :name => t('name') do |s|
-            s.content
-    end
-    st.column :name => t('dependency') do |s|
-           s.node_question_relations[0].dep
-    end
-    st.column :name => t('view') do |s|
-			link_to t("view") , s
-    end
+
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+
+			<th> <%= t('course') %> </th>	
+			<th> <%= t('name') %> </th>	
+			<th> <%= t('dependency')  %> </th>
+			<th> <%= t('view')  %> </th>
+			
+		</tr>	
+    <tr>		
+  </thead>
+  <tbody>
+
+ <% for question in @questions %>
+<tr>
+	<td>
+		<%=  question.course.name %>
+	</td>
+	<td>
+    <%=  question.content %>
+	</td>
 
 
-end %>
+
+	<td>
+         <%=   question.node_question_relations[0].dep %>
+
+	</td>
+	<td>
+		<%= 	link_to t("view") , question%>
+
+	</td>
+     </tr>       
+ <% end %>
+
+
+  </tbody>
+</table>
+
+<%= will_paginate @questions %>
+
+</div>
+
+
+
+
 <b><%= t('node_succ_list') %></b>
 <table>
 

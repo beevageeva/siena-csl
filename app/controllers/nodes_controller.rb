@@ -14,11 +14,24 @@ layout :green_web
   # GET /nodes
   # GET /nodes.xml
   def index
-		@nodes = initialize_grid(Node , {:include => ["course"]})
+		@nodes = Node.includes(:course)
+		if !params[:course_id].nil? && params[:course_id]!=""
+			@nodes = @nodes.where(course_id: params[:course_id])
+		end
+		if !params[:content].nil? && params[:content]!=""
+			@nodes = @nodes.where('content LIKE ?', "%#{params[:content]}%")
+		end
+
+		@nodes = @nodes.paginate(page: params[:page], per_page: 20).order(content: :asc)
   end
 
 	def listByCourse
-		@nodes = initialize_grid(Node , {:conditions => ["course_id = #{params[:course_id]}"]})
+		@nodes = Node.where(course_id: params[:course_id])
+		if !params[:content].nil? && params[:content]!=""
+			@nodes = @nodes.where('content LIKE ?', "%#{params[:content]}%")
+		end
+
+		@nodes = @nodes.paginate(page: params[:page], per_page: 20).order(content: :asc)
 	end
 
 
@@ -26,7 +39,7 @@ layout :green_web
   # GET /nodes/1.xml
   def show
     @node = Node.find(params[:id])
-		@questions = initialize_grid(Question, {:conditions => ['node_question_relations.node_id = ?', @node], :include => [:node_question_relations]})
+		@questions = Question.includes(:node_question_relations).where('node_question_relations.node_id = ?', @node).references(:node_question_relations).paginate(page: params[:page], per_page: 20).order('content ASC') 
 
     respond_to do |format|
       format.html # show.html.erb
@@ -48,7 +61,7 @@ layout :green_web
   # GET /nodes/1/edit
   def edit
     @node = Node.find(params[:id])
-		@questions = initialize_grid(Question, {:conditions => ['node_question_relations.node_id = ?', @node], :include => [:node_question_relations]})
+		@questions = Question.includes(:node_question_relations).where('node_question_relations.node_id = ?', @node).references(:node_question_relations).paginate(page: params[:page], per_page: 20).order('content ASC') 
   end
 
   # POST /nodes

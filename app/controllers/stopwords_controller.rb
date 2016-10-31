@@ -29,7 +29,17 @@ class StopwordsController < ApplicationController
 
 
   def index
-		@stopwords = initialize_grid(Stopword, { :order => "word" } )
+		@stopwords = Stopword 
+	  if params[:word] && params['word']!=""
+  	  @stopwords = @stopwords.where('word LIKE ?', "%#{params[:word]}%")
+		end
+		@stopwords = @stopwords.paginate(page: params[:page], per_page: 20)
+	  if params[:word_order] && params['word_order']=="desc"
+			@stopwords = @stopwords.order(word: :desc)
+		else
+			@stopwords = @stopwords.order(word: :asc)
+		end
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @stopwords }

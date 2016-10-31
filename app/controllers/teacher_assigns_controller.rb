@@ -9,19 +9,18 @@ layout :green_web
 #include ChatHelper
 
 	def listByCourse
-			@teacher_assigns = initialize_grid(TeacherAssign, {:conditions => ["course_id = #{params[:course_id]}"]  , :include => [:teacher] , :order => "created_at" , :order_direction => 'desc' } )
-
+		@teacher_assigns = TeacherAssign.includes(:teacher).where(course_id: params[:course_id]).paginate(page: params[:page], per_page: 20).order('created_at DESC')
 	end
 
 
 	#rails3 create cannot be used in routes
   def enroll
-	TeacherAssign.find_or_create_by_teacher_id_and_course_id(session[:useraccount_id] , params[:course_id])
-        flash[:notice] = 'Profesor matriculado .'
+	TeacherAssign.where(teacher_id: session[:useraccount_id], course_id: params[:course_id]).first_or_create
+    flash[:notice] = 'Profesor matriculado .'
     redirect_to(courses_url)
   end
   def assign_to_course
-		t = TeacherAssign.find_or_create_by_teacher_id_and_course_id(params[:teacher_id] , params[:course_id])
+		t = TeacherAssign.where(teacher_id: params[:teacher_id], course_id: params[:course_id]).first_or_create
 		if(params[:coord].nil?)
 			t.coordinator = false
 		else	

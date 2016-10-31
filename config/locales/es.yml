@@ -249,3 +249,8 @@ es:
   decompress:        "Decomprime el fichero por la extension (.zip will try to unzip file after)"
   simple_captcha:
     label:                  "Por favor rellene el codigo de la imagen"
+  will_paginate:
+    previous_label:         "Anterior"
+    next_label:         "Siguiente"
+    page_gap:         "..."
+

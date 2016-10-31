@@ -27,23 +27,47 @@
 <% end %>
 
 <b> <%= t('alu_group_list') %></b>
-<%= grid(@alu_groups, :show_filters => :always) do |st|
-    st.column :name => t('name')  do |s|
-            s.name
-    end
 
-    #st.column :name => 'Borrar grupo' do |s|
-    st.column :name => t('delete_group') do |s|
-			link_to t("delete") , s.competence_groups[0], :confirm => "Estas  seguro ?", :method => :delete
-		end
-    st.column :name => t('points') do |s|
-			link_to t("points") , edit_competence_group_path(s.competence_groups[0])
-		end
-    st.column :name => 'Ver grupo' do |s|
-			link_to t("view") , :controller => 'alu_groups', :action => 'show' , :id =>  s.competence_groups[0].alu_group_id
-		end
+<b> <%= t('alu_group_list') %></b>
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+			<th> <%= t('name') %> </th>	
+			<th> <%= t('delete_group') %> </th>	
+			<th> <%= t('points') %> </th>	
+			<th> <%= t('view_group') %> </th>	
+		</tr>
 
-end %>
+  </thead>
+  <tbody>
+ <% for ag in @alu_groups %>
+    <tr>
+	<td>
+		<%=	ag.name %>
+	</td>	
+	<td>
+		<%=	link_to t("delete") , ag.competence_groups[0], :confirm => "Estas  seguro ?", :method => :delete %>
+	</td>	
+	<td>
+		<%=	link_to t("points") , ag.competence_groups[0] %>
+	</td>	
+	<td>
+		<%=	link_to t("view") , :controller => 'alu_groups', :action => 'show' , :id =>  ag.competence_groups[0].alu_group_id %>
+	</td>	
+     </tr>       
+ <% end %>
+
+
+  </tbody>
+</table>
+
+<%= will_paginate @alu_groups %>
+
+</div>
+
+
+
+
+
 
 <br/>
 <%= link_to t('competence_new_alu_group'), :controller => "competence_groups" , :action => "newAluGroup" , :competence_id => @competence.id %>
@@ -51,14 +75,34 @@ end %>
 <br/>
 <br/>
 <b> <%= t('node_list') %></b>
-<%= grid(@nodes, :show_filters => :always) do |st|
-    st.column :name => t('name')  do |s|
-            s.content
-    end
 
-    st.column :name => 'Borrar nodo' do |s|
-			link_to t("delete") , s.competence_nodes[0], :confirm => "Estas  seguro ?", :method => :delete
-		end
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+			<th> <%= t('name') %> </th>	
+			<th> <%= t('delete_node') %> </th>	
+		</tr>
 
-end %>
+  </thead>
+  <tbody>
+ <% for node in @nodes %>
+    <tr>
+	<td>
+		<%=	node.content %>
+	</td>	
+	<td>
+		<%=	link_to t("delete") , node.competence_nodes[0], :confirm => "Estas  seguro ?", :method => :delete %>
+	</td>	
+     </tr>       
+ <% end %>
+
+
+  </tbody>
+</table>
+
+<%= will_paginate @nodes %>
+
+</div>
+
+
+
 <%= link_to t('competence_new_node'), :controller => "competence_nodes" , :action => "newNode" , :competence_id => @competence.id %>

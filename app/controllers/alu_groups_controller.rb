@@ -7,7 +7,7 @@ class AluGroupsController < ApplicationController
 	layout :green_web
 
 	def listByCourse
-			@alu_groups = initialize_grid(AluGroup, {:conditions => {:course_id => params[:course_id] } , :order => "created_at" , :order_direction => 'desc' } )
+			@alu_groups = AluGroup.where(course_id: params[:course_id]).paginate(page: params[:page], per_page: 20).order(created_at: :desc)
 	end
 
 	def listByStudentAndCourse
@@ -19,7 +19,7 @@ class AluGroupsController < ApplicationController
   # GET /alu_groups/1.xml
   def show
 	@alu_group = AluGroup.find(params[:id])
-	@students = initialize_grid(Student.joins(:user,:student_alu_groups).where(:student_alu_groups => {:alu_group_id => params[:id]} ).includes(:user))
+	@students = Student.joins(:user,:student_alu_groups).where(:student_alu_groups => {:alu_group_id => params[:id]} ).includes(:user).paginate(page: params[:page], per_page: 20)
   end
 
   def new
@@ -32,7 +32,7 @@ class AluGroupsController < ApplicationController
   # GET /alu_groups/1/edit
   def edit
 	@alu_group = AluGroup.find(params[:id])
-	@students = initialize_grid(Student.joins(:user,:student_alu_groups).where(:student_alu_groups => {:alu_group_id => params[:id]} ).includes(:user, :student_alu_groups))
+	@students = Student.joins(:user,:student_alu_groups).where(:student_alu_groups => {:alu_group_id => params[:id]} ).includes(:user).paginate(page: params[:page], per_page: 20)
   end
 
   # POST /alu_groups

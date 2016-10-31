@@ -12,7 +12,15 @@ layout :green_web
     #@node_question_relation = NodeQuestionRelation.new
 		#@node_question_relation.question_id = params[:question_id]
 		#@coursesoptions =  getCourses
-		@nodes = initialize_grid(Node,  {:include => ["course"]} )
+		#@nodes = initialize_grid(Node,  {:include => ["course"]} )
+		@nodes = Node
+		if params[:course_id] && params['course_id']!=""
+			@nodes = @nodes.where(course_id: params['course_id'])
+		end
+		if params[:content] && params['content']!=""
+			@nodes = @nodes.where('content LIKE ?', "%#{params[:content]}%")
+		end
+   	@nodes = @nodes.paginate(page: params[:page], per_page: 20).order('created_at DESC')
   end
 
 
@@ -102,8 +110,8 @@ layout :green_web
 
   def createNode
 		nCreated = 0
-		ActiveRecord::Base.logger.warn (" createNode params questionids #{params[:grid][:nodeids]}")
-		params[:grid][:nodeids].each do |nid|	
+		ActiveRecord::Base.logger.warn (" createNode params questionids #{params[:nodeids]}")
+		params[:nodeids].each do |nid|	
 			if not NodeQuestionRelation.find_by_node_id_and_question_id(nid, params[:question_id])	
 			#no tiene que haber mas dependencias null porque esta puesto en el modelo que compruebe la dep float entre 0..1
 	     if NodeQuestionRelation.create({node_id: nid, question_id: params[:question_id], dep: params[:dep]})

@@ -17,7 +17,7 @@
 		AllowOverride None
 		Order allow,deny
 		Allow from all
-		RailsEnv development
+		RailsEnv siena
 	</Directory>
 
 	ErrorLog /var/log/apache2/rrg-csl-error_log

@@ -13,7 +13,21 @@ class RelatedContentsController < ApplicationController
   # GET /related_contents
   # GET /related_contents.xml
   def index
-    @related_contents = initialize_grid(RelatedContent , {})
+		@related_contents = RelatedContent.includes(node: :course)
+	  if params[:id] && params['id']!=""
+  	  @related_contents = @related_contents.where('id = ?', params[:id])
+  	end
+	  if params[:description] && params['description']!=""
+  	  @related_contents = @related_contents.where('description LIKE ?', "%#{params[:description]}%")
+  	end
+	  if params[:filename] && params['filename']!=""
+  	  @related_contents = @related_contents.where('filename LIKE ?', "%#{params[:filename]}%")
+  	end
+	  if params[:node_name] && params['node_name']!=""
+			@related_contents = @related_contents.references(:node)
+  	  @related_contents = @related_contents.where('nodes.content LIKE ?', "%#{params[:node_name]}%")
+  	end
+   	@related_contents = @related_contents.paginate(page: params[:page], per_page: 20).order('related_contents.created_at DESC')
   end
 
 

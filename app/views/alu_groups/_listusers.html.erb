@@ -1,15 +1,32 @@
 <b> <%= t('user_list') %></b>
-<%= grid(@students, :show_filters => :always) do |st|
-    st.column :name => t('name')  do |s|
-            s.user.name
-    end
-    st.column :name => t('username') do |s|
-           s.user.username
-    end
 
-    st.column :name => t('delete_from_group') do |s|
-			link_to t("delete") , s.student_alu_groups[0], :confirm => t('deletion_confirmation'), :method => :delete
-		end
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
 
-end %>
+			<th> <%= t('name') %> </th>	
+			<th> <%= t('username') %> </th>	
+			<th> <%= t('delete_from_group')  %> </th>
+			
+		</tr>	
+    <tr>		
+  </thead>
+  <tbody>
+
+ <% for s in @students %>
+	<tr>
+		<td><%= s.user.name %></td>
+		<td><%= s.user.username %></td>
+		<td><%= link_to t("delete") , s.student_alu_groups[0], :confirm => t('deletion_confirmation'), :method => :delete  %></td>
+	</tr>       
+ <% end %>
+
+
+  </tbody>
+</table>
+
+<%= will_paginate @students %>
+
+</div>
+
+
 <%= link_to t('group_new_user'), :controller => "student_alu_groups" , :action => "newStudent" , :alu_group_id => @alu_group.id %>

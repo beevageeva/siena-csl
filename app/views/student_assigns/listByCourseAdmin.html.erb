@@ -1,26 +1,52 @@
 
 <h1><%= t('student_assign_list' , :coursename => Course.find(params[:course_id]).name   ) %></h1>
+		
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+
+   		<th>&nbsp;</th>
+			<th> <%= t('name') %> </th>	
+			<th> <%= t('username') %> </th>	
+		</tr>	
+    <tr>		
+		<%= form_tag({}, method: :get) do %>
+   		<th>&nbsp;</th>
+   		<th><%= text_field_tag :name, params[:name] %></th>
+   		<th><%= text_field_tag :username, params[:username] %></th>
+   		<th class="submit" ><%= submit_tag 'Search', name: nil %></th>
+		<% end %>
+		</tr>
+
+  </thead>
+  <tbody>
+
   <%= form_tag({:controller => 'student_assigns' , :action => 'unregister_from_course'}, {:method => :post}) do |f| %>
     <%= hidden_field_tag("course_id"  , params[:course_id]) %>
-		
-<%= grid(@students, :show_filters => :always) do |st|
-
-   st.action_column :param_name => "studentids"	
-
-
-    st.column :name => t('name') , :model => "User" , :attribute => "name" do |s|
-            s.user.name
-    end
-
-    st.column  :name => t('username') , :model => "User" , :attribute => "username" do |s|
-      s.user.username
-    end
-
-
-end %>
+ <% for s in @students %>
+    <tr>
+	<td>
+		<%= check_box_tag 'studentids[]' , s.id%>
+	</td>	
+	<td>
+ 		<%= s.user.name %> 	
+	</td>	
+	<td>
+ 		<%= s.user.username  %> 	
+	</td>	
+	</tr>
+	<% end %>
 
 <%= submit_tag t("delete_from_course") %>
 <% end %>
+
+  </tbody>
+</table>
+
+<%= will_paginate @students %>
+
+
+</div>
+
 
 
 <br/>

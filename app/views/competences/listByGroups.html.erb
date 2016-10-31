@@ -1,11 +1,28 @@
 <b> <%= t('alu_group_list') %></b>
-<%= grid(@alu_groups, :show_filters => :always) do |st|
-    st.column :name => t('name')  do |s|
-            s.name
-    end
-    st.column :name => t('competence_list') do |s|
-			link_to t("competence_list") , :action => 'listByGroup', :alu_group_id => s.student_alu_groups[0].alu_group_id
-		end
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+			<th> <%= t('name') %> </th>	
+			<th> <%= t('competence_list') %> </th>	
+		</tr>
+
+  </thead>
+  <tbody>
+ <% for ag in @alu_groups %>
+    <tr>
+	<td>
+		<%=	ag.name %>
+	</td>	
+	<td>
+		<%=	link_to t("competence_list") , :action => 'listByGroup', :alu_group_id => ag.student_alu_groups[0].alu_group_id %>
+	</td>	
+     </tr>       
+ <% end %>
 
 
-end %>
+  </tbody>
+</table>
+
+<%= will_paginate @alu_groups %>
+
+</div>
+

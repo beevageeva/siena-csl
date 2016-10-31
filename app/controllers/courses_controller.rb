@@ -25,7 +25,12 @@ include CoursesHelper
     #@grid = CoursesGrid.new(params[:courses_grid])
     #@courses = @grid.assets.page(params[:page])
     #@courses = @grid.assets.paginate(:page => params[:page], :per_page => 20)
-		@courses = initialize_grid(Course, { :order => "created_at" , :order_direction => 'desc' } )
+		#@courses = initialize_grid(Course, { :order => "created_at" , :order_direction => 'desc' } )
+		@courses = Course
+	  if params[:name]&& params['name']!=""
+  	  @courses = @courses.where('name LIKE ?', "%#{params[:name]}%")
+  	end
+		@courses = @courses.paginate(page: params[:page], per_page: 20).order(created_at: :desc)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @courses }
@@ -34,13 +39,17 @@ include CoursesHelper
 
   def indexAssigned
 		accounttype = underscore(User.find(session[:userid]).useraccount_type)
-		@courses = initialize_grid(Course, {:conditions => ["#{accounttype}_assigns.#{accounttype}_id = #{session[:useraccount_id]}"]  , :include => ["#{accounttype}_assigns".to_sym] , :order => "name"  } )
-		render
+		@courses = Course.includes("#{accounttype}_assigns".to_sym).where("#{accounttype}_assigns.#{accounttype}_id = ?", session[:useraccount_id]).references("#{accounttype}_assigns".to_sym)
+		
+    if params[:name]&& params['name']!=""
+      @courses = @courses.where('name LIKE ?', "%#{params[:name]}%")
+    end
+    @courses = @courses.paginate(page: params[:page], per_page: 20).order(name: :asc)
+
   end
 
   def allStudents
 		@students = Course.find(params[:course_id]).students
-		render
   end
 
   # GET /courses/1

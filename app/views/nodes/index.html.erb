@@ -1,26 +1,47 @@
 <h1><%= t('node_list') %></h1>
 
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
 
-<%= grid(@nodes, :show_filters => :always) do |node|
+			<th> <%= t('course') %> </th>	
+			<th> <%= t('content') %> </th>	
+			<th> <%= t('minPassPoints') %> </th>	
+			<th> <%= t(:view) %> </th>	
+			<th> <%= t(:edit) %> </th>	
+			<th> <%= t(:delete) %> </th>	
+		</tr>	
+    <tr>		
+		<%= form_tag({}, method: :get) do %>
+   		<th><%= select_tag :type, options_for_select( Course.all.map{|o| [o.name , o.id ]}, params[:course_id] ) ,:include_blank => true%></th>
+   		<th><%= text_field_tag :content, params[:content] %></th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th class="submit" ><%= submit_tag 'Search', name: nil%></th>
+		<% end %>
+		</tr>
 
-   node.column :name => t('course'), :model => Course , :attribute => 'name', :custom_filter => :auto do |n|
-           n.course.name
-    end
-   node.column :name => t('content') , :attribute => 'content' do |n|
-            n.content
-    end
-   node.column :name => t('minPassPoints') do |n|
-            n.minPassPoints
-    end
-    node.column :name => t('view') do |n|
-    	link_to t('view'), n
-		end
-    node.column :name => t('edit') do |n|
-    	link_to t('edit'), edit_node_path(n) 
-		end
-    node.column :name => t('delete') do |n|
-    	link_to t('delete'), n, :confirm => t('deletion_confirmation'), :method => :delete 
-		end
+  </thead>
+  <tbody>
 
-end %>
+ <% for n in @nodes %>
+    <tr>
+			<td><%= n.course.name %></td>	
+			<td><%= n.content  %></td>	
+			<td><%= n.minPassPoints  %></td>	
+			<td><%= link_to t('view'), n %></td>	
+			<td><%= link_to t('edit'), edit_node_path(n) %></td>	
+			<td><%= link_to t('delete'), n, :confirm => t('deletion_confirmation'), :method => :delete %></td>	
+    </tr>       
+ <% end %>
+
+
+  </tbody>
+</table>
+
+<%= will_paginate @nodes %>
+
+</div>
+
 

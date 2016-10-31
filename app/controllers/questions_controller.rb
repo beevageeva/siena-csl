@@ -27,7 +27,19 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 	# GET /questions
 	# GET /questions.xml
 	def index
-		@questions = initialize_grid(Question , {:include => ["course"]})
+		@questions = Question.includes(:course)
+	  if params[:id] && params['id']!=""
+  	  @questions = @questions.where('id = ?', params[:id])
+  	end
+	  if params[:course_id] && params['course_id']!=""
+  	  @questions = @questions.where('course_id = ?', params[:course_id])
+  	end
+	  if params[:content] && params['content']!=""
+  	  @questions = @questions.where('content LIKE ?', "%#{params[:content]}%")
+  	end
+		
+		@questions = @questions.paginate(page: params[:page], per_page: 20).order('created_at DESC')
+
 
 	  respond_to do |format|
 	    format.html # index.html.erb
@@ -36,14 +48,22 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 	end
 
 	def listByCourse
-		@questions = initialize_grid(Question , {:conditions => ["course_id = #{params[:course_id]}"], :include => [:teacher => :user]  })
+		@questions = Question.includes(teacher: :user).where(course_id: params[:course_id]).references(:users)
+	  if params[:username] && params[:username]!=""
+  	  @questions = @questions.where("users.username LIKE ?", "%#{params[:username]}%")
+  	end
+	  if params[:content] && params['content']!=""
+  	  @questions = @questions.where('content LIKE ?', "%#{params[:content]}%")
+  	end
+		
+		@questions = @questions.paginate(page: params[:page], per_page: 20).order(content: 'asc')
 	end
 
 	# GET /questions/1
 	# GET /questions/1.xml
 	def show
 	  @question = Question.find(params[:id])
-		@nodes = initialize_grid(Node, {:conditions => ['node_question_relations.question_id = ?', @question], :include => [:node_question_relations]})
+		@nodes = Node.includes(:node_question_relations).where('node_question_relations.question_id = ?', @question).references(:node_question_relations).paginate(page: params[:page], per_page: 20).order('content ASC') 
 
 	  respond_to do |format|
 	    format.html # show.html.erb
@@ -250,7 +270,7 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 	# GET /questions/1/edit
 	def edit
 	  @question = Question.find(params[:id])
-		@nodes = initialize_grid(Node, {:conditions => ['node_question_relations.question_id = ?', @question], :include => [:node_question_relations]})
+		@nodes = Node.includes(:node_question_relations).where('node_question_relations.question_id = ?', @question).references(:node_question_relations).paginate(page: params[:page], per_page: 20).order('content ASC') 
 	end
 
 	# POST /questions

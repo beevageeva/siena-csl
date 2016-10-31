@@ -1,31 +1,68 @@
 <h1><%= t('related_content_list') %></h1>
 
-<%= grid(@related_contents, :show_filters => :always) do |related_content|
-    related_content.column :name => 'Id' , :attribute => 'id' do |rc|
-			rc.id
-		end
-    related_content.column :name => t(:description) , :attribute => 'description' do |rc|
-			rc.description
-		end
-    related_content.column :name => t('filename') , :attribute => 'filename' do |rc|
-			rc.filename
-		end
-    related_content.column :name => t('node')  do |rc|
-			rc.node.content
-		end
-    related_content.column :name => t('course')  do |rc|
-			rc.node.course.name
-		end
-    related_content.column :name => t('view') do |rc|
-    	link_to t('view'), rc
-		end
-    related_content.column :name => t('edit') do |rc|
-    	link_to t('edit'), edit_related_content_path(rc)
-		end
-    related_content.column :name => t('delete') do |rc|
-    	link_to t('delete'), rc, :confirm => t('deletion_confirmation'), :method => :delete 
-		end
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+
+			<th> <%= t('id') %> </th>	
+			<th> <%= t('description') %> </th>	
+			<th> <%= t('filename') %> </th>	
+			<th> <%= t('node') %> </th>	
+			<th> <%= t('course') %> </th>	
+			<th> <%= t(:view) %> </th>	
+			<th> <%= t(:edit) %> </th>	
+			<th> <%= t(:delete) %> </th>	
+		</tr>	
+    <tr>		
+		<%= form_tag({}, method: :get) do %>
+   		<th><%= text_field_tag :id, params[:id] %></th>
+   		<th><%= text_field_tag :description, params[:description] %></th>
+   		<th><%= text_field_tag :filename, params[:filename] %></th>
+   		<th><%= text_field_tag :node_name, params[:node_name] %></th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th class="submit" ><%= submit_tag 'Search', name: nil%></th>
+		<% end %>
+		</tr>
+
+  </thead>
+  <tbody>
+
+ <% for rc in @related_contents %>
+    <tr>
+	<td>
+		<%=	rc.id %>
+	</td>	
+	<td>
+		<%=	rc.description %>
+	</td>	
+	<td>
+		<%=	rc.filename %>
+	</td>	
+	<td>
+		<%=	rc.node.content %>
+	</td>	
+	<td>
+		<%=	rc.node.course.name %>
+	</td>	
+	<td>
+		<%= link_to t('view'), rc%>
+	</td>	
+	<td>
+		<%= link_to t('edit'), edit_related_content_path(rc)%>
+	</td>	
+	<td>
+		<%= link_to t('delete'), rc, :confirm => t('deletion_confirmation'), :method => :delete %>
+	</td>	
+     </tr>       
+ <% end %>
 
 
-end %>
+  </tbody>
+</table>
+
+<%= will_paginate @related_contents %>
+
+</div>
 

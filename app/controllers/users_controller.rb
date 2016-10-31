@@ -2,6 +2,8 @@
 class UsersController < ApplicationController
 
 
+
+
  before_filter(:only => [:edit , :update , :show ] ) { |c| c.auth	[ {:types =>	[User::ALU, User::PROF] , :condition => lambda{|params,session| params[:id].to_i == session[:userid]} } , {:types => [User::ADMIN]} ]	}
  before_filter(:only => [:chPw,:updateChPw ] ) { |c| c.auth	[ {:types =>	[User::ALU, User::PROF] , :condition => lambda{|params,session| params[:userid].to_i == session[:userid]} } , {:types => [User::ADMIN]} ]	}
  before_filter(:only => [:destroy, :changeActive , :index, :loginAs, :indexNotActive, :activateMultiple] ) { |c| c.auth	[ {:types =>	[User::ADMIN]	}]	}
@@ -13,7 +15,9 @@ class UsersController < ApplicationController
 	# GET /users
 	# GET /users.xml
 	def index
-		@users = initialize_grid(User, {})
+		#@users = initialize_grid(User, {})
+		@users = filterAdmin()
+   	@users = @users.paginate(page: params[:page], per_page: 20).order('created_at DESC')
 		respond_to do |format|
 			format.html # index.html.erb
 			format.xml	{ render :xml => @users }
@@ -21,7 +25,9 @@ class UsersController < ApplicationController
 	end
  
  def indexNotActive
-		@users = initialize_grid(User, {:conditions => ["active = ?" ,	false]})
+		#@users = initialize_grid(User, {:conditions => ["active = ?" ,	false]})
+		@users = filterAdmin().where(active: false)
+   	@users = @users.paginate(page: params[:page], per_page: 20).order('created_at DESC')
 		respond_to do |format|
 			format.html # index.html.erb
 			format.xml	{ render :xml => @users }
@@ -134,7 +140,8 @@ class UsersController < ApplicationController
 
 
 	def activateMultiple
-		users = User.where(:id => params[:grid][:userids])
+		#ActiveRecord::Base.logger.warn(" params userids #{params[:userids]}")
+		users = User.where(:id => params[:userids])
 		users.each do |u|
 			u.active = true
 			u.save
@@ -283,6 +290,26 @@ end
 			params.require(:user).permit(:username, :email, :name, :useraccount_type, :password)
 	end
 
+
+	def filterAdmin()
+		users = User
+	  if params[:type] && params['type']!=""
+  	  users = users.where('useraccount_type = ?', params[:type])
+  	end
+	  if params[:username] && params['username']!=""
+  	  users = users.where('username LIKE ?', "%#{params[:username]}%")
+  	end
+	  if params[:name]&& params['name']!=""
+  	  users = users.where('name LIKE ?', "%#{params[:name]}%")
+  	end
+	  if params[:email]&& params['email']!=""
+  	  users = users.where('email LIKE ?', "%#{params[:email]}%")
+  	end
+	  if params[:active]&& params['active']!=""
+  	  users = users.where('active = ?', params[:active]=="1"?true:false)
+  	end
+		return users
+	end
 
 
 end

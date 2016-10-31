@@ -1,31 +1,61 @@
 
 <h1><%= t('student_assign_list' , :coursename => Course.find(params[:course_id]).name   ) %></h1>
+
+
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+
+			<th> <%= t('name') %> </th>	
+			<th> <%= t('username') %> </th>	
+			<th> <%= t('work_list') %> </th>	
+			<th> <%= t('alu_group_list') %> </th>	
+			<th> <%= t('work_list_xml') %> </th>	
+		</tr>	
+    <tr>		
+		<%= form_tag({}, method: :get) do %>
+   		<th><%= text_field_tag :name, params[:name] %></th>
+   		<th><%= text_field_tag :username, params[:username] %></th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th class="submit" ><%= submit_tag 'Search', name: nil %></th>
+		<% end %>
+		</tr>
+
+  </thead>
+  <tbody>
+
+ <% for s in @students %>
+    <tr>
+	<td>
+ 		<%= s.user.name %> 	
+	</td>	
+	<td>
+ 		<%= s.user.username  %> 	
+	</td>	
+	<td>
+		<%= link_to t('work_list'), :controller => "works", :action => 'listByAssignedtoAndCourse', :assignedto_id => s.id, :course_id => params[:course_id], :assignedto_type => 'Student'   %>
+	</td>	
+	<td>
+		<%= link_to t("alu_group_list"), :controller => "alu_groups" , :action => "listByStudentAndCourse" , :course_id => params[:course_id], :student_id => s.id  %>
+	</td>	
+	<td>
+		<%= link_to t('work_list_xml'), :controller => "works", :action => 'listByAssignedtoAndCourseXML', :assignedto_id => s.id, :course_id => params[:course_id], :assignedto_type => 'Student' %>
+	</td>	
+	</tr>
+	<% end %>
+
+
+  </tbody>
+</table>
+
+<%= will_paginate @students %>
+
+
+</div>
+
+
 		
-<%= grid(@students, :show_filters => :always) do |st|
-
-
-    st.column :name => t('name') , :model => "User" , :attribute => "name" do |s|
-            s.user.name
-    end
-
-    st.column  :name => t('username') , :model => "User" , :attribute => "username"  do |s|
-      s.user.username
-    end
-
-    st.column  :name => t('work_list')  do |s|
-    	link_to t('work_list'), :controller => "works", :action => 'listByAssignedtoAndCourse', :assignedto_id => s.id, :course_id => params[:course_id], :assignedto_type => 'Student'
-		end 
-    st.column  :name => t('alu_group_list')  do |s|
-			link_to t("alu_group_list"), :controller => "alu_groups" , :action => "listByStudentAndCourse" , :course_id => params[:course_id], :student_id => s.id
-		end
-    st.column  :name => t('work_list_xml')  do |s|
-    	link_to t('work_list_xml'), :controller => "works", :action => 'listByAssignedtoAndCourseXML', :assignedto_id => s.id, :course_id => params[:course_id], :assignedto_type => 'Student' 
-		end
-
-
-
-end %>
-
 
 
 <br/>

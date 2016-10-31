@@ -65,22 +65,48 @@
 <br />
 
 <b><%= t('assoc_nodes') %></b>
-<%= grid(@nodes, :show_filters => :always) do |st|
-    st.column :name => t('course') do |s|
-            s.course.name
-    end
-    st.column :name => t(:name) do |s|
-            s.content
-    end
-    st.column :name => t('dependency') do |s|
-           s.node_question_relations[0].dep
-    end
-    st.column :name => t('view') do |s|
-			link_to t("view") , s
-    end
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
+
+			<th> <%= t('course') %> </th>	
+			<th> <%= t('name') %> </th>	
+			<th> <%= t('dependency')  %> </th>
+			<th> <%= t('view')  %> </th>
+			
+		</tr>	
+    <tr>		
+  </thead>
+  <tbody>
+
+ <% for node in @nodes %>
+<tr>
+	<td>
+		<%=  node.course.name %>
+	</td>
+	<td>
+    <%=  node.content %>
+	</td>
 
 
-end %>
+
+	<td>
+         <%=   node.node_question_relations[0].dep %>
+
+	</td>
+	<td>
+		<%= 	link_to t("view") , node%>
+
+	</td>
+     </tr>       
+ <% end %>
+
+
+  </tbody>
+</table>
+
+<%= will_paginate @nodes %>
+
+</div>
 
 <p>
 <b><%= t('correct_answers') %></b>:

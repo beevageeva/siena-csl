@@ -16,7 +16,7 @@
 
   <p>
     <%= t :course %><br />
-	<%= select( "alu_group" , "course_id" , Course.find(:all).collect{|c| [c.name,c.id] } ) %>
+	<%= select( "alu_group" , "course_id" , Course.all.collect{|c| [c.name,c.id] } ) %>
   </p>
   <p>
     <%= f.submit t('submit') %>

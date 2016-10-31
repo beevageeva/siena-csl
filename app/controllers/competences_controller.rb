@@ -19,8 +19,8 @@ class CompetencesController < ApplicationController
   # GET /competences/1.xml
   def show
     @competence = Competence.find(params[:id])
-		@alu_groups = initialize_grid(AluGroup, {:conditions => ['competence_groups.competence_id = ?', @competence], :include => [:competence_groups]})
-		@nodes = initialize_grid(Node, {:conditions => ['competence_nodes.competence_id = ?', @competence], :include => [:competence_nodes]})
+		@alu_groups = AluGroup.includes(:competence_groups).where("competence_groups.competence_id = ?", @competence).references(:competence_groups).paginate(page: params[:page], per_page: 20).order('alu_groups.created_at DESC')
+		@nodes = Node.includes(:competence_nodes).where("competence_nodes.competence_id = ?", @competence).references(:competence_nodes).paginate(page: params[:page], per_page: 20).order('nodes.created_at DESC')
 
     respond_to do |format|
       format.html # show.html.erb
@@ -29,12 +29,11 @@ class CompetencesController < ApplicationController
   end
 
 	def listByGroups
-		@alu_groups = initialize_grid(AluGroup, {:conditions => ['student_alu_groups.student_id = ?', session[:useraccount_id]], :include => [:student_alu_groups]})
+		@alu_groups = AluGroup.includes(:student_alu_groups).where('student_alu_groups.student_id = ?', session[:useraccount_id]).references(:student_alu_groups).paginate(page: params[:page], per_page: 20).order('alu_groups.created_at DESC')
 	end
 
 	def listByGroup
-		@competences = initialize_grid(Competence, {:conditions => ['competence_groups.alu_group_id = ?', params[:alu_group_id]], :include => [:competence_groups]})
-
+		@competences = Competence.includes(:competence_groups).where('competence_groups.alu_group_id = ?', params[:alu_group_id]).references(:competence_groups).paginate(page: params[:page], per_page: 20).order('competences.created_at DESC')
 	end
 
   # GET /competences/new
@@ -51,8 +50,8 @@ class CompetencesController < ApplicationController
   # GET /competences/1/edit
   def edit
     @competence = Competence.find(params[:id])
-		@alu_groups = initialize_grid(AluGroup, {:conditions => ['competence_groups.competence_id = ?', @competence], :include => [:competence_groups]})
-		@nodes = initialize_grid(Node, {:conditions => ['competence_nodes.competence_id = ?', @competence], :include => [:competence_nodes]})
+		@alu_groups = AluGroup.includes(:competence_groups).where("competence_groups.competence_id = ?", @competence).references(:competence_groups).paginate(page: params[:page], per_page: 20).order('alu_groups.created_at DESC')
+		@nodes = Node.includes(:competence_nodes).where("competence_nodes.competence_id = ?", @competence).references(:competence_nodes).paginate(page: params[:page], per_page: 20).order('nodes.created_at DESC')
   end
 
   # POST /competences

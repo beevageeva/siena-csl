@@ -3,48 +3,84 @@
 <%= link_to t('users_not_active'), :controller => 'users' , :action => 'indexNotActive'%>
 <br/>
 
-<%= grid(@users, :show_filters => :always) do |user|
+<div class="wice-grid-container" id="grid"><table  class="table-striped table-bordered table wice-grid">
+<thead><tr  class="wice-grid-title-row">
 
-    user.column :name => t('type'), :attribute => 'useraccount_type' , :custom_filter => User::USER_TYPES.map{|o| [t('userType' + o) , o ]} do |u|
-            t('userType' + u.useraccount_type)
-    end
+			<th> <%= t('type') %> </th>	
+			<th> <%= t('username') %> </th>	
+			<th> <%= t('name') %> </th>	
+			<th> <%= t('email') %> </th>	
+			<th> <%= t('active') %> </th>	
+			<th> <%= t('creation_date') %> </th>	
+			<th> <%= t(:view) %> </th>	
+			<th> <%= t(:edit) %> </th>	
+			<th> <%= t('change_state') %> </th>	
+			<th> <%= t('login_as') %> </th>	
+			<th> <%= t(:delete) %> </th>	
+		</tr>	
+    <tr>		
+		<%= form_tag({}, method: :get) do %>
+   		<th><%= select_tag :type, options_for_select( User::USER_TYPES.map{|o| [t('userType' + o) , o ]}, params[:type] ) ,:include_blank => true%></th>
+   		<th><%= text_field_tag :username, params[:username] %></th>
+   		<th><%= text_field_tag :name, params[:name] %></th>
+   		<th><%= text_field_tag :email, params[:email] %></th>
+   		<th><%= select_tag :active, options_for_select( [["Sí",1],["No",0]], params[:active] ) ,:include_blank => true%></th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th>&nbsp;</th>
+   		<th class="submit" ><%= submit_tag 'Search', name: nil%></th>
+		<% end %>
+		</tr>
 
-    user.column  :name => t('username') , :attribute => 'username' do |u|
-      u.username
-    end
+  </thead>
+  <tbody>
 
-    user.column  :name => t('name') , :attribute => 'name' do |u|
-      u.name
-    end
-    user.column  :name => t('email') , :attribute => 'email' do |u|
-      u.email
-    end
+ <% for user in @users %>
+    <tr>
+	<td>
+ 		<%= t('userType' + user.useraccount_type) %> 	
+	</td>	
+	<td>
+ 		<%= user.username %> 	
+	</td>	
+	<td>
+ 		<%= user.name %> 	
+	</td>	
+	<td>
+ 		<%= user.email %> 	
+	</td>	
+	<td>
+ 		<%=  user.active? ? "Sí":"No"  %> 	
+	</td>	
+	<td>
+     <%=  user.created_at.strftime("%d.%m.%Y")%> 
+	</td>	
+	<td>
+     <%=  link_to t(:view), user%> 
+	</td>	
+	<td>
+      <%=  link_to t(:edit), edit_user_path(user)%> 
+	</td>	
+	<td>
+     <%=  link_to user.active? ? t('deactivate') : t('activate'), :action=>'changeActive' , :userid => user.id %> 
+	</td>	
+	<td>
+     <%=  link_to t('login_as'), :action=>'loginAs' , :userid => user.id %> 
+	</td>	
+	<td>
+     <%=  link_to t(:delete), user , :confirm => t('deletion_confirmation'), :method => :delete %> 
+	</td>	
+     </tr>       
+ <% end %>
 
-    user.column  :name => t('active') , :attribute => 'active' do |u|
-      u.active ? "Sí" : "No"
-    end
-    user.column  :name => t('creation_date') , :attribute => 'created_at' , :filter => false do |u|
-      u.created_at.strftime("%d.%m.%Y")
-    end
 
-    user.column  :name => t('view')  do |u|
-      link_to t(:view), u
-    end
+  </tbody>
+</table>
 
-    user.column  :name => t('edit')  do |u|
-       link_to t(:edit), edit_user_path(u)
-    end
+<%= will_paginate @users %>
 
-    user.column  :name => t('change_state')  do |u|
-      link_to u.active? ? t('deactivate') : t('activate'), :action=>'changeActive' , :userid => u.id
-    end
-    user.column  :name => t('login_as')  do |u|
-      link_to t('login_as'), :action=>'loginAs' , :userid => u.id
-    end
-
-    user.column :name => t('delete') do |u|
-      link_to t(:delete), u , :confirm => t('deletion_confirmation'), :method => :delete
-    end
-
-end %>
+</div>
 

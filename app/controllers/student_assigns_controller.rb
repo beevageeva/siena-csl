@@ -15,7 +15,7 @@ layout :green_web
 			student_assigns = StudentAssign.arel_table
 			students_condition = StudentAssign.where(student_assigns[:course_id].eq(params[:course_id]).and(student_assigns[:student_id].eq(students[:id]))).exists
 			students_relation = Student.where(students_condition).includes(:user)
-			@students = initialize_grid(students_relation)
+			@students = filterAndPaginate(Student.where(students_condition).includes(:user)) 
 			render :action => "listByCourse#{User.find(session[:userid]).useraccount_type}"
 	end
 
@@ -23,34 +23,33 @@ layout :green_web
 			students = Student.arel_table
 			student_assigns = StudentAssign.arel_table
 			students_condition = StudentAssign.where(student_assigns[:course_id].eq(params[:course_id]).and(student_assigns[:student_id].eq(students[:id]))).exists.not
-			students_relation = Student.where(students_condition).includes(:user)
-			@students = initialize_grid(students_relation)
+			@students = filterAndPaginate(Student.where(students_condition).includes(:user))
 
 	end
 
 
  def enroll
-    @student_assign = StudentAssign.find_or_create_by_student_id_and_course_id( session[:useraccount_id],  params[:course_id])
-        flash[:notice] = 'Alumno matriculado.'
-        redirect_to(courses_url)
+		@student_assign = StudentAssign.where(student_id: session[:useraccount_id], course_id: params[:course_id]).first_or_create
+    flash[:notice] = 'Alumno matriculado.'
+    redirect_to(courses_url)
   end
 
 
 
 
   def register_to_course
-		if params[:grid].nil? || params[:grid][:studentids].nil?
+		if params[:studentids].nil?
         flash[:notice] = 'Ninguno seleccionado'
 		else
-			params[:grid][:studentids].each do |sid|
-				StudentAssign.find_or_create_by_student_id_and_course_id(sid,  params[:course_id] )
+			params[:studentids].each do |sid|
+				StudentAssign.where(student_id: sid, course_id: params[:course_id]).first_or_create
 			end	
 		end
 		redirect_to :controller => 'student_assigns' , :action => 'listByCourse', :course_id => params[:course_id]	
   end
 
   def unregister_from_course
-	params[:grid][:studentids].each do |sid|
+	params[:studentids].each do |sid|
 		sa = StudentAssign.find_by_student_id_and_course_id(sid,  params[:course_id] )
 		sa.destroy
 	end	
@@ -70,5 +69,17 @@ layout :green_web
 	def sa_params
 			params.require(:student_assign).permit(:student_id)
 	end
+
+	def filterAndPaginate(users)
+	  if params[:username] && params['username']!=""
+  	  users = users.where('users.username LIKE ?', "%#{params[:username]}%")
+  	end
+	  if params[:name]&& params['name']!=""
+  	  users = users.where('users.name LIKE ?', "%#{params[:name]}%")
+  	end
+		users = users.paginate(page: params[:page], per_page: 20).order('users.username asc')
+	end
+
+
 
 end
