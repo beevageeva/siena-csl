@@ -17,7 +17,7 @@
 
 <p>
   <b><%= t :competence_group %>:</b>
-		<%= select('competence_group' , "alu_group_id"  ,  AluGroup.find(:all).collect {|p| [ p.name, p.id ] }  )  %>
+		<%= select('competence_group' , "alu_group_id"  ,  AluGroup.all.collect {|p| [ p.name, p.id ] }  )  %>
 <p>
 
   <p>

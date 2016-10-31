@@ -90,7 +90,7 @@
 		<%=	node.content %>
 	</td>	
 	<td>
-		<%=	link_to t("delete") , node.competence_nodes[0], :confirm => "Estas  seguro ?", :method => :delete %>
+		<%=	link_to t("delete") , node.competence_nodes[0], data: { :confirm => "Estas  seguro ?",:method => :delete }  %>
 	</td>	
      </tr>       
  <% end %>

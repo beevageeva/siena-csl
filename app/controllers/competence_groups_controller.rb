@@ -77,16 +77,15 @@ class CompetenceGroupsController < ApplicationController
 		worktype = Work::TEST_TYPE
 		@competence_group.competence.nodes.each do |n|
 		node_id = n.id
-		@competence_group.alu_group.users.each do |u|
-			s = u.useraccount
-			if not Work.find_by_student_id_and_node_id(s.id, node_id)
+		@competence_group.alu_group.students.each do |s|
+			if not Work.where(student_id: s.id, node_id: node_id)
 				Work.new(:node_id => node_id , :initialpoints => params[:initialpoints], :student_id => s.id, :worktype => worktype).save
 			end
 			#successors
 			nodes = Array.new
-			getNodesRecursive(s.id, node_id, nodes)
+			getNodesRecursive(Work::ASSIGNEDTOSTUDENT, s.id, node_id, nodes)
 			nodes.each do |n|
-				if not Work.find_by_student_id_and_node_id(s.id, n.id)
+				if not Work.where(student_id: s.id, node_id: n.id)
 					Work.new(:node_id => n.id , :initialpoints => params[:initialpoints], :student_id => s.id, :worktype => worktype).save
 				end
 			end
