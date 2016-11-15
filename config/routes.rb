@@ -10,6 +10,8 @@ SienaCsl::Application.routes.draw do
 
 
 def makeRoutes
+	mount ActionCable.server => '/cable'
+
   resources :fuzzy_rules
   resources :chat_messages
   resources :proposed_keywords
