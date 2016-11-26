@@ -175,7 +175,7 @@ layout :green_web
 private
 	def getCourses
 		if(User.find(session[:userid]).useraccount_type == User::PROF)
-			TeacherAssign.find(:all, :conditions => ["teacher_assigns.teacher_id = #{session[:useraccount_id]}"] ).collect{|u| [Course.find(u.course_id).name , u.course_id]}
+			TeacherAssign.where(["teacher_assigns.teacher_id = #{session[:useraccount_id]}"] ).collect{|u| [Course.find(u.course_id).name , u.course_id]}
 		else
 			Course.pluck(:name, :id)
 		end
