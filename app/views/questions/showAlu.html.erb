@@ -1,5 +1,5 @@
 <p>
-<h2><%= raw @question.content %></h2>
+<h2><%= raw @question.content.replace("\n", "<br/>").gsub("\s", "&nbsp;") %></h2>
  <% if @question.img && @question.img != "" %>
 	 <img src="/questions/<%= @question.img %>" width="360" />
   <% end %>

@@ -20,7 +20,7 @@ before_filter(:only => [:show] ) { |c| c.auth  [ {:types =>  [User::PROF, User::
     @work = Work.find(params[:work_id])
 		#si el un trabajo para un grupo el usuario puede ver los trabajos de otros grupos
 		if(@work.assignedto_type ==  Work::ASSIGNEDTOALUGROUP)
-    	@other_groups_works = Work.where("assignedto_type = ? and nodes.id = ? and assignedto_id != ?",  Work::ASSIGNEDTOALUGROUP , @work.node_id, @work.assignedto_id).includes(:node)
+    	@other_groups_works = Work.includes(:node).where("assignedto_type = ? and nodes.id = ? and assignedto_id != ?",  Work::ASSIGNEDTOALUGROUP , @work.node_id, @work.assignedto_id).references(:node)
 		end
 		render	
   end

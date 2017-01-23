@@ -1,6 +1,6 @@
 <p>
   <b> <%= t(:content) %>:</b>
-  <%= @question.content %>
+  <%= raw @question.content.gsub("\n", "<br/>").gsub("\s", "&nbsp;") %>
 </p>
 
 <p>
