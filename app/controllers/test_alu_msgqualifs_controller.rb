@@ -101,6 +101,7 @@ private
 		#no more avg, weighted by min, same initiatlization here
 		n = 0
 		sum = 0.0
+		details << "<a style=\"color:#80BFFF\">#{"%5.2f" % g1},#{"%5.2f" % g2},#{"%5.2f" % g3},#{"%5.2f" % g4}</a><br/>"
 		f1 = fuzzyZone(g1)
 		f2 = fuzzyZone(g2)
 		f3 = fuzzyZone(g3)
