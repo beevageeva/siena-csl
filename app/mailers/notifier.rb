@@ -22,7 +22,7 @@ end
 
 #notify admins methods
  def user_created( username)
-	emails = User.find(:all, :conditions => {:useraccount_type => User::ADMIN   , :active => true}).collect{|u| u.email}
+	emails = User.where({:useraccount_type => User::ADMIN   , :active => true}).collect{|u| u.email}
 	@username = username
 	 mail(:to => emails, :subject => "Nuevo usuario creado")	
    end
