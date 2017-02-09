@@ -17,7 +17,7 @@ class UsersController < ApplicationController
 	def index
 		#@users = initialize_grid(User, {})
 		@users = filterAdmin()
-   	@users = @users.paginate(page: params[:page], per_page: 20).order('created_at DESC')
+   	@users = @users.paginate(page: params[:page], per_page: 20).order('id ASC')
 		respond_to do |format|
 			format.html # index.html.erb
 			format.xml	{ render :xml => @users }

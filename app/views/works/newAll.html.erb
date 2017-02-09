@@ -9,7 +9,7 @@
 
   <p>
   <b><%= t('node') %>:</b>
-    <%= select_tag "node_id" , options_for_select( Node.find(:all , :conditions => ["course_id = #{params[:course_id]}"] ).collect {|u| [u.content , u.id]})  %>
+    <%= select_tag "node_id" , options_for_select( Node.where(course_id: params[:course_id] ).collect {|u| [u.content , u.id]})  %>
   </p>
 
   <p>

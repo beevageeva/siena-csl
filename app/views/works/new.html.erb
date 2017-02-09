@@ -19,7 +19,7 @@
 
   <p>
   <b><%= t('node') %>:</b>
-    <%= f.select "node_id" , Node.find(:all , :conditions => ["course_id = #{params[:course_id]}"] ).collect {|u| [u.content , u.id]}  %>
+    <%= f.select "node_id" , Node.where(course_id: params[:course_id] ).collect {|u| [u.content , u.id]}  %>
   </p>
 
   <p>
