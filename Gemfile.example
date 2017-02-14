@@ -1,18 +1,28 @@
 source 'http://rubygems.org'
-ruby "2.1.1"
+ruby "2.3.1"
 
 #gem 'rails' , '4.1.1'
-gem 'rails' , '4.0.4'
+#gem 'rails' , '4.0.4'
 
+gem 'rails' 
 
 
 #gem 'mysql2'
 gem 'pg'
 
-gem 'passenger' 
+#gem 'passenger' 
+gem 'puma'
+gem  'redis' 
+
+
+#------------PAGINATION wice_grid--------------
 #rails g wice_grid:install
 #gem 'wice_grid', '3.2.0' 
-gem 'wice_grid', :branch => 'rails4'
+#gem 'wice_grid', :branch => 'rails4'
+
+#rails 5:
+gem "will_paginate"
+
 
 
 #rails generate jquery:install
@@ -28,7 +38,8 @@ gem 'bootstrap-sass'
 
 
 #in rails 4 outside assets group
-gem 'sass-rails', '4.0.2'
+#gem 'sass-rails', '4.0.2'
+gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
 
@@ -39,4 +50,13 @@ gem 'ruby-recaptcha'
 
 gem "rubyzip" 
 
-gem 'nokogiri' 
+gem 'nokogiri'
+
+#ruby-stemmer
+gem 'ruby-stemmer'
+
+gem 'sparql-client'
+gem 'ferret'
+
+
+ 

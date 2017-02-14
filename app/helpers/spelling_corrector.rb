@@ -125,17 +125,20 @@ def self.analyzeTest(test)
 
 	#TODO DEPRECATION WARNING: uniq_by is deprecated. Use Array#uniq instead. (called from irb_binding at (irb):56)
 	#BUT UNIQ is not WORKING!!!!!!
-	ChatMessage.joins(:grouptest_chatmessages).includes(:grouptest_chatmessages).where(:grouptest_chatmessages => {:test_id => test.id}).order("chat_messages.created_at").uniq_by {|c| [c.body, c.from_id, c.grouptest_chatmessages[0].qnumber]}.each do |cm|
-
-		puts("qnumber = #{cm.grouptest_chatmessages[0].qnumber}")
-		if(cm.grouptest_chatmessages[0].qnumber<answers.size )
-			question_id = answers[cm.grouptest_chatmessages[0].qnumber].question_id
-			messagebody = cm.body.split(":",3)[2]
-			puts("Messagebody is #{messagebody}")
+	#ChatMessage.joins(:grouptest_chatmessages).includes(:grouptest_chatmessages).where(:grouptest_chatmessages => {:test_id => test.id}).order("chat_messages.created_at").uniq_by {|c| [c.body, c.from_id, c.grouptest_chatmessages[0].qnumber]}.each do |cm|
+	ChatMessage.joins(:grouptest_chatmessages).includes(:grouptest_chatmessages).where(:grouptest_chatmessages => {:test_id => test.id}).order("id").references(:grouptest_chatmessages).pluck(:body, :from_id, "grouptest_chatmessages.qnumber", "id").uniq{|c| "#{c[0]}#{c[1]}#{c[2]}" } .each do |cm|
+		body = cm[0]
+		from_id = cm[1]
+		qnumber = cm[2]
+		id = cm[3]
+		if(qnumber<answers.size )
+			question_id = answers[qnumber].question_id
+			messagebody = body.split(":",3)[2]
+			#puts("Messagebody is #{messagebody}")
 			previous = nil
 			messagebody.scan(/[[:word:]]+/u).each do |word|
 				word.downcase! 
-				puts("Word is #{word}")
+				#puts("Word is #{word}")
 				pkeywords = SpellingCorrector.proposedKeywords(word)
 				#print("keywords is ")
 				#puts(keywords)
@@ -162,7 +165,7 @@ def self.analyzeTest(test)
 						cmk.previous = previous
 						cmk.question_id = question_id
 						previous = word
-						cmk.chat_message_id = cm.id
+						cmk.chat_message_id = id
 						cmk.save
 
 				end

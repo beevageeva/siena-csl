@@ -108,9 +108,9 @@
 
 	<input type="text" name="timerbox" readonly="true" class="timertextbox" size="25" value=""/>
 <ol type="a">	
-<% @question.question_responses.each_index do |index| %>
+<% @question.question_responses.each_with_index do |qr, index| %>
  <li> <p>   
-	<%= raw @question.question_responses[index].response %> <%= f.radio_button :number , index , :name => "selectedAnswer"   %>
+	<%= raw qr.response %> <%= f.radio_button :number , index , :name => "selectedAnswer"   %>
   </p></li>
 <% end %>
 </ol>

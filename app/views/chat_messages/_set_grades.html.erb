@@ -1,10 +1,10 @@
+
 <%= form_tag({:controller => 'test_alu_msgqualifs', :action => 'setGrades'} , {:method => :post, :remote => true}) do  %>
 
 
 
 <%= hidden_field_tag 'test_id', test_id %>
 <%= hidden_field_tag 'alu_group_id', alu_group.id %>
-
 
 
 <table>
@@ -30,5 +30,8 @@
 
 </table>
 
+<% if [User::ADMIN,User::PROF].include?(User.find(session[:userid]).useraccount_type)  %>
 <%= submit_tag t('submit') %>
+<% end %>
+
 <% end %>
