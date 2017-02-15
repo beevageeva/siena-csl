@@ -32,7 +32,7 @@ class RelatedContentsController < ApplicationController
 
 
 	def listByNodeAndRecover
-    @related_contents = RelatedContent.find(:all, {:conditions => ["node_id = #{params[:node_id]}  and recover = #{params[:recover]}  "]})
+    @related_contents = RelatedContent.where(node_id: params[:node_id], recover: params[:recover])
 		render
 	end
 
