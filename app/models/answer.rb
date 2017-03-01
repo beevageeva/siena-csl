@@ -5,10 +5,10 @@ class Answer < ActiveRecord::Base
 	belongs_to :student
 	
 
-	def correctAnswer?
-		#number is a field of answer
-		return number == question.correctAnswer
-	end
+#	def correctAnswer?
+#		#number is a field of answer
+#		return number == question.correctAnswer
+#	end
 
 end
 

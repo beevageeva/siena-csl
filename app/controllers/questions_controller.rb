@@ -218,7 +218,8 @@ FERRET_INDEX_DIR = "#{Rails.root.to_s}/ferret_index/"
 		end
 		@answer.pointsBefore = test.points
 		@answer.responsetime = Time.new
-		@answer.number = params[:selectedAnswer].to_i
+		#@answer.number = params[:selectedAnswer].to_i
+		@answer.correctAnswer = (params[:selectedAnswer].to_i == @answer.question.correctAnswer)
 		@answer.timeleft = params[:timeleft].to_i
 		if @answer.save
 			flash[:notice] = "Answer saved"

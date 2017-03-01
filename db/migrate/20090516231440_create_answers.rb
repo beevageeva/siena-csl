@@ -2,6 +2,7 @@ class CreateAnswers < ActiveRecord::Migration
   def self.up
     create_table :answers do |t|
       t.integer :number
+			t.boolean :correctAnswer
       t.integer :timeleft
 			t.timestamp :responsetime
       t.float :pointsBefore
