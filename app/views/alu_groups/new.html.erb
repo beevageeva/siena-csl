@@ -4,4 +4,4 @@
 <%= render 'form' %>
 
 
-<%= link_to t(:back), alu_groups_path %>
+<%= link_to t(:back),  :controller => "alu_groups" , :action => "listByCourse" , :course_id => params[:course_id]  %>
