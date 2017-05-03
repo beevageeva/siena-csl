@@ -1,4 +1,7 @@
 class Course < ActiveRecord::Base
+
+include ActiveModel::Serializers::Xml
+
 	
 	has_many :student_assigns , :dependent => :delete_all
 	has_many :teacher_assigns , :dependent => :delete_all
