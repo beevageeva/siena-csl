@@ -16,7 +16,7 @@
 
     <td><%= link_to t('view'), work %></td>
     <td><%= link_to t('edit'), edit_work_path(work) %></td>
-    <td><%= link_to t('delete'), work, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t('delete'), work, data: {confirm: 'Are you sure?'}, method: :delete %></td>
 	
 	<% end %>
 	<% if User.find(session[:userid]).useraccount_type == User::ALU %>
