@@ -35,11 +35,14 @@ module QuestionsHelperAlgNew
 		condMap = {:node_id => test.work.node_id}
 		if(test.answers.size>0)
 			difStr = " and " + ( test.answers.last.correctAnswer? ? "questions.difficulty >= :question_difficulty" : "questions.difficulty <= :question_difficulty"  )
-    	lastQuestDiff = test.answers.last.question.difficulty
-			condMap[:question_difficulty] = lastQuestDiff
+    	questDiff = test.answers.last.question.difficulty
 		else
-			difStr = ""
+			#start with a qustion with difficulty between avg - eps and avg + eps
+			questDiff = Question.average("difficulty")	
+			epsDif = 0.1
+			difStr = " and questions.difficulty >= :question_difficulty - #{epsDif} and questions.difficulty <= :question_difficulty + #{epsDif}"
 		end
+			condMap[:question_difficulty] = questDiff
 		allQuestions = Question.includes(:nodes).where("nodes.id = :node_id and questions.difficulty > questions.luck" + difStr ,condMap ).references(:nodes)		 
 		ActiveRecord::Base.logger.warn("test #{test_id} all questions to choose from	for node #{test.work.node.content} size = #{allQuestions.size}")
     testQuestions = test.answers.map{|a| a.question}
@@ -54,7 +57,7 @@ module QuestionsHelperAlgNew
         modif = test.answers.last.correctAnswer?  ? 1 : -1
         maxFunc = 0
         availQuestions.each do |cQuestion|
-          diffRes = (modif * (cQuestion.difficulty - lastQuestDiff) * lastP) / (cQuestion.difficulty * lastP + (1 - lastP) * cQuestion.luck)
+          diffRes = (modif * (cQuestion.difficulty - questDiff) * lastP) / (cQuestion.difficulty * lastP + (1 - lastP) * cQuestion.luck)
           modif2 = diffRes < 0.001 ? diffRes : 1- diffRes
           dep = NodeQuestionRelation.find_by_node_id_and_question_id(test.work.node_id, cQuestion.id).dep
           cFunc = (1 - w1) * dep +  w1 * modif2
