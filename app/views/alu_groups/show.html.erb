@@ -12,6 +12,10 @@
 
 			<th> <%= t('name') %> </th>	
 			<th> <%= t('username') %> </th>	
+			<th> <%= t('grade1')  %> </th>
+			<th> <%= t('grade2')  %> </th>
+			<th> <%= t('grade3')  %> </th>
+			<th> <%= t('grade4')  %> </th>
 			<th> <%= t('grade_total')  %> </th>
 			
 		</tr>	
@@ -23,7 +27,11 @@
 	<tr>
 		<td><%= s.user.name %></td>
 		<td><%= s.user.username %></td>
-		<td><%= "%1.3f" % getStudentGrade(s.id, @alu_group.course_id) %></td>
+		<td><%= "%1.3f" % getStudentGrade(s.id, @alu_group.course_id, :grade1) %></td>
+		<td><%= "%1.3f" % getStudentGrade(s.id, @alu_group.course_id, :grade2) %></td>
+		<td><%= "%1.3f" % getStudentGrade(s.id, @alu_group.course_id, :grade3) %></td>
+		<td><%= "%1.3f" % getStudentGrade(s.id, @alu_group.course_id, :grade4) %></td>
+		<td><%= "%1.3f" % getStudentGrade(s.id, @alu_group.course_id, :grade_total) %></td>
 	</tr>       
  <% end %>
 
