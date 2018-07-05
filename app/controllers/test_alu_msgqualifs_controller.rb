@@ -20,6 +20,9 @@ class TestAluMsgqualifsController < ApplicationController
 			if !res.has_key?(cm.from_id)
 				res[cm.from_id] = {firstAnsQ: 0, respQ: 0}
 			end
+			if !qans.include?(cm.from_id)
+				qans.push(cm.from_id)
+			end	
 			if(cm.grouptest_chatmessages[0].qnumber!=lastqnumber)
 				lastqnumber = cm.grouptest_chatmessages[0].qnumber
 				qans.each do |from_id_qans|
@@ -28,9 +31,6 @@ class TestAluMsgqualifsController < ApplicationController
 				qans.clear
 				res[cm.from_id][:firstAnsQ]+=1
 			end
-			if !qans.include?(cm.from_id)
-				qans.push(cm.from_id)
-			end	
 			
 		end  #cms.each
 		#ActiveRecord::Base.logger.warn "*** RES ---------------"
@@ -47,6 +47,8 @@ class TestAluMsgqualifsController < ApplicationController
 				if tam.nil?
 					#ActiveRecord::Base.logger.warn("!!!!!!!!!!!!!!from_id = #{sid}")
 					sid = sid.to_i
+					grade1=0.0
+					grade2=0.0
 					if(res.has_key?(sid))
 						#ActiveRecord::Base.logger.warn("!!!!!!!!!!!!!WHY? firstAnsQ = #{res[sid][:firstAnsQ]}  ,ta = #{test.answers.size} , respQ = #{res[sid][:respQ]} ")
 						grade1 =  res[sid][:firstAnsQ].to_f/test.answers.size
@@ -57,6 +59,15 @@ class TestAluMsgqualifsController < ApplicationController
 					tam = TestAluMsgqualif.new({test_id: params[:test_id], student_id: sid, grade1: grade1, grade2: grade2, grade3: grade3} )
 				end	
 				tam.grade4 = gr
+				if tam.grade1.nil?
+				tam.grade1 = 0.0
+				end
+
+				if tam.grade2.nil?
+				tam.grade2 = 0.0
+				end
+				#THIS ABOVE IS because of bug of not setting grade1 or grade2
+			
 				resF = calculateFuzzyTotalGrade(tam.grade1, tam.grade2, tam.grade3, tam.grade4)
 				tam.grade_total = resF[0]
 				@message<<resF[1]
