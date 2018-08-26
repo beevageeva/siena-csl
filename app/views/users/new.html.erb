@@ -1,3 +1,4 @@
+
 <h1> <%=  t :new_user %></h1>
 
 <%= form_for(@user) do |f| %>
@@ -34,7 +35,8 @@
     <%= f.text_field :name %>
   </p>
 
-	<%= raw(get_captcha(:options => {:theme => 'white', :tabindex => 10})) %>
+	<!-- %= raw(get_captcha(:options => {:theme => 'white', :tabindex => 10})) %-->
+	 <%= recaptcha_tags :site_key => RCC_PUB%>
 
 	<!-- %= show_simple_captcha % -->
 

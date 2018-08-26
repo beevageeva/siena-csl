@@ -47,7 +47,9 @@ gem 'uglifier'
 
 
 #simple_captcha replaced by recaptcha
-gem 'ruby-recaptcha'
+#gem 'ruby-recaptcha'
+#gem 'recaptcha', require: 'recaptcha/rails'
+gem 'recaptcha'
 
 gem "rubyzip" 
 

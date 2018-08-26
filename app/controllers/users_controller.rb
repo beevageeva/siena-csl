@@ -1,6 +1,7 @@
 # encoding: utf-8
 class UsersController < ApplicationController
-
+#recaptcha
+#include Recaptcha::Verify
 
 
 
@@ -44,7 +45,7 @@ class UsersController < ApplicationController
 		def errors.add_to_base(msg)
 			self.push(msg)
 		end		
-		if validate_recap(params, errors)
+		if verify_recaptcha(model: @user, :secret_key => RCC_PRIV)
 			#ActiveRecord::Base.logger.warn("simple captcha vlid")
 			username = params[:username]
 			password	= [Array.new(8){rand(256).chr}.join].pack("m").chomp
@@ -108,7 +109,8 @@ class UsersController < ApplicationController
 	# POST /users.xml
 	def create
 		@user = User.new(user_params)
-		if validate_recap(params, @user.errors)
+		#if validate_recap(params, @user.errors)
+		if verify_recaptcha(model: @user, :secret_key => RCC_PRIV)
 			saved = false
 			User.transaction do
 				useraccount = eval(@user.useraccount_type).new
@@ -310,6 +312,7 @@ end
   	end
 		return users
 	end
+
 
 
 end

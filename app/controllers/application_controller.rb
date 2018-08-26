@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 	#captcha
 	#include SimpleCaptcha::ControllerHelpers
 	#recaptcha
-	include ReCaptcha::AppHelper
+	#include ReCaptcha::AppHelper
 
 
 	layout :green_web
